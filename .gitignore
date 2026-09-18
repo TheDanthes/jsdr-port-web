@@ -1,0 +1,33 @@
+# Dumps y datos de producción — NUNCA al repo
+dumps/*
+!dumps/.gitkeep
+*.dump
+*.sql.gz
+*.backup
+
+# Motor tipográfico: binarios compilados
+composer/src-c/**/*.o
+composer/src-c/**/*.a
+composer/bin/
+
+# Node
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+.vite/
+
+# Entorno
+.env
+.env.*
+!.env.example
+
+# Salida de fotocomposición en desarrollo
+salida-indesign/
+
+# Editores / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*~

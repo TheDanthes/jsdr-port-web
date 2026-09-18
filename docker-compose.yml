@@ -1,0 +1,35 @@
+# jSDR Port Web — entorno de desarrollo
+#
+# Levanta un PostgreSQL 16 local donde restaurar la copia de la base de
+# producción. Nada de esto toca el servidor de La Capital.
+#
+#   docker compose up -d db
+#   ./db/restaurar-copia.sh /ruta/a/jsdr-completo.dump
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: jsdr-db
+    environment:
+      POSTGRES_USER: jsdr
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jsdr_dev}
+      POSTGRES_DB: jsdr_copia
+      # La base original es UTF-8; se replica igual.
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    ports:
+      # 55432 para no chocar con un postgres que ya tengas en el 5432
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # el esquema y los dumps, accesibles desde adentro del contenedor
+      - ./db:/db:ro
+      - ./dumps:/dumps:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jsdr -d jsdr_copia"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  pgdata:
