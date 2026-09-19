@@ -48,6 +48,20 @@
 -- ============================================================================
 
 
+-- ----------------------------------------------------------------------------
+--  LIMPIEZA: índices de un intento anterior que NO servían.
+--  Medidos sobre la copia real: 1.0x, ni un milisegundo de mejora, porque su
+--  orden declarado no coincide con el del ORDER BY (ver más arriba). Ocupan
+--  ~70 MB sin hacer nada. Si nunca se crearon, estas líneas no hacen daño.
+-- ----------------------------------------------------------------------------
+DROP INDEX IF EXISTS ix_versiones_seccion_fecha;
+DROP INDEX IF EXISTS ix_versiones_estado_fecha;
+DROP INDEX IF EXISTS ix_versiones_redactor;
+DROP INDEX IF EXISTS ix_versiones_id_redactor;
+DROP INDEX IF EXISTS ix_versiones_no_eliminadas;
+DROP INDEX IF EXISTS ix_noticias_guia;   -- lo reemplaza ix_n_guia_orden
+
+
 -- --- el orden por defecto: lo más nuevo primero -----------------------------
 CREATE INDEX IF NOT EXISTS ix_v_fecha_orden
     ON versiones (fecha_publicacion DESC NULLS LAST, id_noticia DESC)
@@ -88,8 +102,19 @@ CREATE INDEX IF NOT EXISTS ix_v_titulo_trgm
 --  espacio aprieta, estos dos son los primeros que sobran.
 -- ============================================================================
 
+-- Por los primeros 200 caracteres, NO por el título entero.
+--
+-- `titulo` es `text` sin límite y en la base real hay títulos de casi 7 KB. Un
+-- btree no puede indexar un valor mayor a 2704 bytes, así que el índice sobre
+-- la columna completa FALLA al crearse con los datos de producción:
+--
+--     ERROR: index row size 5784 exceeds btree version 4 maximum 2704
+--
+-- Ordenar por los primeros 200 caracteres es indistinguible de ordenar por el
+-- título completo. La expresión tiene que coincidir EXACTAMENTE con la que
+-- emite la API (`left(v.titulo, 200)`), o el planificador no usa el índice.
 CREATE INDEX IF NOT EXISTS ix_v_titulo_orden
-    ON versiones (titulo DESC NULLS LAST,
+    ON versiones (left(titulo, 200) DESC NULLS LAST,
                   fecha_publicacion DESC NULLS LAST, id_noticia DESC)
     WHERE eliminada = false;                                        -- 73 MB
 

@@ -110,7 +110,19 @@ export const ORDEN_NOTICIAS = {
   fecha: 'v.fecha_publicacion',
   estado: 'v.estado',
   redactor: 'v.redactor',
-  titulo: 'v.titulo',
+  /**
+   * Por los primeros 200 caracteres, no por el título entero.
+   *
+   * `titulo` es `text` sin límite y en la base real hay títulos de casi 7 KB.
+   * Un índice btree no puede indexar un valor mayor a 2704 bytes: el índice
+   * sobre la columna completa falla al crearse, con datos reales.
+   *
+   * Ordenar por los primeros 200 caracteres es indistinguible de ordenar por
+   * el título completo —ningún título difiere recién en el carácter 201— y
+   * permite indexarlo. La expresión tiene que ser IDÉNTICA a la del índice
+   * `ix_v_titulo_orden`, si no el planificador no lo usa.
+   */
+  titulo: 'left(v.titulo, 200)',
   guia: 'n.guia',
   nivel: 'v.nivel',
 } as const;

@@ -85,7 +85,15 @@ corrida
 echo
 
 echo "[2/3] Aplicando indices.sql (varios minutos, ~380 MB)…"
-psql -U "${PGUSER:-jsdr}" -d "${PGDATABASE:-jsdr_copia}" -X -q -f /db/indices.sql
+# ON_ERROR_STOP: si un índice no se puede crear, hay que enterarse acá y no
+# descubrirlo tres pantallas más abajo viendo una consulta que sigue lenta.
+if ! psql -U "${PGUSER:-jsdr}" -d "${PGDATABASE:-jsdr_copia}" -X -q \
+          -v ON_ERROR_STOP=1 -f /db/indices.sql; then
+  echo
+  echo "      ^^^ FALLÓ la creación de índices. La medición de abajo no vale."
+  echo "      Corregir el error y volver a correr: indices.sql es idempotente."
+  exit 1
+fi
 echo "      listo"
 echo
 
