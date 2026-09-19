@@ -1,0 +1,26 @@
+# Lo que NO entra al contexto de build.
+#
+# El contexto es toda la carpeta, y se manda entera al demonio de Docker antes
+# de empezar. Sin esto, un `docker build` sobre la carpeta sincronizada mandaría
+# el historial de git y cualquier dump que ande dando vueltas.
+
+.git
+.github
+
+# Los dumps son 1,4 GB del archivo de La Capital. Nunca van a una imagen.
+dumps/
+*.dump
+*.sql.gz
+
+# Se instalan y compilan adentro, en cada etapa del Dockerfile.
+node_modules/
+*/node_modules/
+dist/
+*/dist/
+
+# Ruido
+*.log
+.env
+.DS_Store
+Thumbs.db
+capturas/

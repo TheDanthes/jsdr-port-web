@@ -1,26 +1,17 @@
 # jSDR Port Web — despliegue en ZimaOS
 #
-# Pensado para instalar desde Container Manager (Apps → + → Instalar una app
-# personalizada → importar este archivo), sin entrar por SSH.
+# Container Manager → Apps → + → Instalar una app personalizada → Importar.
 #
-# Antes de instalar, crear las carpetas desde el explorador de archivos de ZimaOS:
+# ANTES DE IMPORTAR: cambiar JSDR_SECRETO_SESION, más abajo.
 #
-#   /DATA/AppData/jsdr/
-#   /DATA/AppData/jsdr/postgres/      <- datos de PostgreSQL (los crea el contenedor)
-#   /DATA/AppData/jsdr/db/            <- copiar acá esquema-moderno.sql y datos-prueba.sql
-#   /DATA/AppData/jsdr/dumps/         <- copiar acá jsdr-completo.dump (1,4 GB)
-#   /DATA/AppData/jsdr/salida-indesign/
+# IMPORTANTE: este archivo no usa NINGUNA variable ni interpolación.
+# Container Manager de ZimaOS NO interpreta la sintaxis de variables con valor
+# por defecto de Docker Compose: la reemplaza por vacío. Eso hacía que
+# POSTGRES_PASSWORD llegara sin valor y Postgres abortara al iniciar.
+# Todo va literal. La contraseña aparece en DOS lugares y tienen que coincidir.
 #
-# Restaurar la copia de producción: arrancar una vez el servicio `restaurador`
-# (en Container Manager aparece detenido; se corre a mano y se apaga solo).
-
-# IMPORTANTE: este archivo no usa NINGUNA variable ni interpolacion.
-# Container Manager de ZimaOS NO interpreta la sintaxis de variables con
-# valor por defecto de Docker Compose: la reemplaza por vacio. Eso hacia
-# que POSTGRES_PASSWORD llegara sin valor y Postgres no inicializara.
-# Los valores van literales. La contraseña aparece en TRES lugares y tienen
-# que coincidir: db.POSTGRES_PASSWORD, restaurador.PGPASSWORD y (en el
-# compose completo) api.DATABASE_URL.
+# La base ya está restaurada en /DATA/AppData/jsdr/postgres, con sus índices.
+# Levantar este stack NO la toca: los datos viven en el bind mount.
 
 name: jsdr
 
@@ -38,20 +29,17 @@ x-casaos:
     en_us: Newsroom system — read-only web port (phase 1)
     es_ar: Sistema de redacción — port web de sólo lectura (fase 1)
   description:
-    en_us: >
-      Web port of the jSDR newsroom system. Phase 1 exposes a read-only API over
-      a restored copy of the production database.
     es_ar: >
-      Port web del sistema de redacción jSDR. La Fase 1 expone una API de sólo
-      lectura sobre una copia restaurada de la base de producción.
-  index: /salud
+      Port web del sistema de redacción jSDR. La Fase 1 expone la web y una API
+      de sólo lectura sobre una copia restaurada de la base de producción.
+  index: /
   port_map: "3099"
   scheme: http
 
 services:
 
   # --------------------------------------------------------------------------
-  # Base de datos — copia local de producción
+  #  Base de datos — la copia de producción, ya restaurada
   # --------------------------------------------------------------------------
   db:
     image: postgres:16-alpine
@@ -63,8 +51,7 @@ services:
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
       TZ: America/Argentina/Buenos_Aires
     volumes:
-      # Bind mounts, no volúmenes con nombre: así los ves y los respaldás
-      # desde el explorador de archivos de ZimaOS.
+      # Bind mounts: se ven y se respaldan desde el explorador de archivos.
       - /DATA/AppData/jsdr/postgres:/var/lib/postgresql/data
       - /DATA/AppData/jsdr/db:/db:ro
       - /DATA/AppData/jsdr/dumps:/dumps:ro
@@ -80,13 +67,11 @@ services:
     restart: unless-stopped
 
   # --------------------------------------------------------------------------
-  # API de lectura (Fase 1)
+  #  La aplicación — API y web, en el mismo puerto
   # --------------------------------------------------------------------------
   api:
-    # Imagen publicada por GitHub Actions. Container Manager NO construye
-    # imágenes: tiene que bajarla ya hecha.
-    # Repo privado -> paquete privado -> hace falta un `docker login ghcr.io`
-    # una sola vez en el ZimaOS. Ver DESPLIEGUE-ZIMAOS.md.
+    # Paquete público: se baja sin `docker login`.
+    # Para usar una imagen construida en el propio ZimaOS:  image: jsdr-api:local
     image: ghcr.io/thedanthes/jsdr-api:latest
     container_name: jsdr-api
     environment:
@@ -95,11 +80,13 @@ services:
       LOG_LEVEL: info
       TZ: America/Argentina/Buenos_Aires
       JSDR_SALIDA_INDESIGN: /salida-indesign
-      # Firma los tokens de sesión. CAMBIAR por una cadena larga propia:
-      # mientras sea la misma, las sesiones abiertas sobreviven a un reinicio.
-      # Si se deja vacía, la API genera una al azar en cada arranque y todo el
-      # mundo tiene que volver a entrar cada vez que se reinicia el contenedor.
+
+      # >>> CAMBIAR ESTO <<<
+      # Firma los tokens de sesión. Mientras no cambie, la gente sigue con la
+      # sesión abierta después de un reinicio. Si se deja vacía, la API genera
+      # una al azar en cada arranque y todos tienen que volver a entrar.
       JSDR_SECRETO_SESION: cambiar-esta-cadena-por-una-propia-larga
+
       # Horas que dura una sesión. Una jornada de redacción entra holgada.
       JSDR_HORAS_SESION: 12
     volumes:
@@ -109,131 +96,4 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3099/salud > /dev/null || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 20s
     restart: unless-stopped
-
-  # --------------------------------------------------------------------------
-  # Restaurador — arranca junto con el stack, restaura si hace falta y se apaga.
-  #
-  # Es IDEMPOTENTE: si la base ya tiene datos, no hace nada y sale. Por eso es
-  # seguro dejarlo en el stack: bajar y levantar no vuelve a restaurar.
-  #
-  # En Container Manager aparece como un contenedor más, en estado "exited".
-  # Su log tiene todo el detalle de la restauración.
-  #
-  # Para REHACER la restauración desde cero, en la terminal de ZimaOS:
-  #   docker exec jsdr-db psql -U jsdr -d postgres -c "DROP DATABASE jsdr_copia WITH (FORCE)"
-  #   docker restart jsdr-restaurador
-  # --------------------------------------------------------------------------
-  restaurador:
-    image: postgres:16-alpine
-    container_name: jsdr-restaurador
-    environment:
-      PGHOST: db
-      PGUSER: jsdr
-      PGPASSWORD: jsdr_dev
-      TZ: America/Argentina/Buenos_Aires
-    volumes:
-      - /DATA/AppData/jsdr/db:/db:ro
-      - /DATA/AppData/jsdr/dumps:/dumps:ro
-    depends_on:
-      - db
-    restart: "no"
-    entrypoint:
-      - /bin/sh
-      - -c
-      - |
-        set -e
-        echo "=============================================="
-        echo " jSDR - restauracion de la copia de produccion"
-        echo "=============================================="
-
-        echo "[0/6] Esperando a que PostgreSQL acepte conexiones..."
-        for intento in a b c d e f g h i j k l m n o p q r s t u v w x y z; do
-          pg_isready -q && break
-          sleep 3
-        done
-        if ! pg_isready -q; then
-          echo "      La base no respondio en 78 segundos. Revisar el contenedor jsdr-db."
-          exit 1
-        fi
-        echo "      lista"
-
-        echo "[1/6] Verificando si ya esta restaurada..."
-        if psql -d jsdr_copia -t -A -c "SELECT 1 FROM versiones LIMIT 1" 2>/dev/null | grep -q 1; then
-          echo
-          echo "      LA BASE YA TIENE DATOS. No hago nada."
-          psql -d jsdr_copia -c "SELECT count(*) AS versiones FROM versiones"
-          echo
-          echo "      Para rehacerla desde cero, en la terminal de ZimaOS:"
-          echo "        docker exec jsdr-db psql -U jsdr -d postgres -c \"DROP DATABASE jsdr_copia WITH (FORCE)\""
-          echo "        docker restart jsdr-restaurador"
-          exit 0
-        fi
-        echo "      vacia, sigo"
-
-        if [ ! -f /dumps/jsdr-completo.dump ]; then
-          echo "FALTA el dump en /DATA/AppData/jsdr/dumps/jsdr-completo.dump"
-          exit 1
-        fi
-
-        echo "[2/6] Puede pg_restore 16 leer el dump de PostgreSQL 8.0.3?"
-        if pg_restore -l /dumps/jsdr-completo.dump > /dev/null 2>&1; then
-          echo "      SI, el archivo es legible"
-        else
-          echo "      NO. pg_restore 16 no abre este archivo custom de 8.0.3."
-          echo "      Plan B, en el servidor viejo:"
-          echo "        pg_dump -U jsdr -Fp --data-only jsdr | gzip > jsdr-datos.sql.gz"
-          exit 1
-        fi
-
-        echo "[3/6] Recreando la base"
-        psql -d postgres -c "DROP DATABASE IF EXISTS jsdr_copia WITH (FORCE)" > /dev/null
-        psql -d postgres -c "CREATE DATABASE jsdr_copia ENCODING 'UTF8'" > /dev/null
-
-        echo "[4/6] Aplicando el esquema modernizado"
-        psql -d jsdr_copia -v ON_ERROR_STOP=1 -q -f /db/esquema-moderno.sql
-        echo "      17 tablas creadas"
-
-        echo "[5/6] Restaurando los datos (1,4 GB, varios minutos)"
-        pg_restore --data-only --no-owner --disable-triggers -d jsdr_copia -j 2 /dumps/jsdr-completo.dump || true
-
-        echo "[6/6] Reajustando secuencias"
-        psql -d jsdr_copia -q -c "
-          SELECT setval('noticias_id_seq',  COALESCE((SELECT max(id) FROM noticias),1));
-          SELECT setval('usuarios_id_seq',  COALESCE((SELECT max(id) FROM usuarios),1));
-          SELECT setval('secciones_id_seq', COALESCE((SELECT max(id) FROM secciones),1));
-          SELECT setval('permisos_id_seq',  COALESCE((SELECT max(id) FROM permisos),1));
-          SELECT setval('agencias_id_seq',  COALESCE((SELECT max(id) FROM agencias),1));
-          SELECT setval('cables_id_seq',    COALESCE((SELECT max(id) FROM cables),1));
-          SELECT setval('comandos_id_seq',  COALESCE((SELECT max(id) FROM comandos),1));
-          SELECT setval('usos_id_seq',      COALESCE((SELECT max(id) FROM usos),1));
-          SELECT setval('notas_id_seq',     COALESCE((SELECT max(id) FROM notas),1));"
-
-        echo
-        echo "Control contra lo medido en produccion el 2026-09-18:"
-        psql -d jsdr_copia -c "
-        SELECT t.tabla, t.esperado, c.real,
-               CASE WHEN c.real = t.esperado THEN 'ok' ELSE 'REVISAR' END AS estado
-          FROM (VALUES ('versiones',1297497),('noticias',1093772),('diccionario',378948),
-                       ('usos',297),('comandos',255),('usuarios',170),('secciones',26),
-                       ('agencias',14),('permisos',9)) AS t(tabla,esperado)
-          JOIN (SELECT 'versiones' AS tabla, count(*) AS real FROM versiones
-                UNION ALL SELECT 'noticias',    count(*) FROM noticias
-                UNION ALL SELECT 'diccionario', count(*) FROM diccionario
-                UNION ALL SELECT 'usos',        count(*) FROM usos
-                UNION ALL SELECT 'comandos',    count(*) FROM comandos
-                UNION ALL SELECT 'usuarios',    count(*) FROM usuarios
-                UNION ALL SELECT 'secciones',   count(*) FROM secciones
-                UNION ALL SELECT 'agencias',    count(*) FROM agencias
-                UNION ALL SELECT 'permisos',    count(*) FROM permisos) AS c USING (tabla)
-         ORDER BY t.esperado DESC"
-
-        echo
-        echo "LISTO. Diferencias chicas en versiones/noticias son esperables:"
-        echo "el dump se tomo el 18-sep y el sistema viejo sigue produciendo."
