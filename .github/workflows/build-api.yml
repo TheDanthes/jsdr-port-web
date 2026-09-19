@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGEN: ghcr.io/${{ github.repository_owner }}/jsdr-api
+  IMAGEN: ghcr.io/thedanthes/jsdr-api
 
 jobs:
   # Antes de construir nada: si no compila, no se publica una imagen rota.
