@@ -43,7 +43,7 @@ for f in "$MOTOR"/bin/*; do
     *)         cp "$f" "/home/jsdr/bin/$(basename "$f")" ;;
   esac
 done
-chmod +x /home/jsdr/bin/*.pl /home/jsdr/bin/*.sh
+chmod +x /home/jsdr/bin/*.pl /home/jsdr/bin/*.sh 2>/dev/null || true
 
 # mac.pl escribe en /u/indesign/<carpeta>/<guia>.txt, hardcodeado.
 for d in ciudad escenario deportes economia educacion seniales mundo hipica \
@@ -64,8 +64,24 @@ for xtg in "$AQUI"/fotocomponer/*.xtg; do
       $codigo =~ s/^\s*\$\[\s*=\s*1;.*$//m;   # la única línea que se quita
       eval $codigo;
       die $@ if $@;
-  ' /home/jsdr/bin/mac.pl < "$xtg"
+  ' /home/jsdr/bin/mac.pl < "$xtg" > /dev/null
+  # El > /dev/null es por el `print $id . "-" . $nombre . ...` que mac.pl tiene
+  # al principio: una traza de 2005 que no sirve para nada acá. Los errores
+  # siguen yendo a stderr y se ven.
   mv "/u/indesign/deportes/$id.txt" "$DESTINO/$id.txt"
 done
 
-echo "referencia: $(ls -1 "$DESTINO" | wc -l) archivos en $DESTINO"
+hechos=$(ls -1 "$DESTINO" | wc -l)
+esperados=$(ls -1 "$AQUI"/fotocomponer/*.xtg | wc -l)
+echo "referencia: $hechos de $esperados archivos en $DESTINO"
+
+# Si la referencia sale incompleta, hay que enterarse ACÁ. Si no, el programa
+# que compara falla más abajo con un "no such file or directory" que parece un
+# problema de la implementación nueva cuando en realidad es que la vieja no
+# llegó a correr. Pasó: en la imagen faltaba `Env.pm` —`mac.pl` hace
+# `use Env;`— y el error real quedó tapado dos pantallas más arriba.
+if [ "$hechos" -ne "$esperados" ]; then
+  echo "  ^^^ la referencia en Perl NO se pudo generar completa."
+  echo "      Sin ella no hay contra qué comparar: el bloque 3 no vale."
+  exit 1
+fi

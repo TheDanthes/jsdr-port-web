@@ -33,13 +33,20 @@ RUN npx tsc
 # --- 2. la imagen que corre --------------------------------------------------
 FROM node:22-bookworm-slim
 
-# Las bibliotecas de 32 bits, que es todo lo que el motor necesita.
-# `perl` viene en la imagen base (perl-base) y alcanza: xtg2ind.pl no usa
-# un solo módulo externo.
+# Las bibliotecas de 32 bits, que es todo lo que los binarios del motor
+# necesitan: `medir` y `sr2xp` sólo piden libc y libm.
+#
+# Y el Perl COMPLETO, no el `perl-base` que trae la imagen. `xtg2ind.pl` —el
+# que corre en producción— no usa un solo módulo y andaría con perl-base, pero
+# `mac.pl` empieza con `use Env;`, que es como recibe `$nombre` y `$seccion`
+# del entorno, y `Env.pm` vive en `perl-modules`. `mac.pl` se usa de referencia
+# en el bloque 3 del banco de pruebas, así que sin él el banco no puede
+# comprobar lo único que se reescribió. Son ~40 MB y compran esa comprobación.
 RUN dpkg --add-architecture i386 \
  && apt-get update \
- && apt-get install -y --no-install-recommends libc6:i386 \
- && rm -rf /var/lib/apt/lists/*
+ && apt-get install -y --no-install-recommends libc6:i386 perl \
+ && rm -rf /var/lib/apt/lists/* \
+ && perl -MEnv -e 'print "Env.pm disponible\n"'
 
 WORKDIR /opt/jsdr
 

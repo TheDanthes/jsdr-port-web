@@ -131,8 +131,12 @@ echo
 # original contra la nueva sobre los mismos 58 .xtg.
 if [ -x "$AQUI/dist/comparar-indesign.js" ] || [ -f "$AQUI/dist/comparar-indesign.js" ]; then
   echo "[3/4] cadena a InDesign — Perl original contra implementación nueva"
-  sh "$AQUI/pruebas/referencia-perl.sh" "$TRABAJO/referencia" > /dev/null
-  if node "$AQUI/dist/comparar-indesign.js" "$TRABAJO/referencia" "$PRUEBAS/fotocomponer"; then
+  if ! sh "$AQUI/pruebas/referencia-perl.sh" "$TRABAJO/referencia"; then
+    # La referencia es la cadena vieja. Si no corre, no hay comparación
+    # posible y decir "58 difieren" sería mentir: no difieren, no se midieron.
+    mal=$((mal+58))
+    echo "indesign|no se pudo generar la referencia en Perl" >> "$FALLAS"
+  elif node "$AQUI/dist/comparar-indesign.js" "$TRABAJO/referencia" "$PRUEBAS/fotocomponer"; then
     ok=$((ok+58))
   else
     mal=$((mal+58)); echo "indesign|difiere" >> "$FALLAS"
@@ -175,8 +179,12 @@ if [ "$mal" -eq 0 ]; then
 else
   echo " ❌  $mal de $total salidas NO coinciden"
   echo
+  # Se cuentan las líneas registradas, no `$mal`: una sola falla puede valer
+  # por 58 comparaciones (el bloque de InDesign se cuenta entero), y decir
+  # "y 18 más" cuando hay una sola línea confunde en lugar de ayudar.
+  registradas=$(wc -l < "$FALLAS")
   sort "$FALLAS" | head -40 | awk -F'|' '{printf "   %-28s %s\n", $1, $2}'
-  [ "$mal" -gt 40 ] && echo "   … y $((mal-40)) más"
+  [ "$registradas" -gt 40 ] && echo "   … y $((registradas-40)) más"
   echo
   echo " Correr con -v para ver el diff de cada una."
   echo " NO seguir construyendo encima hasta que esto dé 0."
