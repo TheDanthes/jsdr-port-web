@@ -147,23 +147,30 @@ Al levantar de nuevo, PostgreSQL los encuentra tal cual.
 ## 2.5 Comprobar
 
 ```
-http://<ip-del-zimaos>:3099/salud
+http://<ip-del-zimaos>:3099/salud     la API
+http://<ip-del-zimaos>:3099/          la web
 ```
+
+`/salud` responde algo así:
 
 ```json
 { "ok": true, "fase": 1, "solo_lectura": true,
   "noticias": 1093772, "versiones": 1297497, "postgres": "16.x" }
 ```
 
-Y la suite de humo, desde cualquier máquina con `bash`, `curl` y `python3`:
+Y en la web entrás con **el mismo usuario y contraseña del sistema de escritorio**:
+valida contra la misma tabla `usuarios`.
+
+La suite de humo, desde cualquier máquina con `bash`, `curl` y `python3`:
 
 ```bash
 API=<ip-del-zimaos>:3099 ./api/verificar.sh
 ```
 
-Son 18 comprobaciones. Contra la copia real de producción algunas van a fallar —
+Son 32 comprobaciones. Contra la copia real de producción varias van a fallar —
 están escritas para los datos sintéticos de `datos-prueba.sql`, no para el millón y medio
-de filas reales. Lo que importa ahí es que **respondan**, no que den 18/18.
+de filas reales. Lo que importa ahí es que **respondan** y que pasen las de sesión y
+confidencialidad, que no dependen de los conteos.
 
 ---
 

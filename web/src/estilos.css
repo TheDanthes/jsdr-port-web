@@ -1,0 +1,389 @@
+/* ---------------------------------------------------------------------------
+   jSDR — hoja de estilos única.
+   Herramienta interna de redacción: densa, legible, sin adornos. Prioridad a
+   ver muchas filas de un vistazo y a que el texto del diario se lea cómodo.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --fondo: #f4f5f7;
+  --panel: #ffffff;
+  --panel-2: #fafbfc;
+  --borde: #d8dce2;
+  --borde-suave: #e8eaee;
+  --texto: #1a1d21;
+  --texto-2: #5b6470;
+  --texto-3: #8b94a0;
+  --acento: #1f5fa8;
+  --acento-fondo: #e8f0fa;
+  --peligro: #b3261e;
+  --peligro-fondo: #fdeceb;
+  --ok: #1e7a45;
+  --aviso: #8a5a00;
+  --aviso-fondo: #fdf3e0;
+  --confidencial: #7b2d8e;
+  --confidencial-fondo: #f6ecf9;
+  --sombra: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .1);
+  --radio: 6px;
+  --fuente: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fuente-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --fuente-nota: Georgia, "Times New Roman", serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    --fondo: #14171b;
+    --panel: #1c2026;
+    --panel-2: #22272e;
+    --borde: #333b45;
+    --borde-suave: #2a313a;
+    --texto: #e6e9ee;
+    --texto-2: #a3adba;
+    --texto-3: #6f7a88;
+    --acento: #6aa9f0;
+    --acento-fondo: #1a2a3d;
+    --peligro: #f2837c;
+    --peligro-fondo: #3a1f1e;
+    --ok: #5cc98a;
+    --aviso: #e0b567;
+    --aviso-fondo: #33291a;
+    --confidencial: #cd9ad9;
+    --confidencial-fondo: #2e2136;
+    --sombra: 0 1px 2px rgba(0, 0, 0, .3), 0 1px 3px rgba(0, 0, 0, .4);
+  }
+}
+
+:root[data-tema="oscuro"] {
+  --fondo: #14171b; --panel: #1c2026; --panel-2: #22272e;
+  --borde: #333b45; --borde-suave: #2a313a;
+  --texto: #e6e9ee; --texto-2: #a3adba; --texto-3: #6f7a88;
+  --acento: #6aa9f0; --acento-fondo: #1a2a3d;
+  --peligro: #f2837c; --peligro-fondo: #3a1f1e;
+  --ok: #5cc98a; --aviso: #e0b567; --aviso-fondo: #33291a;
+  --confidencial: #cd9ad9; --confidencial-fondo: #2e2136;
+  --sombra: 0 1px 2px rgba(0,0,0,.3), 0 1px 3px rgba(0,0,0,.4);
+}
+
+* { box-sizing: border-box; }
+
+html, body, #raiz { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--fuente);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--acento); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* --- estructura ---------------------------------------------------------- */
+
+.app { display: flex; flex-direction: column; min-height: 100%; }
+
+.barra {
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 16px; height: 48px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--borde);
+  position: sticky; top: 0; z-index: 20;
+}
+
+.barra .marca {
+  font-weight: 700; letter-spacing: .04em; font-size: 15px;
+  color: var(--texto); white-space: nowrap;
+}
+.barra .marca span { color: var(--texto-3); font-weight: 400; margin-left: 6px; font-size: 12px; }
+
+.nav { display: flex; gap: 2px; flex: 1; min-width: 0; overflow-x: auto; }
+.nav a {
+  padding: 6px 12px; border-radius: var(--radio);
+  color: var(--texto-2); font-weight: 500; white-space: nowrap;
+}
+.nav a:hover { background: var(--borde-suave); text-decoration: none; }
+.nav a.activo { background: var(--acento-fondo); color: var(--acento); }
+
+.sesion { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.sesion .quien { text-align: right; line-height: 1.2; }
+.sesion .quien b { display: block; font-size: 13px; }
+.sesion .quien small { color: var(--texto-3); font-size: 11px; }
+
+.contenido { flex: 1; padding: 16px; max-width: 1600px; width: 100%; margin: 0 auto; }
+
+/* En pantallas angostas la barra se apila: si no, el bloque de sesión se come
+   el ancho y los enlaces de navegación quedan reducidos a nada. */
+@media (max-width: 760px) {
+  .barra {
+    height: auto; flex-wrap: wrap; padding: 8px 12px; gap: 8px 12px;
+    align-items: center;
+  }
+  .barra .marca { flex: 1; }
+  /* flex-basis, no width: la regla base usa `flex: 1` y le ganaría. */
+  .nav { order: 3; flex: 1 0 100%; }
+  .nav a { padding: 6px 10px; }
+  .contenido { padding: 12px; }
+  .tabla-marco { max-height: none; }
+}
+
+/* --- piezas -------------------------------------------------------------- */
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.panel > header {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 14px; border-bottom: 1px solid var(--borde-suave);
+  flex-wrap: wrap;
+}
+.panel > header h2 { margin: 0; font-size: 14px; font-weight: 600; }
+
+.filtros {
+  display: grid; gap: 10px 14px;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  padding: 14px;
+}
+.filtros .ancho { grid-column: span 2; }
+@media (max-width: 560px) { .filtros .ancho { grid-column: span 1; } }
+
+.filtros-pie {
+  display: flex; gap: 8px; align-items: center;
+  padding: 0 14px 14px;
+}
+
+.campo { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.campo > label {
+  font-size: 11px; font-weight: 600; letter-spacing: .03em;
+  text-transform: uppercase; color: var(--texto-3);
+}
+
+input, select, textarea, button {
+  font-family: inherit; font-size: 13px; color: var(--texto);
+}
+
+input[type="text"], input[type="date"], input[type="number"],
+input[type="password"], input[type="search"], select, textarea {
+  background: var(--panel-2);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 6px 8px; width: 100%; min-width: 0;
+}
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--acento); outline-offset: -1px; border-color: var(--acento);
+}
+
+select[multiple] { padding: 2px; min-height: 84px; }
+select[multiple] option { padding: 3px 6px; border-radius: 3px; }
+
+.acciones { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+button {
+  cursor: pointer; border-radius: var(--radio);
+  border: 1px solid var(--borde); background: var(--panel-2);
+  padding: 6px 12px; font-weight: 500;
+}
+button:hover:not(:disabled) { background: var(--borde-suave); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+
+button.primario {
+  background: var(--acento); border-color: var(--acento); color: #fff;
+}
+button.primario:hover:not(:disabled) { filter: brightness(1.08); }
+
+button.plano { border-color: transparent; background: transparent; color: var(--texto-2); }
+button.plano:hover:not(:disabled) { background: var(--borde-suave); }
+
+/* --- tabla --------------------------------------------------------------- */
+
+/* El marco scrollea en los dos ejes: a lo ancho cuando no entran las columnas,
+   y a lo alto cuando la página de 30 filas supera el alto disponible. Es el
+   contexto de scroll del encabezado pegajoso de más abajo. */
+.tabla-marco {
+  overflow: auto;
+  max-height: calc(100vh - 190px);
+}
+
+table.lista { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+table.lista th {
+  text-align: left; font-size: 11px; font-weight: 600;
+  letter-spacing: .03em; text-transform: uppercase; color: var(--texto-3);
+  padding: 8px 10px; border-bottom: 1px solid var(--borde);
+  background: var(--panel-2); z-index: 5;
+  white-space: nowrap;
+  /* Pegajoso contra el marco, NO contra la ventana: el marco es el que
+     scrollea. Con un `top` distinto de 0 el encabezado se corre hacia adentro
+     y tapa la primera fila. */
+  position: sticky; top: 0;
+}
+table.lista th.ordenable { cursor: pointer; user-select: none; }
+table.lista th.ordenable:hover { color: var(--texto); }
+table.lista th .flecha { color: var(--acento); margin-left: 3px; }
+
+table.lista td {
+  padding: 7px 10px; border-bottom: 1px solid var(--borde-suave);
+  vertical-align: top;
+}
+table.lista tbody tr:hover { background: var(--panel-2); }
+table.lista tbody tr.clicable { cursor: pointer; }
+/* Una fila traída a la vista por el navegador no debe quedar bajo el
+   encabezado pegajoso. */
+table.lista tbody tr { scroll-margin-top: 42px; }
+
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.mono { font-family: var(--fuente-mono); font-size: 12px; }
+td.apretado { white-space: nowrap; }
+
+.titulo-celda { display: flex; flex-direction: column; gap: 1px; max-width: 52ch; }
+.titulo-celda .volanta { font-size: 11px; color: var(--texto-3); }
+.titulo-celda .titulo { font-weight: 600; }
+.titulo-celda .bajada { font-size: 12px; color: var(--texto-2); }
+
+/* --- etiquetas ----------------------------------------------------------- */
+
+.etiqueta {
+  display: inline-block; padding: 1px 7px; border-radius: 10px;
+  font-size: 11px; font-weight: 600; white-space: nowrap;
+  background: var(--borde-suave); color: var(--texto-2);
+}
+.etiqueta.EN_EDICION    { background: var(--aviso-fondo);        color: var(--aviso); }
+.etiqueta.EN_EJECUCION  { background: var(--acento-fondo);       color: var(--acento); }
+.etiqueta.AUTORIZADA    { background: #e4f4ea;                   color: var(--ok); }
+.etiqueta.FOTOCOMPUESTA { background: var(--borde-suave);        color: var(--texto-2); }
+.etiqueta.confidencial  { background: var(--confidencial-fondo); color: var(--confidencial); }
+.etiqueta.eliminada     { background: var(--peligro-fondo);      color: var(--peligro); }
+.etiqueta.prioridad-1, .etiqueta.prioridad-U {
+  background: var(--peligro-fondo); color: var(--peligro);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .etiqueta.AUTORIZADA { background: #16301f; }
+}
+:root[data-tema="oscuro"] .etiqueta.AUTORIZADA { background: #16301f; }
+
+/* --- avisos -------------------------------------------------------------- */
+
+.aviso {
+  padding: 10px 14px; border-radius: var(--radio); font-size: 13px;
+  border: 1px solid transparent;
+}
+.aviso.error { background: var(--peligro-fondo); color: var(--peligro); border-color: currentColor; }
+.aviso.info  { background: var(--acento-fondo);  color: var(--acento); }
+
+.vacio { padding: 40px 20px; text-align: center; color: var(--texto-3); }
+.vacio p { margin: 4px 0; }
+
+.cargando { padding: 24px; text-align: center; color: var(--texto-3); font-size: 13px; }
+
+/* --- paginado ------------------------------------------------------------ */
+
+.paginado {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 10px 14px; border-top: 1px solid var(--borde-suave);
+  flex-wrap: wrap;
+}
+.paginado .cuenta { color: var(--texto-2); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+/* --- login --------------------------------------------------------------- */
+
+.login-pantalla {
+  min-height: 100vh; display: grid; place-items: center; padding: 20px;
+  background: var(--fondo);
+}
+.login-caja { width: 100%; max-width: 360px; }
+.login-caja .marca-grande {
+  text-align: center; margin-bottom: 20px;
+}
+.login-caja .marca-grande b { font-size: 26px; letter-spacing: .06em; display: block; }
+.login-caja .marca-grande span { color: var(--texto-3); font-size: 13px; }
+.login-caja form { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+.login-caja button { width: 100%; padding: 9px; }
+.login-pie {
+  margin-top: 14px; text-align: center; font-size: 11px; color: var(--texto-3);
+  line-height: 1.5;
+}
+
+/* --- detalle de noticia -------------------------------------------------- */
+
+.detalle { display: grid; grid-template-columns: 260px 1fr; gap: 16px; align-items: start; }
+@media (max-width: 900px) { .detalle { grid-template-columns: 1fr; } }
+
+.versiones-lista { list-style: none; margin: 0; padding: 6px; }
+.versiones-lista li { margin-bottom: 2px; }
+.versiones-lista button {
+  width: 100%; text-align: left; border-color: transparent; background: transparent;
+  padding: 8px 10px; display: flex; flex-direction: column; gap: 3px;
+}
+.versiones-lista button:hover { background: var(--panel-2); }
+.versiones-lista button.activa { background: var(--acento-fondo); border-color: var(--acento); }
+.versiones-lista .linea-1 { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.versiones-lista .nro { font-weight: 700; font-variant-numeric: tabular-nums; }
+.versiones-lista .meta { font-size: 11px; color: var(--texto-3); }
+
+.ficha {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px 16px; padding: 12px 14px;
+  border-bottom: 1px solid var(--borde-suave); background: var(--panel-2);
+}
+.ficha .dato { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.ficha .dato span {
+  font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--texto-3);
+  font-weight: 600;
+}
+.ficha .dato b { font-weight: 600; font-size: 13px; overflow-wrap: anywhere; }
+
+/* El texto de la nota: serif y medida cómoda, como se lee en el diario. */
+.nota { padding: 20px 22px; font-family: var(--fuente-nota); max-width: 70ch; }
+.nota .campo-nota { margin-bottom: 16px; }
+.nota .campo-nota > .rotulo {
+  font-family: var(--fuente); font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em; color: var(--texto-3);
+  display: flex; gap: 8px; align-items: baseline; margin-bottom: 3px;
+}
+.nota .campo-nota > .rotulo .medida {
+  font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--texto-3);
+}
+.nota .volanta-texto { font-size: 15px; color: var(--texto-2); }
+.nota .titulo-texto  { font-size: 26px; font-weight: 700; line-height: 1.2; }
+.nota .bajada-texto  { font-size: 17px; color: var(--texto-2); }
+.nota .cuerpo-texto  { font-size: 16px; white-space: pre-wrap; line-height: 1.65; }
+.nota .titular-texto { font-size: 15px; }
+
+/* --- cables -------------------------------------------------------------- */
+
+.cable-cuerpo { padding: 18px 20px; max-width: 72ch; }
+.cable-cuerpo .cable-titulo {
+  margin: 0; font-family: var(--fuente-nota); font-size: 19px; font-weight: 700;
+  line-height: 1.3;
+}
+.cable-cuerpo .cable-tema {
+  margin: 2px 0 0; font-size: 12px; color: var(--texto-3);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.cable-cuerpo .cable-texto {
+  margin-top: 14px; font-family: var(--fuente-nota); font-size: 15px;
+  white-space: pre-wrap; line-height: 1.6;
+}
+tr.no-leido td:first-child { box-shadow: inset 3px 0 0 var(--acento); }
+tr.no-leido .titulo-celda .titulo { font-weight: 700; }
+
+/* --- utilidades ---------------------------------------------------------- */
+
+.fila { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.crece { flex: 1; }
+.tenue { color: var(--texto-3); }
+.chico { font-size: 12px; }
+.nowrap { white-space: nowrap; }
+
+.saltar-al-contenido {
+  position: absolute; left: -9999px;
+}
+.saltar-al-contenido:focus {
+  left: 8px; top: 8px; z-index: 100; padding: 8px 12px;
+  background: var(--panel); border: 1px solid var(--acento); border-radius: var(--radio);
+}

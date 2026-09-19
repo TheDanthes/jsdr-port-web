@@ -14,6 +14,8 @@ export interface FiltroCables {
   ascendente?: boolean;
   offset?: number;
   limite?: number;
+  /** Tope de filas por pedido. La pantalla usa 200; el export, más. */
+  tope?: number;
   /** Si viene, marca cada cable como leído/reservado por este usuario. */
   username?: string;
 }
@@ -52,7 +54,7 @@ export async function buscarCables(f: FiltroCables): Promise<Pagina<Cable>> {
   if (f.numero !== undefined) cond.push(`c.numero = ${p(f.numero)}`);
 
   const where = cond.length ? `WHERE ${cond.join('\n       AND ')}` : '';
-  const limite = Math.min(f.limite ?? config.limitePagina, 200);
+  const limite = Math.min(f.limite ?? config.limitePagina, f.tope ?? 200);
   const offset = f.offset ?? 0;
   const dir = f.ascendente ? 'ASC' : 'DESC';
   // La dirección se repite por columna, si no `fecha, hora DESC` sale mal.

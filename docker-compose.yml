@@ -5,6 +5,9 @@
 #
 #   docker compose up -d db
 #   ./db/restaurar-copia.sh /ruta/a/jsdr-completo.dump
+#
+# Para probar la imagen completa (API + web) como va a correr en el ZimaOS:
+#   docker compose up --build app     -> http://localhost:3099
 
 services:
   db:
@@ -14,7 +17,8 @@ services:
       POSTGRES_USER: jsdr
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jsdr_dev}
       POSTGRES_DB: jsdr_copia
-      # La base original es UTF-8; se replica igual.
+      # La base original se declara UTF-8; se replica igual. (Ojo: `cables`
+      # trae bytes cp850 — ver doc 06. No afecta a la creación del cluster.)
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
     ports:
       # 55432 para no chocar con un postgres que ya tengas en el 5432
@@ -29,6 +33,24 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+    restart: unless-stopped
+
+  # La imagen tal cual se publica: API + web compilada, un solo puerto.
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jsdr-app
+    environment:
+      DATABASE_URL: postgresql://jsdr:${POSTGRES_PASSWORD:-jsdr_dev}@db:5432/jsdr_copia
+      API_PORT: 3099
+      JSDR_SECRETO_SESION: ${JSDR_SECRETO_SESION:-secreto-solo-para-desarrollo-local}
+      TZ: America/Argentina/Buenos_Aires
+    ports:
+      - "127.0.0.1:3099:3099"
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:

@@ -24,6 +24,8 @@ export interface FiltroNoticias {
   ascendente?: boolean;
   offset?: number;
   limite?: number;
+  /** Tope de filas por pedido. La pantalla usa 200; el export, más. */
+  tope?: number;
 }
 
 const COLUMNAS_VERSION = `
@@ -116,7 +118,7 @@ function armarFiltro(f: FiltroNoticias) {
  */
 export async function buscarNoticias(f: FiltroNoticias): Promise<Pagina<Noticia>> {
   const { where, par } = armarFiltro(f);
-  const limite = Math.min(f.limite ?? config.limitePagina, 200);
+  const limite = Math.min(f.limite ?? config.limitePagina, f.tope ?? 200);
   const offset = f.offset ?? 0;
   const orden = ORDEN_NOTICIAS[f.orden ?? 'fecha'];
   const dir = f.ascendente ? 'ASC' : 'DESC';

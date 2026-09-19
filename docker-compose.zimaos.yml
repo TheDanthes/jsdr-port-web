@@ -95,6 +95,13 @@ services:
       LOG_LEVEL: info
       TZ: America/Argentina/Buenos_Aires
       JSDR_SALIDA_INDESIGN: /salida-indesign
+      # Firma los tokens de sesión. CAMBIAR por una cadena larga propia:
+      # mientras sea la misma, las sesiones abiertas sobreviven a un reinicio.
+      # Si se deja vacía, la API genera una al azar en cada arranque y todo el
+      # mundo tiene que volver a entrar cada vez que se reinicia el contenedor.
+      JSDR_SECRETO_SESION: cambiar-esta-cadena-por-una-propia-larga
+      # Horas que dura una sesión. Una jornada de redacción entra holgada.
+      JSDR_HORAS_SESION: 12
     volumes:
       - /DATA/AppData/jsdr/salida-indesign:/salida-indesign
     ports:

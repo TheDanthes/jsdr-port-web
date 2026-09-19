@@ -1,11 +1,11 @@
-# Construye la imagen de la API y la publica en GitHub Container Registry.
+# Construye la imagen de jSDR (API + web) y la publica en GitHub Container Registry.
 #
-# Se dispara con cada push a main que toque api/, y también a mano desde
+# Se dispara con cada push a main que toque api/ o web/, y también a mano desde
 # la pestaña Actions del repo.
 #
 # Publica:
 #   ghcr.io/thedanthes/jsdr-api:latest
-#   ghcr.io/thedanthes/jsdr-api:<sha-corto>
+#   ghcr.io/thedanthes/jsdr-api:<sha>
 name: Construir imagen de la API
 
 on:
@@ -13,6 +13,8 @@ on:
     branches: [main]
     paths:
       - 'api/**'
+      - 'web/**'
+      - 'Dockerfile'
       - '.github/workflows/build-api.yml'
   workflow_dispatch:
 
@@ -20,7 +22,31 @@ env:
   IMAGEN: ghcr.io/${{ github.repository_owner }}/jsdr-api
 
 jobs:
+  # Antes de construir nada: si no compila, no se publica una imagen rota.
+  comprobar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: API — tipos
+        working-directory: api
+        run: |
+          npm ci
+          npx tsc --noEmit
+
+      - name: Web — tipos y build
+        working-directory: web
+        run: |
+          npm ci
+          npx tsc --noEmit
+          npm run build
+
   construir:
+    needs: comprobar
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -41,7 +67,9 @@ jobs:
       - name: Construir y publicar
         uses: docker/build-push-action@v6
         with:
-          context: ./api
+          # La raíz del repo: la imagen compila api/ y web/ juntas.
+          context: .
+          file: ./Dockerfile
           push: true
           tags: |
             ${{ env.IMAGEN }}:latest

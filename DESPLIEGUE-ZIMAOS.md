@@ -39,7 +39,12 @@ Levanta dos servicios:
 | Servicio | Puerto | |
 |---|---|---|
 | `jsdr-db` | 55432 | PostgreSQL 16 (elegido para no chocar con otro Postgres del ZimaOS) |
-| `jsdr-api` | 3099 | API de lectura |
+| `jsdr-api` | 3099 | **La aplicación entera**: la API y la web, en el mismo puerto |
+
+> **Antes de importar, cambiá `JSDR_SECRETO_SESION`** en el compose por una cadena
+> larga propia. Es lo que firma los tokens de sesión: mientras no cambie, la gente
+> sigue con la sesión abierta después de un reinicio. Si se deja vacía, la API
+> genera una al azar en cada arranque y todos tienen que volver a entrar.
 
 El tercero, `jsdr-restaurador`, arranca con el stack, restaura si hace falta y se apaga.
 Es **idempotente**: si la base ya tiene datos, no hace nada.
@@ -102,13 +107,35 @@ Debería responder algo así:
   "noticias": 1093772, "versiones": 1297497, "postgres": "16.x" }
 ```
 
-Y los endpoints:
+Y sobre todo, **la web**:
 
 ```
-http://<ip-del-zimaos>:3099/api/secciones
-http://<ip-del-zimaos>:3099/api/noticias?limite=5
-http://<ip-del-zimaos>:3099/api/cables
+http://<ip-del-zimaos>:3099/
 ```
+
+Entrá con **el mismo usuario y contraseña del sistema de escritorio** — valida
+contra la misma tabla `usuarios`. Deberías ver el buscador de noticias con el
+millón de noticias del archivo.
+
+Qué mirar en la primera vuelta:
+
+1. Que tu usuario entre, y que uno cualquiera con la contraseña cambiada **no**.
+2. Que el buscador traiga resultados y que los filtros de sección, estado y fecha
+   achiquen la lista.
+3. Que al abrir una noticia aparezca su historial de versiones.
+4. **Cuánto tarda una búsqueda.** Sobre 1,3 millones de filas y con los índices que
+   trae la base original, puede ir lento: es justamente lo que hay que medir para
+   decidir qué índices agregar (documento 06 §4).
+
+La suite de humo, desde cualquier máquina con `bash`, `curl` y `python3`:
+
+```bash
+API=<ip-del-zimaos>:3099 ./api/verificar.sh
+```
+
+Son 32 comprobaciones escritas para los datos sintéticos de `datos-prueba.sql`;
+contra la copia real varias van a fallar por los conteos. Ahí lo que importa es
+que **respondan** y que las de sesión y confidencialidad pasen.
 
 ---
 

@@ -49,7 +49,7 @@ misma carpeta, mismo formato, InDesign CS5.
 | Fase | Estado |
 |---|---|
 | 0 — Relevamiento y rescate | ✅ Completa |
-| 1 — API + web de sólo lectura | 🔨 En curso — capa de datos cerrada, copia restaurada |
+| 1 — API + web de sólo lectura | ✅ **Completa** — login, dos buscadores, detalle con versiones y exports |
 | 2 — Servicio composer | ⏳ Desbloqueada |
 | 3 — Editor web | ⏳ |
 | 4 — Flujo, permisos y ABMs | ⏳ |
@@ -84,9 +84,19 @@ esquema, restaura los datos y controla los conteos de filas contra lo que había
 
 Conexión: `postgresql://jsdr@127.0.0.1:55432/jsdr_copia`
 
+Y para levantar la aplicación entera como corre en el ZimaOS:
+
+```bash
+docker compose up --build app      # http://localhost:3099
+```
+
+Para desarrollar, sin Docker: `cd api && npm run dev` (puerto 3099) y
+`cd web && npm run dev` (puerto 5173, con proxy a la API).
+
 ## Estructura
 
 ```
+Dockerfile                  Imagen única: compila web/ y api/, y sirve las dos
 docker-compose.yml          Desarrollo local (rutas relativas)
 docker-compose.zimaos.yml   ZimaOS: bind mounts en /DATA/AppData/jsdr + x-casaos
 DESPLIEGUE-ZIMAOS.md        Guía de instalación desde Container Manager
@@ -100,10 +110,19 @@ db/
 dumps/                      Dumps de producción. NO van al repo (.gitignore).
 
 api/                        Fastify + TypeScript, sólo lectura. Ver api/README.md
-  verificar.sh              18 comprobaciones de humo
+  verificar.sh              32 comprobaciones de humo
+web/                        React + Vite + TypeScript. Ver web/README.md
 ```
 
-Lo que viene: `web/`, `composer/`.
+Lo que viene: `composer/`.
+
+## Un solo contenedor
+
+La web se compila a estáticos y **la API los sirve en su mismo puerto**. No hay
+un segundo contenedor con nginx, ni CORS, ni proxy delante: una imagen, un
+puerto, un `docker run`. En una redacción que va a instalar esto sobre un
+servidor que ya tiene veinte años de historia encima, cada pieza menos es una
+cosa menos que puede fallar a las tres de la mañana.
 
 ## Sobre los datos
 
