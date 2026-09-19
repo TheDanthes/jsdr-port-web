@@ -1,0 +1,131 @@
+// Tipos que reflejan el esquema real de jSDR (PostgreSQL 8.0.3).
+// Los nombres de campo se mantienen en castellano, como en la base.
+
+export interface Seccion {
+  id: number;
+  nombre: string | null;
+  codigo: string | null;
+}
+
+export interface Agencia {
+  id: number;
+  nombre: string;
+  codigo: string;
+  habilitada: boolean | null;
+  dias_vida_util: number | null;
+}
+
+export interface Permiso {
+  id: number;
+  nombre: string | null;
+  descripcion: string | null;
+  general: boolean | null;
+}
+
+/** Nunca incluye `password`: esa columna no sale de la capa de datos. */
+export interface Usuario {
+  id: number;
+  username: string;
+  nivel: number | null;
+  nombre_apellido: string | null;
+  dni: string | null;
+  habilitado: boolean | null;
+}
+
+export interface Medida {
+  cm: number | null;
+  lineas: number | null;
+}
+
+export interface Version {
+  id_noticia: number;
+  numero: number;
+  fecha_publicacion: string | null;
+  seccion: Seccion;
+  volanta: string | null;
+  titulo: string | null;
+  bajada: string | null;
+  cuerpo: string | null;
+  titular: string | null;
+  estado: string;
+  eliminada: boolean | null;
+  nivel: number | null;
+  nivel_redactor: number | null;
+  redactor: string;
+  id_redactor: number | null;
+  fotocomponedor: string | null;
+  fecha_eliminacion: string | null;
+  confidencial: boolean | null;
+  medida: Medida;
+  medidas: {
+    volanta: Medida;
+    titulo: Medida;
+    bajada: Medida;
+    cuerpo: Medida;
+    titular: Medida;
+  };
+}
+
+export interface Noticia {
+  id: number;
+  guia: string | null;
+  numero_version_activa: number;
+  numero_proxima_version: number | null;
+  version?: Version;
+  versiones?: Version[];
+}
+
+export interface Cable {
+  id: number;
+  numero: number;
+  prioridad: string | null;
+  fecha_recepcion: string;
+  hora_recepcion: string;
+  tema: string | null;
+  titulo: string;
+  cuerpo: string | null;
+  agencia: { id: number; nombre: string | null; codigo: string | null };
+  medida: Medida;
+}
+
+export interface Pagina<T> {
+  items: T[];
+  total: number;
+  offset: number;
+  limite: number;
+}
+
+/** Órdenes del buscador de noticias — Constants.FIND_NOTICIAS_ORDEN_* */
+export const ORDEN_NOTICIAS = {
+  seccion: 's.nombre',
+  fecha: 'v.fecha_publicacion',
+  estado: 'v.estado',
+  redactor: 'v.redactor',
+  titulo: 'v.titulo',
+  guia: 'n.guia',
+  nivel: 'v.nivel',
+} as const;
+export type OrdenNoticias = keyof typeof ORDEN_NOTICIAS;
+
+/**
+ * Órdenes del buscador de cables — Constants.FIND_CABLES_ORDEN_*
+ * Son listas de columnas: la dirección se aplica a CADA una. Escrito como
+ * string único, `ORDER BY fecha, hora DESC` ordenaría fecha ASC y hora DESC.
+ */
+export const ORDEN_CABLES = {
+  agencia: ['a.nombre'],
+  fecha: ['c.fecha_recepcion', 'c.hora_recepcion'],
+  prioridad: ['c.prioridad'],
+  numero: ['c.numero'],
+  titulo: ['c.titulo'],
+} as const;
+export type OrdenCables = keyof typeof ORDEN_CABLES;
+
+/** jsdr.common.Estado */
+export const ESTADOS = [
+  'EN_EDICION',
+  'EN_EJECUCION',
+  'AUTORIZADA',
+  'FOTOCOMPUESTA',
+  'EN_PRODUCCION',
+] as const;

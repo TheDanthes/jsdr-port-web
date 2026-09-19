@@ -13,7 +13,7 @@ Este port no lo reemplaza de golpe: convive con él y se corta por fases.
 | | |
 |---|---|
 | jSDR 1.6.0 (cliente) / v1.7 (servidor, nov-2013) | GITI, para Seller S.A. / diario La Capital |
-| Cliente Swing + 14 EJB sobre JBoss 4.0.1 | PostgreSQL 8.0.3, UTF-8 |
+| Cliente Swing + 14 EJB sobre JBoss 4.0.1 | PostgreSQL 8.0.3, declarada UTF-8 (con cp850 adentro) |
 | Servidor: Fedora Core 3 (2004), kernel 2.6.9, i686 | 1.093.772 noticias · 1.297.497 versiones (2005-2026) |
 | 170 usuarios: 91 redactores, 52 jefes, 27 secretarios | ~37 versiones por día |
 
@@ -49,7 +49,7 @@ misma carpeta, mismo formato, InDesign CS5.
 | Fase | Estado |
 |---|---|
 | 0 — Relevamiento y rescate | ✅ Completa |
-| 1 — API + web de sólo lectura | 🔨 En curso |
+| 1 — API + web de sólo lectura | 🔨 En curso — capa de datos cerrada, copia restaurada |
 | 2 — Servicio composer | ⏳ Desbloqueada |
 | 3 — Editor web | ⏳ |
 | 4 — Flujo, permisos y ABMs | ⏳ |
@@ -62,7 +62,11 @@ web nueva convive con el cliente Swing sin ninguna posibilidad de pisarse.
 
 ## Arrancar
 
-Requisitos: Docker y Docker Compose.
+**En ZimaOS** (es donde se monta el entorno de desarrollo): ver
+[`DESPLIEGUE-ZIMAOS.md`](DESPLIEGUE-ZIMAOS.md) — se instala desde Container Manager,
+sin SSH, y la restauración del dump la hace un contenedor de un solo uso.
+
+**En una máquina local**, con Docker y Docker Compose:
 
 ```bash
 cp .env.example .env
@@ -83,15 +87,23 @@ Conexión: `postgresql://jsdr@127.0.0.1:55432/jsdr_copia`
 ## Estructura
 
 ```
+docker-compose.yml          Desarrollo local (rutas relativas)
+docker-compose.zimaos.yml   ZimaOS: bind mounts en /DATA/AppData/jsdr + x-casaos
+DESPLIEGUE-ZIMAOS.md        Guía de instalación desde Container Manager
+
 db/
-  esquema-moderno.sql     Esquema traducido de PG 8.0.3 a PG 16. Réplica fiel:
-                          109 columnas, verificado una a una contra el original.
-                          Al final, índices propuestos (comentados) y setval().
-  restaurar-copia.sh      Restaura el dump en el Postgres local.
-dumps/                    Dumps de producción. NO van al repo (.gitignore).
+  esquema-moderno.sql       Esquema traducido de PG 8.0.3 a PG 16. Réplica fiel:
+                            109 columnas, verificado una a una contra el original.
+                            Al final, índices propuestos (comentados) y setval().
+  datos-prueba.sql          Datos sintéticos para desarrollo (nada real del diario)
+  restaurar-copia.sh        Restaura el dump en el Postgres local
+dumps/                      Dumps de producción. NO van al repo (.gitignore).
+
+api/                        Fastify + TypeScript, sólo lectura. Ver api/README.md
+  verificar.sh              18 comprobaciones de humo
 ```
 
-Lo que viene: `api/`, `web/`, `composer/`.
+Lo que viene: `web/`, `composer/`.
 
 ## Sobre los datos
 
