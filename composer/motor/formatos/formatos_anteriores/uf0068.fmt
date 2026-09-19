@@ -1,0 +1,43 @@
+
+<m12l5>Ì
+ac<p7w6l7.5f11>BOLSAS DE AMERICAÌ
+
+<t0m0.6t1m5.6t2m3.6t3m2t4m0.6t5m0>
+tÌ<f11>Bolsa  ÌCierreÎVar.Î Á 
+<f10>
+ä
+
+<e102><l1>Ì
+<e51><p7l11w6f11>TITULOS BRADYÌ
+<l7.5><t0m0.5t1m3.10t2m2.6t3m2t4m3t5m0.3>
+tÌ  <f11>TipoÌ           CompraÎ     Venta Î Dif. Pts.Î Á  <f10>
+ä
+
+<e102><l1>Ì
+<e51><f11l11>ACCIONES ADRSÌ
+<l7.5><t0m0.5t1m3.10t2m2.6t3m2t4m3t5m0.3>
+tÌ  <f11>TipoÌ           CierreÎ      Var. %Î    VolumenÎ Á  <f10>
+ä
+
+<e102><l1>Ì
+<e51><f11l11>TASASÌ
+<l7.5><t0m0.5t1m5.4t2m3t3m3t4m0.3t5m0>
+
+tÌ <f11>Tipo       Ì    TiempoÎ    R. AnualÎ Á  <f10>
+ä
+
+<e102><l1>Ì
+<e51><f11l11>PETROLEOÌ
+<l7.5><t0m0.5t1m3.10t2m2.6t3m2t4m3t5m0.3>
+tÌ  <f11>TipoÌ       AnteriorÎ   AyerÎ  Var. (u$s) Î  Á  
+<f10>
+ä
+
+<e102><l1>Ì
+<e51><f11l11>ORO (Onza Troy)Ì
+<l7.5><t0m0.5t1m5.4t2m3t3m3t4m0.3t5m0>
+tÌ <f11>MercadoÌ  Anterior Î Ayer Î    Á 
+<f10>ä
+
+
+

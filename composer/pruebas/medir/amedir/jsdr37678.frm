@@ -1,0 +1,76 @@
+Argentina con m†s ganas de ma°z: el †rea sube 200.000 ha y la cosecha¿
+apunta a superar los 67,5 Mt Descargar La intenci¢n de siembra con ma°z¿
+pasa a 10,6 M ha en este setiembre. Se estima un menor recorte de †rea en¿
+el norte del pa°s y en la regi¢n pampeana. En la comparaci¢n de m†rge-¿
+nes, el ma°z empieza a ganarle †rea a la soja. Con buenas a muy buenas ...¿
+Por Cristi†n Russo La Gu°a EstratÇgica para el Agro (GEA) de la Bolsa de¿
+Comercio de Rosario estim¢ que se sembrar†n 16,7 millones de hect†reas¿
+de soja en la campa§a 2026/27, un 2% m†s que el ciclo anterior. Con un¿
+rendimiento promedio de 29,1 qq/ha, la producci¢n podr°a ser de 47,8 mi-¿
+llones de toneladas. El servicio de estimaciones de la Bolsa difundi¢ esta¿
+semana su primer pron¢stico para la pr¢xima campa§a sojera. En el mis-¿
+mo informe corrigi¢ al alza la estimaci¢n de la siembra de ma°z, hasta lle-¿
+varla a 10,6 millones de hect†reas. Esto fue un mes despuÇs de haber pre-¿
+visto una ca°da. "Hace un mes se notaba un fuerte retroceso en la inten-¿
+ci¢n de siembra, se proyectaba una ca°da de un 7,3% con 600.000 hect†-¿
+reas menosÔ, se§alaron los especialistas de GEA. El mayor recorte se ha-¿
+c°a en el norte del pa°s por el costo de controlar chicharrita y el aumento¿
+de los fletes, impactados por el costo de los combustible. Pero la campa-¿
+§a maicera dio un giro. "La ecuaci¢n no cambi¢ pero no se ve presencia de¿
+chicharrita, y entre promociones, bonificaciones, agroqu°micos y des-¿
+cuentos que se ofrecen con la compra de semilla, la ca°da de †rea va a ser¿
+menor", explicaron los tÇcnicos. Por las malezas, nadie quiere dejar el lo-¿
+te con malezas hasta fin de a§o. Por eso "se est† sembrando como nunca¿
+soja de primavera, sorgo y tambiÇn ma°z tempranoÔ, pese a que funciona¿
+como criadero de Dalbulus y el pico poblacional se lo traslada al resto que¿
+siembra a fin de a§o. En la regi¢n pampeana se mantienen cautos y con¿
+algunos recortes por el temor a excesos de agua, pero en el sudeste de¿
+Buenos Aires los n£meros van claramente a favor del ma°z al compararlos¿
+con la soja. Esto se traslada en una peque§a suba del 1% en la superficie¿
+del cereal respecto del ciclo pasado. Para C¢rdoba se estima una leve baja¿
+en el norte de la provincia, lo que resulta en una reducci¢n de †rea del 2%.¿
+En Santa Fe, el centro provincial apuesta por m†s ma°z temprano y en el¿
+sur se podr°an sumar nuevas hect†reas, lo que resulta en un leve aumento¿
+interanual del 2%. Con este nuevo ajuste, la GEA proyecta una intenci¢n¿
+de siembra de 10,6 millones de hect†reas, 3,6% menos que hace un a§o.¿
+Con una cosecha para grano comercial de 8,9 millones y un escenario nor-¿
+mal de clima, el horizonte productivo es de 67,5 millones de toneladas.¿
+Por otra parte, la proyecci¢n de trigo pasa a 21 millones de toneladas por¿
+la buena condici¢n del cultivo. "Hace un a§o atr†s, el escenario triguero¿
+mostraba un escenario anormalmente bueno, con grandes lluvias incluso¿
+en donde no suele llover en inviernoÔ, se§alaron desde la Bolsa. Este £lti-¿
+mo agosto, en cambio, las copiosas lluvias quedaron restringidas al nor-¿
+deste del pa°s. En cambio, gran parte del oeste recibi¢ menos de 10 a 20¿
+mm. Sin embargo en los £ltimos 15 a 20 d°as, se pas¢ de la humedad a una¿
+r†pida desecaci¢n ante el ingreso de aire muy fr°o y seco. El fen¢meno se¿
+intensific¢ con la helada del fin de semana pasado. De esta manera, em-¿
+pezaron a aparecer lotes regulares por falta de agua en C¢rdoba, NE de¿
+Buenos Aires y Chaco. No obstante, el 93% del trigo sigue en condiciones¿
+buenas a muy buenas, raz¢n por la que la proyecci¢n triguera pasa a 21¿
+millones de toneladas en este setiembre. Respecto al panorama sanita-¿
+rio, en el norte del pa°s advierten que tras un julio y agosto de mucho calor¿
+y muchos d°as nublados, hay un gran desarrollo de roya. Pese a que El Ni-¿
+§o fuerte promete traer mucha agua en el per°odo cr°tico de la campa§a¿
+gruesa, el invierno se despide con falta de humedad en algunas regiones,¿
+como el oeste de la zona n£cleo. As°, los suelos llegan a septiembre con las¿
+reservas ajustadas: el 70% de la regi¢n se encuentra entre condiciones de¿
+escasez h°drica y sequ°a, mientras que solo el 30% mantiene reservas re-¿
+gulares a adecuadas. "En mayo, desde GEA-BCR se advert°a que no ha-¿
+b°a elementos para esperar que el invierno de 2026 repitiera el comporta-¿
+miento excepcionalmente lluvioso del a§o anterior, en cambio se plan-¿
+teaba un escenario de precipitaciones cercanas a los valores normales¿
+para el invierno y eso est† marcando la diferencia entre ambas campa-¿
+§asÔ, se§alaron Marina Barletta, Florencia Poeta y Cristi†n Russo en su¿
+£ltimo informe. Agregaron que "hoy empieza a faltar agua en el oeste de¿
+la regi¢n, por eso las lluvias pronosticadas eran esperadas atentamente,¿
+ya que ser†n clave para definir el ritmo de siembra del ma°z temprano que¿
+resta por implantar y sostener el potencial de rendimiento del trigoÔ. La¿
+regi¢n ya sembr¢ el 25% del ma°z temprano, el mayor avance para esta fe-¿
+cha de las £ltimas cinco campa§as. El centro-sur de Santa Fe concentra¿
+el mayor progreso, con el 70% del †rea sembrada, seguido por el sudeste¿
+de C¢rdoba, con el 15%. En el sur de Santa Fe se alcanz¢ el 12%, mientras¿
+que el noreste bonaerense registra un 8% y el noroeste bonaerense, ape-¿
+nas un 2%. Sin embargo, la falta de humedad comienza a ponerle un freno¿
+a la siembra en el oeste. En Carlos Pellegrini y Marcos Ju†rez, quedan po-¿
+cos lotes con condiciones de humedad adecuadas para continuar con las¿
+labores.Ã¿

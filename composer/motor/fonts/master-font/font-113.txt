@@ -1,0 +1,257 @@
+### Fuente: Stag	Estilo: Semibold
+00	0	#comandos de control
+01	0	#comandos de control
+02	0	#comandos de control
+03	0	#comandos de control
+04	0	#comandos de control
+05	0	#comandos de control
+06	0	#comandos de control
+07	0	#comandos de control
+08	0	#comandos de control
+09	0	#comandos de control
+0a	0	#comandos de control
+0b	0	#comandos de control
+0c	0	#comandos de control
+0d	0	#comandos de control
+0e	0	#comandos de control
+0f	0	#comandos de control
+10	0	#comandos de control
+11	0	#comandos de control
+12	0	#comandos de control
+13	0	#comandos de control
+14	0	#comandos de control
+15	0	#comandos de control
+16	0	#comandos de control
+17	0	#comandos de control
+18	0	#comandos de control
+19	0	#comandos de control
+1a	0	#comandos de control
+1b	0	#comandos de control
+1c	0	#comandos de control
+1d	0	#comandos de control
+1e	0	#comandos de control
+1f	0	#comandos de control
+20	0	#comandos de control
+21	12	#!
+22	21	#“abrir doble comilla
+23	26	##
+24	29	#$
+25	44	#%
+26	39	#&
+27	10	#’apostrofe
+28	17	#(
+29	17	#)
+2a	20	#*
+2b	28	#+
+2c	11	#,
+2d	15	#-
+2e	11	#.
+2f	19	#/
+30	36	#0
+31	21	#1
+32	29	#2
+33	28	#3
+34	30	#4
+35	28	#5
+36	32	#6
+37	28	#7
+38	33	#8
+39	32	#9
+3a	11	#:
+3b	11	#;
+3c	0	#abrir parentesis de ordenes
+3d	26	#=
+3e	0	#cerrar parentesis de ordenes
+3f	24	#?
+40	47	#@
+41	40	#A
+42	34	#B
+43	34	#C
+44	38	#D
+45	33	#E
+46	32	#F
+47	37	#G
+48	40	#H
+49	19	#I
+4a	28	#J
+4b	39	#K
+4c	32	#L
+4d	49	#M
+4e	39	#N
+4f	40	#O
+50	34	#P
+51	40	#Q
+52	37	#R
+53	29	#S
+54	35	#T
+55	39	#U
+56	39	#V
+57	54	#W
+58	37	#X
+59	37	#Y
+5a	31	#Z
+5b	15	#[
+5c	19	#\
+5d	15	#]
+5e	21	#^
+5f	37	#—raya cuadratin
+60	22	#`
+61	30	#a
+62	31	#b
+63	27	#c
+64	33	#d
+65	29	#e
+66	18	#f
+67	29	#g
+68	34	#h
+69	17	#i
+6a	15	#j
+6b	32	#k
+6c	17	#l
+6d	50	#m
+6e	34	#n
+6f	32	#o
+70	33	#p
+71	31	#q
+72	23	#r
+73	25	#s
+74	19	#t
+75	34	#u
+76	32	#v
+77	45	#w
+78	31	#x
+79	32	#y
+7a	27	#z
+7b	18	#{
+7c	9	#|
+7d	18	#}
+7e	20	#~
+7f	21	#
+80	34	#C mayuscula con cedilla
+81	34	#u dieresis
+82	29	#e acentuada
+83	30	#a carat
+84	30	#a dieresis
+85	30	#a acento frances
+86	30	#a bolita
+87	27	#c cedilla
+88	29	#e carat
+89	29	#e dieresis
+8a	29	#e acento frances
+8b	17	#i dieresis
+8c	17	#i carat
+8d	17	#i acento frances
+8e	40	#A dieresis
+8f	40	#A bolita
+90	33	#E acentuada
+91	46	#union ae
+92	53	#union AE
+93	32	#o carat
+94	32	#o dieresis
+95	32	#o acento frances
+96	34	#u carat
+97	34	#u acento frances
+98	32	#y dieresis
+99	40	#O dieresis
+9a	39	#U dieresis
+9b	27	#simbolo centavos
+9c	28	#simbolo Libra
+9d	0	#Bell
+9e	0	#union Pt
+9f	21	#simbolo funcion
+a0	30	#a acentuada
+a1	17	#i acentuada
+a2	32	#o acentuada
+a3	34	#u acentuada
+a4	34	#enie minuscula
+a5	39	#enie mayuscula
+a6	25	#a volada
+a7	27	#o volada
+a8	24	#abrir ?
+a9	0	#
+aa	0	#
+ab	42	#simbolo un medio
+ac	40	#simbolo un cuarto
+ad	12	#abrir !
+ae	27	#abrir comillas francesas
+af	27	#cerrar comillas francesas
+b0	30	#medio cuadratin
+b1	0	#
+b2	0	#
+b3	0	#
+b4	0	#
+b5	0	#
+b6	0	#
+b7	0	#
+b8	0	#
+b9	0	#
+ba	0	#
+bb	0	#
+bc	0	#
+bd	0	#
+be	0	#
+bf	0	#
+c0	0	#
+c1	0	#
+c2	0	#
+c3	0	#
+c4	0	#
+c5	25	#cruz de malta
+c6	0	#
+c7	0	#
+c8	0	#
+c9	0	#
+ca	0	#
+cb	0	#
+cc	0	#
+cd	0	#
+ce	0	#
+cf	0	#
+d0	0	#
+d1	0	#
+d2	0	#
+d3	0	#
+d4	0	#
+d5	0	#
+d6	0	#
+d7	0	#
+d8	0	#
+d9	0	#
+da	0	#
+db	0	#
+dc	0	#
+dd	0	#
+de	0	#
+df	0	#
+e0	0	#
+e1	0	#
+e2	0	#
+e3	15	#espacio fino
+e4	0	#
+e5	0	#
+e6	0	#
+e7	0	#
+e8	0	#
+e9	0	#
+ea	0	#
+eb	0	#
+ec	0	#
+ed	40	#simbolo diametro
+ee	40	#tres cuartos
+ef	21	#cerrar doble comilla
+f0	30	#en space
+f1	21	#simbolo + -
+f2	30	#simbolo >=
+f3	30	#simbolo <=
+f4	15	#simbolo gancho
+f5	15	#simbolo gancho
+f6	28	#simbolo dividido
+f7	30	#simbolo aproximadamente igual
+f8	19	#simbolo redondel volado
+f9	18	#simbolo punto volado
+fa	0	#simbolo cuadrado volado
+fb	30	#simbolo raiz
+fc	0	#n volada
+fd	17	#simbolo 2 volado
+fe	54	#EM space
+ff	0	#

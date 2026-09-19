@@ -1,0 +1,50 @@
+!
+!   Listado de estilos
+!
+
+1 "@Raya:"                           ! Raya normal clasificados
+2 "@Raya primero:"                   ! Raya primer aviso clasificados
+3 "@Letra capital:"                   ! Letra capital editorial
+4 "@Normal:"                   ! Normal
+10 "<*h~Bandera~>"		! PyJ Bandera
+12 "<b-6>"			! linea base -3
+13 "<*kn1>"			! permanecer con proxima
+14 "<*kn0>"			! no permanecer con proxima
+15 "<*p($,$,$,$,$,$,G,$)>"		! alinear a rejilla base
+16 "<*rb(.5,$,$,100,0,0,6)>"	! linea debajo de 0.5 pt
+17 "<*p($,$,$,14.5,7,$,g)>"	! espacio antes de 7 con interlinea 14.5
+18 "<*p($,$,$,13,0,4,g)>" 	! espacio despues de 4 con interlinea 13
+19 "<*rb(.5,$,$,100,0,0,4.5)>"	! linea debajo de 0.5 pt
+30 "<*p($,$,$,9.1,$,$,G,)>"		! alinear a rejilla base con l 9.1
+31 "<*p($,$,$,9.1,$,9.1,G,)>"		! alinear a rejilla base esp desp. 9.1
+32 "<*kt(1,2)>"				! juntar lineas 1,2 
+33 "<b-3>"			! linea base -3
+34 "<*p($,$,$,9.1,9.1,9.1,G,)>"		! alinear a rejilla base esp desp. 9.1
+35 "<*ra(12,$,$,100,0,0,0)>"	! linea encima de 0.5 pt
+36 "<b2>"			! linea base 2
+
+38 "<b0>"			! linea base 0
+39 "<b-3>"			! linea base -3
+40 "<*f~Zapf Dingbats~>l"	! Bolita de Zaph dinbats
+41 "<*f~Zapf Dingbats~>n"	! Cuadrado  Zaph dinbats
+42 "<c~Blanco~>"			! seteo letra Blanca
+43 "<c~Negro~>"			! seteo Negro
+
+50 "<*ra(12,0,~Negro~,100,0,96,-2.8346)*rb(1,0,~Negro~,100,0,0,-0.4819)>" !raya especial
+51 "<*ra0*rb0>"			! reset raya
+52 "<*p($,$,$,12,0,3,g)>	! espacio despues 3 pt.
+
+53 "<*ra(12,0,~Negro~,100,0,96,-2.8346)*rb0)>" !raya especial
+54 "<*ra(1,0,~Negro~,100,93.6,0,3.4016)*p($,$,$,2,$,$,g)z2>"    ! raya espcial fina
+55 "<z2>"			! cuerpo 2 pt.
+56 "<*ra(0.4,0,~Negro~,100,113.38,113.38,2.126)*rb(0.4,0,~Negro~,100,113.38,113.38,0)*p(0,0,0,2.126,0,0,g,~~)z2>"			! bigote de u112
+113.3858,113.3858,2.126)i
+
+20 "<*C*kn1*ra(2,0,~Negro~,100,0,0,2.2677)*rb0*p(0,0,0,1,6.8031,0,g,~~)Iz2f~HelveticaNeue-Black~>"		! cabeza 1 titulados
+21 "<*ra0*p(0,0,0,7.15,0,0,g,~~)z7>" ! cabeza 2 titulados 
+22 "<*rb(2,0,~Negro~,100,0,0,0.5669)*p(0,0,0,1,0,0,g,~~)z2>" ! pie 1 titulados
+23 "<*kn0*rb0*p(0,0,0,1,0,0,g,~~)z2>"	! pie 2 titulados
+24 "<*kt(20,10)>"				! corte de avisos largos
+99 "<\b>"		! salto caja
+
+! no hay mas estilos

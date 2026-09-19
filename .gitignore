@@ -30,4 +30,9 @@ salida-indesign/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Deja afuera 8 archivos de respaldo de 2005 que quedaron en `fonts/anchura/`
+# y `formatos/formatos_anteriores/` del motor. Se comprobó apartándolos y
+# volviendo a correr el banco: 534/534 igual. El motor abre cada archivo por
+# nombre exacto y esos no los abre nunca.
 *~

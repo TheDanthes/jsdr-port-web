@@ -1,0 +1,5 @@
+# El contexto de build del composer. `motor/` y `pruebas/` SÍ entran: son el
+# motor y su banco de pruebas, que corre adentro de la imagen.
+node_modules/
+dist/
+*.log

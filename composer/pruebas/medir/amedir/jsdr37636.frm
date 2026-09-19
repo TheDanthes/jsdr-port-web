@@ -1,0 +1,217 @@
+<m11.5><p9l9.75f76m11.6>ùahùxrEl¿
+juicio contra Agust°n L¢pez Ga-¿
+gliasso, responsable de la trage-¿
+dia en la costanera ocurrida en¿
+enero de 2025, entr¢ en su etapa¿
+decisiva y el martes se conocer†¿
+el veredicto. Desde este lunes,¿
+cuando comenz¢ el debate oral¿
+por la muerte de Tania Gandolfi¿
+y su hija Agustina Garc°a, el tri-¿
+bunal escuch¢ a sobrevivientes,¿
+testigos y funcionarios, adem†s¿
+de la versi¢n del propio acusado.Ã¿
+˛L¢pez Gagliasso, de 21 a§os,¿
+est† acusado de doble homicidio¿
+simple con dolo eventual y lesio-¿
+nes. La fiscal°a pidi¢ 18 a§os de¿
+prisi¢n y 10 a§os de inhabilita-¿
+ci¢n para conducir. La defensa,¿
+en cambio, sostiene que se trat¢¿
+de un homicidio culposo.Ã¿
+La tragedia en la costanera¿
+˛La hip¢tesis fiscal ubica el co-¿
+mienzo de la tragedia en un al-¿
+tercado entre L¢pez Gagliasso y¿
+un motociclista. Seg£n la acusa-¿
+ci¢n, el joven decidi¢ perseguir-¿
+lo por la avenida Illia y lo hizo a¿
+una velocidad que lleg¢ a los¿
+120,7 kil¢metros por hora.Ã¿
+"Fue de terror": declararon testi-¿
+gos y sobrevivientes de la trage-¿
+dia vial en la costanera ˛La se-¿
+cuencia termin¢ a la salida del¿
+t£nel Arturo Illia, en la zona de¿
+Presidente Roca, cuando el Peu-¿
+geot 206 perdi¢ el control, derra-¿
+p¢ y subi¢ a la vereda donde se¿
+encontraba la familia Garc°a.¿
+Tania Gandolfi, de 40 a§os, y su¿
+hija Agustina Garc°a, de 17, mu-¿
+rieron como consecuencia del¿
+impacto. Victoria, la hija menor,¿
+y su padre, Diego Garc°a, sobre-¿
+vivieron, aunque sufrieron le-¿
+siones. TambiÇn result¢ herida¿
+Giovanna Romero, quien viaja-¿
+ba como acompa§ante de L¢pez¿
+Gagliasso.Ã¿
+˛La fiscal°a sostiene que el¿
+conductor realiz¢ maniobras pa-¿
+ra perseguir al motociclista, en¿
+un sector urbano, de noche y con¿
+circulaci¢n de personas, y que¿
+pese al riesgo continu¢ aceleran-¿
+do. Para la fiscal Valeria Piazza¿
+Iglesias esa conducta permite¿
+encuadrar el caso como homici-¿
+dio simple con dolo eventual.Ã¿
+"R†pido y furioso" ˛Durante el¿
+juicio la fiscal Valeria Piazza¿
+Iglesias sostuvo que todo comen-¿
+z¢ cuando L¢pez Gagliasso dis-¿
+cuti¢ con un motociclista, deci-¿
+di¢ salir a perseguirlo a una velo-¿
+cidad superior a los 120 kil¢me-¿
+tros por hora. "R†pido y furiosoÔ¿
+fue la expresi¢n que utiliz¢ para¿
+resumir la conducta que atribu-¿
+ye al acusado.Ã¿
+˛Seg£n su planteo, el joven "se¿
+represent¢ el resultado, lo asu-¿
+mi¢ como posible y le fue indife-¿
+renteÔ. Es decir que al conducir¿
+de esa manera y en esas condi-¿
+ciones, acept¢ la posibilidad de¿
+provocar una muerte.Ã¿
+˛La reconstrucci¢n fiscal ubi-¿
+c¢ el momento decisivo a la sali-¿
+da del t£nel: L¢pez Gagliasso¿
+perdi¢ el control del Peugeot, de-¿
+rrap¢ y embisti¢ a la familia que¿
+se encontraba sobre la vereda.¿
+"Fue un hecho verdaderamente¿
+tr†gico por la magnitud del mis-¿
+moÔ, sostuvo la fiscal, quien con-¿
+sider¢ determinante la conducta¿
+del acusado.Ã¿
+"Me arruinaste la vidaÔ ˛El¿
+primer testimonio del juicio fue¿
+el de Diego Garc°a, esposo de Ta-¿
+nia y padre de Agustina. Su de-¿
+claraci¢n reconstruy¢ los segun-¿
+dos previos al impacto y tambiÇn¿
+el momento posterior, cuando¿
+descubri¢ que su mujer y su hija¿
+hab°an muerto.Ã¿
+˛Garc°a cont¢ que la familia¿
+hab°a llegado a Rosario desde¿
+C¢rdoba como turistas. Al finali-¿
+zar el d°a regresaban hacia el ho-¿
+tel cuando, al llegar a la zona de¿
+Illia y Presidente Roca, escuch¢¿
+el ruido de una moto y de un au-¿
+to. Seg£n su relato, el Peugeot¿
+persegu°a a la moto y lleg¢ a in-¿
+tentar tocarla para hacerla per-¿
+der estabilidad.Ã¿
+˛DespuÇs vio las luces del au-¿
+to, retrocedi¢ y levant¢ a su hija¿
+Victoria. El veh°culo se la sac¢¿
+de las manos y la arroj¢ contra¿
+otro auto. Garc°a corri¢ hacia¿
+ella y, en medio de la confusi¢n,¿
+todav°a no hab°a visto quÇ hab°a¿
+ocurrido con Tania y Agustina.Ã¿
+˛Garc°a cont¢ que, inmediata-¿
+mente despuÇs del choque, pudo¿
+acercarse a L¢pez Gagliasso y le¿
+reproch¢: "Me arruinaste la vi-¿
+daÔ. Seg£n su relato, el joven res-¿
+pondi¢: "Mir† c¢mo me qued¢ el¿
+autoÔ.Ã¿
+"Le dije que nos °bamos a matarÔ¿
+˛El testimonio de Giovanna¿
+Romero fue uno de los m†s fuer-¿
+tes de la primera jornada. Ella¿
+viajaba como acompa§ante de¿
+L¢pez Gagliasso y describi¢ des-¿
+de adentro la persecuci¢n que,¿
+seg£n su relato, comenz¢ des-¿
+puÇs del cruce con un motoci-¿
+clista.Ã¿
+˛La joven cont¢ que hab°an pa-¿
+sado el d°a en la isla junto a otros¿
+amigos y que regresaron a Rosa-¿
+rio cerca de las 20. DespuÇs de de-¿
+jar a los dem†s, qued¢ sola con¿
+L¢pez Gagliasso en el Peugeot.Ã¿
+˛Seg£n declar¢, en la zona del¿
+t£nel una moto pas¢ muy cerca¿
+del veh°culo. El conductor se¿
+enoj¢, comenz¢ a insultar al mo-¿
+tociclista y aceler¢ para seguir-¿
+lo. Giovanna asegur¢ que inten-¿
+t¢ detenerlo: le pidi¢ que dejara¿
+la pelea y que no acelerara. La jo-¿
+ven habl¢ de maniobras zigza-¿
+gueantes y de una persecuci¢n¿
+sostenida. Dijo que grit¢ y le pi-¿
+di¢ que parara porque se iban a¿
+matar.Ã¿
+Las c†maras ˛El segundo d°a¿
+del juicio tuvo como protagonis-¿
+tas a funcionarios de la Munici-¿
+palidad de Rosario, entre ellos el¿
+secretario de Gobierno munici-¿
+pal, Sebasti†n Chale. Su declara-¿
+ci¢n estuvo vinculada principal-¿
+mente con la evidencia que apor-¿
+t¢ el municipio: c†maras de se-¿
+guridad, registros de velocidad,¿
+sensores de fotomultas y el reco-¿
+rrido del veh°culo.Ã¿
+˛Chale explic¢ que el sistema¿
+municipal permiti¢ reconstruir¿
+el recorrido del Peugeot dentro¿
+de Rosario. Seg£n esos registros,¿
+el auto hab°a comenzado su tra-¿
+yecto en la zona sur, atraves¢¿
+distintos sectores de la ciudad y¿
+recorri¢ la costanera antes de in-¿
+gresar al t£nel Illia.Ã¿
+˛El veh°culo circulaba a unos¿
+120 kil¢metros por hora cuando¿
+sali¢ del t£nel. En ese sector, ex-¿
+plic¢ Chale, la m†xima permiti-¿
+da es de 60 kil¢metros por hora y¿
+no se trata de una zona donde ha-¿
+bitualmente se registren veloci-¿
+dades semejantes. El funciona-¿
+rio tambiÇn aport¢ informaci¢n¿
+sobre el historial de infracciones¿
+del veh°culo. Seg£n detall¢, L¢-¿
+pez Gagliasso ten°a anteceden-¿
+tes por exceso de velocidad y por¿
+haber cruzado tres sem†foros en¿
+rojo.Ã¿
+La versi¢n del acusado ˛El jue-¿
+ves Agust°n L¢pez Gagliasso de-¿
+clar¢ por Zoom desde el lugar¿
+donde permanece detenido y por¿
+primera vez dio su propia ver-¿
+si¢n de aquella noche. El joven¿
+reconoci¢ que aceler¢ para al-¿
+canzar a la moto, aunque explic¢¿
+que lo hizo porque quer°a insul-¿
+tar al motociclista y que, en ese¿
+momento, cre°a que ten°a el con-¿
+trol del veh°culo.Ã¿
+˛"Cuando acelerÇ pensÇ que¿
+no iba a pasar nada y que ten°a el¿
+control del veh°culoÔ, sostuvo.¿
+Seg£n su relato, ingres¢ al t£nel¿
+y consider¢ que pod°a acelerar¿
+porque no hab°a autos ni peato-¿
+nes en ese tramo. Pero al salir, en¿
+una curva, perdi¢ el control. In-¿
+tent¢ corregir la trayectoria,¿
+aunque el auto derrap¢ y termi-¿
+n¢ sobre la vereda.Ã¿
+˛L¢pez Gagliasso tambiÇn pi-¿
+di¢ perd¢n a la familia de las v°c-¿
+timas. "Quiero pedir perd¢n a la¿
+familia de coraz¢nÔ, dijo, y agre-¿
+g¢: "Voy a cargar el resto de mi¿
+vida con estoÔ.Ã¿

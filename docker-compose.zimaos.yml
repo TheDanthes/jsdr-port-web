@@ -70,12 +70,20 @@ services:
   #  La aplicación — API y web, en el mismo puerto
   # --------------------------------------------------------------------------
   api:
-    # Paquete público: se baja sin `docker login`.
-    # Para usar una imagen construida en el propio ZimaOS:  image: jsdr-api:local
+    # Paquete PRIVADO: para bajarlo hace falta `docker login ghcr.io` con un
+    # token que tenga `read:packages`. La imagen ya descargada sigue andando;
+    # esto sólo afecta a un `docker pull` nuevo o a una instalación desde cero.
+    # Alternativa sin token: bajar el archivo `jsdr-api-imagen` de la pestaña
+    # Actions y cargarlo con `docker load` (queda como `jsdr-api:local`, que es
+    # lo que espera docker-compose.zimaos-local.yml).
     image: ghcr.io/thedanthes/jsdr-api:latest
     container_name: jsdr-api
     environment:
-      DATABASE_URL: postgresql://jsdr:jsdr_dev@db:5432/jsdr_copia
+      # NO se usa el nombre de servicio `db`: Container Manager no resuelve
+      # nombres de servicio entre contenedores (mismo motivo por el que el
+      # restaurador nunca pudo conectarse). Se va por la IP del equipo y el
+      # puerto que `db` publica, 55432, que no depende del DNS de Docker.
+      DATABASE_URL: postgresql://jsdr:jsdr_dev@192.168.3.100:55432/jsdr_copia
       API_PORT: 3099
       LOG_LEVEL: info
       TZ: America/Argentina/Buenos_Aires

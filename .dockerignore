@@ -18,6 +18,11 @@ node_modules/
 dist/
 */dist/
 
+# El composer tiene su propia imagen (composer/Dockerfile) y su propio
+# contexto. Los 10 MB del motor y su banco de pruebas no tienen nada que hacer
+# en la imagen de la API.
+composer/
+
 # Ruido
 *.log
 .env

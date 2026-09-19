@@ -1,0 +1,173 @@
+<p9l9.75f76m11.6>ùahùxr<m11.5>Dos¿
+dÇcadas despuÇs de que las auto-¿
+ridades de Estados Unidos ence-¿
+rraran a Khalid Sheikh Moham-¿
+med en un centro de detenci¢n¿
+militar en Cuba, el presunto au-¿
+tor intelectual de los atentados¿
+del 11 de septiembre no parece¿
+estar mucho m†s cerca de ser lle-¿
+vado a juicio que el d°a en que¿
+lleg¢.Ã¿
+˛Un juez estableci¢ reciente-¿
+mente 2028 como la fecha en que¿
+Mohammed ser† juzgado por fin¿
+ante un tribunal militar, pero al-¿
+gunos abogados pronostican¿
+que eso nunca ocurrir†, ni ese¿
+a§o ni ning£n otro. Sostienen¿
+que el laberinto de cuestiones le-¿
+gales que surgi¢ porque Moham-¿
+med fue torturado tras su captu-¿
+ra en Pakist†n en 2003 es dema-¿
+siado enrevesado como para que¿
+alguna vez pueda desenredarse.Ã¿
+˛Una fugaz iniciativa para juz-¿
+garlo en un tribunal civil en la¿
+ciudad de Nueva York fue aca-¿
+llada hace a§os por preocupacio-¿
+nes de seguridad.Ã¿
+˛Un acuerdo de culpabilidad¿
+que habr°a mantenido a Moham-¿
+med encarcelado de por vida, pe-¿
+ro lo habr°a librado de una posi-¿
+ble ejecuci¢n, empez¢ a desmo-¿
+ronarse poco despuÇs de su¿
+anuncio en 2024 y, finalmente, se¿
+descart¢ de forma definitiva el¿
+a§o pasado. "Todo est† contami-¿
+nado por la pol°tica y la falta de¿
+rendici¢n de cuentas por la tor-¿
+turaÔ, afirm¢ Joshua Dratel, un¿
+abogado que ayud¢ a garantizar¿
+que Mohammed tenga una re-¿
+presentaci¢n legal adecuada.Ã¿
+˛A finales de agosto, el juez¿
+militar de Estados Unidos que fi-¿
+j¢ el 5 de junio de 2028 como la fe-¿
+cha de juicio para Mohammed y¿
+otros tres acusados por los aten-¿
+tados del 11 de septiembre dicta-¿
+min¢ que los fiscales no pod°an¿
+usar una supuesta confesi¢n¿
+que hizo al FBI en 2007. Esas de-¿
+claraciones se consideraron¿
+contaminadas porque Moham-¿
+med fue sometido en el extranje-¿
+ro a "tÇcnicas de interrogatorio¿
+reforzadasÔ, como la tÇcnica de¿
+ahogamiento simulado conoci-¿
+da como waterboarding.Ã¿
+˛Aunque el fallo fue un golpe¿
+para la fiscal°a, el gobierno de¿
+Estados Unidos decidi¢ no ape-¿
+lar, en parte porque hacerlo po-¿
+dr°a haber retrasado a£n m†s un¿
+posible juicio.Ã¿
+˛Mientras tanto, Mohammed¿
+sigue encarcelado en la bah°a de¿
+Guant†namo, adonde fue trasla-¿
+dado el 5 de septiembre de 2006,¿
+tras pasar m†s de tres a§os en¿
+prisiones secretas en otros pa°-¿
+ses.Ã¿
+Ã¿
+<p10l9.75f114m11.6>ùahùxrA£n esperan un juicioÃ¿
+<p9f76>Ã¿
+Terry Strada, cuyo esposo, Tom,¿
+muri¢ en el World Trade Center¿
+el 11 de septiembre, dijo que ella¿
+y otras personas que perdieron a¿
+familiares a£n esperan que al-¿
+g£n d°a se celebre un juicio. "De¿
+verdad queremos ver que esto¿
+llegue a su fin en alg£n momen-¿
+to. Queremos ver que se haga¿
+justicia. Es igual de importante¿
+que hace 25 a§osÔ, manifest¢.Ã¿
+˛Pero Strada, presidenta na-¿
+cional del grupo 9/11 Families¿
+United, tambiÇn se§al¢ que pre-¿
+ferir°a que Mohammed se pudra¿
+en la bah°a de Guant†namo inde-¿
+finidamente antes que respaldar¿
+una resoluci¢n que implicara¿
+eliminar la pena de muerte como¿
+posibilidad. Strada dijo que le¿
+preocupa que, si Mohammed no¿
+es ejecutado, futuros l°deres de¿
+Estados Unidos puedan sentirse¿
+tentados alg£n d°a a canjearlo¿
+por estadounidenses retenidos¿
+como prisioneros en otras partes¿
+del mundo. La pena de muerte,¿
+expres¢, "se ajusta al crimen y¿
+evitar°a que eso ocurriera algu-¿
+na vez. Y eso es importante para¿
+m°Ô.Ã¿
+˛En 2009, pareci¢ durante un¿
+tiempo que Mohammed viajar°a¿
+a Nueva York despuÇs de que el¿
+entonces fiscal general Eric Hol-¿
+der anunciara planes para juz-¿
+garlo a Çl y a otros cuatro hom-¿
+bres acusados por los atentados¿
+del 11 de septiembre en un tribu-¿
+nal de Manhattan, a s¢lo unas¿
+cuadras del lugar donde estaba¿
+el World Trade Center.Ã¿
+˛El entonces presidente Ba-¿
+rack Obama, quien hab°a prome-¿
+tido cerrar el centro de deten-¿
+ci¢n de Guant†namo, dijo que¿
+Mohammed enfrentar°a "las exi-¿
+gencias m†s rigurosas de la Jus-¿
+ticiaÔ.Ã¿
+˛Casi de inmediato surgi¢ la¿
+oposici¢n. Algunos cr°ticos pro-¿
+nosticaron que Mohammed usa-¿
+r°a el juicio como plataforma pa-¿
+ra difundir opiniones de odio so-¿
+bre Estados Unidos y sus alia-¿
+dos. Otros citaron preocupacio-¿
+nes de seguridad, al afirmar que¿
+podr°a convertir de nuevo a Nue-¿
+va York en un objetivo terroris-¿
+ta. El exalcalde republicano de la¿
+ciudad de Nueva York, Rudy¿
+Giuliani, calific¢ el plan de im-¿
+prudente y dijo que mostraba¿
+"una falta de preocupaci¢n por¿
+los derechos del p£blicoÔ.Ã¿
+˛"En muchos sentidos fue una¿
+farsaÔ, coment¢ el abogado Jo-¿
+suÇ Dratel. El sistema de tribu-¿
+nales militares, a§adi¢, demos-¿
+tr¢ ser una soluci¢n peor, inca-¿
+paz de funcionar con eficiencia,¿
+sin una estructura adecuada y¿
+sin apego a los tribunales federa-¿
+les. "Cada vez que se llega a un¿
+punto muerto, nadie sabe quÇ¿
+hacerÔ, indic¢.Ã¿
+˛David Raskin, un abogado de¿
+Washington que ahora ejerce en¿
+el sector privado y que habr°a en-¿
+cabezado la acusaci¢n del go-¿
+bierno contra Mohammed en¿
+Nueva York si no se hubiera de-¿
+sechado, escribi¢ en un ensayo,¿
+publicado el miÇrcoles en The¿
+Washington Post, que est† con-¿
+vencido de que un juicio civil ha-¿
+br°a terminado con una conde-¿
+na. Las comisiones militares, en¿
+cambio, "se convirtieron en el¿
+sue§o de un abogado defensorÔ,¿
+acosadas por "litigios intermina-¿
+bles sobre su legalidad y sus pro-¿
+cedimientosÔ. "Pronostico que¿
+nunca se completar† un juicio¿
+ante una comisi¢n militar para¿
+Mohammed y los otros acusados¿
+del 11 de septiembreÔ, concluy¢.Ã¿

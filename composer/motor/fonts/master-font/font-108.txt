@@ -1,0 +1,257 @@
+### Fuente: Gotham Medium	Estilo: Regular
+00	0	#comandos de control
+01	0	#comandos de control
+02	0	#comandos de control
+03	0	#comandos de control
+04	0	#comandos de control
+05	0	#comandos de control
+06	0	#comandos de control
+07	0	#comandos de control
+08	0	#comandos de control
+09	0	#comandos de control
+0a	0	#comandos de control
+0b	0	#comandos de control
+0c	0	#comandos de control
+0d	0	#comandos de control
+0e	0	#comandos de control
+0f	0	#comandos de control
+10	0	#comandos de control
+11	0	#comandos de control
+12	0	#comandos de control
+13	0	#comandos de control
+14	0	#comandos de control
+15	0	#comandos de control
+16	0	#comandos de control
+17	0	#comandos de control
+18	0	#comandos de control
+19	0	#comandos de control
+1a	0	#comandos de control
+1b	0	#comandos de control
+1c	0	#comandos de control
+1d	0	#comandos de control
+1e	0	#comandos de control
+1f	0	#comandos de control
+20	0	#comandos de control
+21	16	#!
+22	27	#“abrir doble comilla
+23	38	##
+24	35	#$
+25	46	#%
+26	38	#&
+27	15	#’apostrofe
+28	24	#(
+29	24	#)
+2a	23	#*
+2b	35	#+
+2c	15	#,
+2d	22	#-
+2e	15	#.
+2f	28	#/
+30	39	#0
+31	21	#1
+32	33	#2
+33	33	#3
+34	37	#4
+35	34	#5
+36	35	#6
+37	33	#7
+38	34	#8
+39	35	#9
+3a	15	#:
+3b	15	#;
+3c	0	#abrir parentesis de ordenes
+3d	35	#=
+3e	0	#cerrar parentesis de ordenes
+3f	29	#?
+40	53	#@
+41	43	#A
+42	39	#B
+43	40	#C
+44	42	#D
+45	36	#E
+46	35	#F
+47	42	#G
+48	41	#H
+49	17	#I
+4a	30	#J
+4b	39	#K
+4c	33	#L
+4d	47	#M
+4e	43	#N
+4f	46	#O
+50	36	#P
+51	46	#Q
+52	39	#R
+53	35	#S
+54	35	#T
+55	41	#U
+56	41	#V
+57	60	#W
+58	39	#X
+59	39	#Y
+5a	38	#Z
+5b	25	#[
+5c	28	#\
+5d	25	#]
+5e	27	#^
+5f	48	#—raya cuadratin
+60	27	#`
+61	32	#a
+62	36	#b
+63	31	#c
+64	36	#d
+65	33	#e
+66	20	#f
+67	36	#g
+68	33	#h
+69	15	#i
+6a	15	#j
+6b	31	#k
+6c	15	#l
+6d	51	#m
+6e	33	#n
+6f	35	#o
+70	36	#p
+71	36	#q
+72	22	#r
+73	27	#s
+74	22	#t
+75	33	#u
+76	32	#v
+77	46	#w
+78	31	#x
+79	32	#y
+7a	30	#z
+7b	26	#{
+7c	18	#|
+7d	26	#}
+7e	27	#~
+7f	27	#
+80	40	#C mayuscula con cedilla
+81	33	#u dieresis
+82	33	#e acentuada
+83	32	#a carat
+84	32	#a dieresis
+85	32	#a acento frances
+86	32	#a bolita
+87	31	#c cedilla
+88	33	#e carat
+89	33	#e dieresis
+8a	33	#e acento frances
+8b	15	#i dieresis
+8c	15	#i carat
+8d	15	#i acento frances
+8e	43	#A dieresis
+8f	43	#A bolita
+90	36	#E acentuada
+91	51	#union ae
+92	56	#union AE
+93	35	#o carat
+94	35	#o dieresis
+95	35	#o acento frances
+96	33	#u carat
+97	33	#u acento frances
+98	32	#y dieresis
+99	46	#O dieresis
+9a	41	#U dieresis
+9b	31	#simbolo centavos
+9c	35	#simbolo Libra
+9d	0	#Bell
+9e	0	#union Pt
+9f	28	#simbolo funcion
+a0	32	#a acentuada
+a1	15	#i acentuada
+a2	35	#o acentuada
+a3	33	#u acentuada
+a4	33	#enie minuscula
+a5	43	#enie mayuscula
+a6	21	#a volada
+a7	21	#o volada
+a8	29	#abrir ?
+a9	0	#
+aa	0	#
+ab	27	#simbolo un medio
+ac	27	#simbolo un cuarto
+ad	16	#abrir !
+ae	33	#abrir comillas francesas
+af	33	#cerrar comillas francesas
+b0	30	#medio cuadratin
+b1	0	#
+b2	0	#
+b3	0	#
+b4	0	#
+b5	0	#
+b6	0	#
+b7	0	#
+b8	0	#
+b9	0	#
+ba	0	#
+bb	0	#
+bc	0	#
+bd	0	#
+be	0	#
+bf	0	#
+c0	0	#
+c1	0	#
+c2	0	#
+c3	0	#
+c4	0	#
+c5	22	#cruz de malta
+c6	0	#
+c7	0	#
+c8	0	#
+c9	0	#
+ca	0	#
+cb	0	#
+cc	0	#
+cd	0	#
+ce	0	#
+cf	0	#
+d0	0	#
+d1	0	#
+d2	0	#
+d3	0	#
+d4	0	#
+d5	0	#
+d6	0	#
+d7	0	#
+d8	0	#
+d9	0	#
+da	0	#
+db	0	#
+dc	0	#
+dd	0	#
+de	0	#
+df	0	#
+e0	0	#
+e1	0	#
+e2	0	#
+e3	15	#espacio fino
+e4	0	#
+e5	0	#
+e6	0	#
+e7	0	#
+e8	0	#
+e9	0	#
+ea	0	#
+eb	0	#
+ec	0	#
+ed	46	#simbolo diametro
+ee	27	#tres cuartos
+ef	27	#cerrar doble comilla
+f0	30	#en space
+f1	33	#simbolo + -
+f2	27	#simbolo >=
+f3	27	#simbolo <=
+f4	27	#simbolo gancho
+f5	27	#simbolo gancho
+f6	27	#simbolo dividido
+f7	56	#simbolo aproximadamente igual
+f8	25	#simbolo redondel volado
+f9	27	#simbolo punto volado
+fa	0	#simbolo cuadrado volado
+fb	56	#simbolo raiz
+fc	0	#n volada
+fd	27	#simbolo 2 volado
+fe	54	#EM space
+ff	0	#

@@ -1,0 +1,4 @@
+awk -f pasa.awk font$1.nue > font-0$1.med
+mv font-0$1.med /usr/sdr/fonts
+fonmaker 0$1
+echo "lista font $1"

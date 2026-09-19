@@ -1,0 +1,39 @@
+{
+  "_comentario": [
+    "Mapa código de sección -> carpeta de salida para InDesign.",
+    "",
+    "Reemplaza el bloque SWITCH hardcodeado de mac.pl, que obligaba a editar",
+    "código Perl en el servidor para dar de alta una sección. Los valores son",
+    "exactamente los que tenía mac.pl al 2008-04-30, sin agregados ni cambios.",
+    "",
+    "Una sección que no figure acá cae en 'secretaria', igual que el default",
+    "del original. El caso 'si' -> 'SE' del original también se respeta: viene",
+    "de la cola CUPS, que mandaba 'si' cuando no había código.",
+    "",
+    "Las carpetas se crean solas si no existen."
+  ],
+  "default": "secretaria",
+  "alias": { "si": "SE" },
+  "mapa": {
+    "IG": "ciudad",
+    "CI": "escenario",
+    "DE": "deportes",
+    "EC": "economia",
+    "EP": "educacion",
+    "LI": "seniales",
+    "EX": "mundo",
+    "HI": "hipica",
+    "PA": "infgeneral",
+    "LR": "region",
+    "PO": "policiales",
+    "PL": "politica",
+    "SE": "secretaria",
+    "CL": "secretaria",
+    "FU": "fundacion",
+    "PE": "suplementos",
+    "TU": "suplementos",
+    "SA": "suplementos",
+    "MU": "suplementos",
+    "ES": "suplementos"
+  }
+}

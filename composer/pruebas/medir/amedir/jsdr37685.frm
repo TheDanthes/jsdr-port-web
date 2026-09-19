@@ -1,0 +1,255 @@
+<m11.5><p9l9.75f76m11.6>ùahùxrTres¿
+hermanas muy distintas entre s°¿
+se encuentran ante un desaf°o en¿
+com£n: una madre con Alzhei-¿
+mer. Esa premisa tan reconoci-¿
+ble es el coraz¢n de "Las hijasÔ,¿
+la comedia escrita por la rosari-¿
+na Ariadna Asturzzi que marc¢¿
+el debut de Adri†n Suar en la di-¿
+recci¢n teatral y que, desde su¿
+estreno hace un a§o, se convirti¢¿
+en furor de la cartelera porte§a.¿
+Protagonizada por Pilar Gam-¿
+boa, Soledad Villamil y Floren-¿
+cia Pe§a, se podr† ver en el Tea-¿
+tro Astengo (Mitre 754) de Rosa-¿
+rio el 17, 18 y 19 de septiembre, en¿
+el marco de una extensa gira por¿
+Argentina y Uruguay.Ã¿
+˛En la ficci¢n, las hijas son¿
+InÇs, "una tarotista de renombre¿
+con una capacidad inexplicable¿
+para leer el futuroÔ (Villamil),¿
+Mar°a JosÇ, "una psiquiatra fo-¿
+rense que conoce todas las pato-¿
+log°as posibles pero no sabe c¢-¿
+mo lidiar con su madreÔ (Pe§a,¿
+quien reemplaz¢ a Julieta D°az¿
+en abril), y Roberta, "un intento¿
+de artista pl†stica con m£ltiples¿
+carreras incompletas y un em-¿
+prendimiento de catering que¿
+parece m†s un acto de fe que un¿
+negocioÔ (Gamboa).Ã¿
+˛A lo largo de una noche, las¿
+tres hermanas descubrir†n que¿
+"cada una tiene la madre que re-¿
+cuerdaÔ. De ese modo, la obra in-¿
+daga con sensibilidad y humor¿
+en temas universales como los¿
+v°nculos familiares, el amor y la¿
+memoria, a partir de ese hito vi-¿
+tal que es dejar de ser hijo para¿
+cuidar a los padres.Ã¿
+˛Antes de la visita de "Las hi-¿
+jasÔ a Rosario, L<p6.5>A<p9.0>C<p6.5>APITAL<p9.0> dialo-¿
+g¢ con Gamboa, una de las actri-¿
+ces argentinas m†s destacadas¿
+de su generaci¢n, que hace m†s¿
+de veinte a§os apuesta al teatro¿
+independiente y colectivo a tra-¿
+vÇs de su participaci¢n en grupa-¿
+lidades como Piel de Lava (junto¿
+a Elisa Carricajo, Valeria Correa¿
+y Laura Paredes) y Compa§°a El¿
+Silencio (con Romina Paula, Su-¿
+sana Pamp°n, Esteban Bigliardi¿
+y Esteban Lamothe).Ã¿
+˛Mientras hace su primera in-¿
+cursi¢n en el teatro comercial¿
+con la pieza dirigida por Suar,¿
+Gamboa se afianza como estrella¿
+popular a travÇs de sus implaca-¿
+bles y memorables interpreta-¿
+ciones en producciones como¿
+"EnvidiosaÔ o "Viudas negrasÔ.Ã¿
+˛_®C¢mo viv°s el presente de¿
+la obra, de cara a esta inminente¿
+gira, despuÇs de un a§o de tem-¿
+porada en Buenos Aires con¿
+gran respuesta del p£blico?Ã¿
+˛_Estoy muy contenta, pero¿
+porque siempre me gusta llevar¿
+la obra a otros lados, a otros p£-¿
+blicos. Eso me genera mucha ex-¿
+pectativa de la buena. Es cierto¿
+que Buenos Aires se convirti¢ en¿
+un lugar a donde la gente del in-¿
+terior viene a ver teatro. Vino¿
+mucha gente as° a ver la obra, so-¿
+bre todo porque estuvimos un¿
+a§o haciendo funciones con mu-¿
+cha posibilidad de verla. Es una¿
+obra que te hace re°r, te conmue-¿
+ve.Ã¿
+˛_Adem†s de la evidente¿
+oportunidad laboral, ®quÇ hubo¿
+en la propuesta que te convoc¢?Ã¿
+˛_Me llam¢ Adri†n y me dijo¿
+que hab°a pensado en m° para la¿
+hermana menor, y siempre que¿
+Adri†n piensa en m° para algo lo¿
+escucho mucho porque seguro¿
+hay algo ah° que me interesa pa-¿
+ra actuar. Me interesaba tam-¿
+biÇn que era la primera obra que¿
+dirig°a Çl y que estaba escrita por¿
+una dramaturga argentina con-¿
+tempor†nea, que no es com£n en¿
+el teatro comercial, donde en ge-¿
+neral son propuestas m†s enla-¿
+tadas. Me parece muy bueno que¿
+el teatro comercial incluya dra-¿
+maturgas argentinas, porque¿
+hay un mont¢n y muy talento-¿
+sas, y Ariadna es una de ellas. Me¿
+interes¢ que era una obra en la¿
+que hab°a que actuar y poner to-¿
+da la carne al asador, que es lo¿
+que a m° m†s me gusta hacer. Es¿
+re anal¢gica, no hay grandes ar-¿
+tificios y cuando eso sucede en el¿
+teatro, me fascina. Me interesa-¿
+ba el tema y ese momento de la¿
+vida en donde se intercambian¿
+los roles y uno tiene que empezar¿
+a cuidar a sus padres, que me to-¿
+ca de cerca porque tengo un pa-¿
+dre grande. Uno cree que est†¿
+preparado para esos momentos y¿
+cuando te llegan siempre es dif°-¿
+cil, sobre todo con el v°nculo con¿
+hermanas o hermanos, tener¿
+que ponerse de acuerdo, enten-¿
+der cu†l es el v°nculo que cada¿
+una tuvo con esa madre.Ã¿
+Nunca hab°a hecho teatro co-¿
+mercial, todo lo que me hab°an¿
+ofrecido no me parec°a riesgoso¿
+o interesante, y ac† dije que s°¿
+me dio al toque porque el combo¿
+me cerraba por todos lados.Ã¿
+˛_®C¢mo fue la experiencia¿
+de encarar ese proceso con las¿
+otras actrices? ®Ya hab°an traba-¿
+jado juntas?Ã¿
+˛_No las conoc°a y la verdad¿
+que fue muy grata la experien-¿
+cia. Los ensayos siempre son¿
+muy intensos, se ensaya muchas¿
+horas por d°as pero en poco tiem-¿
+po de agenda. Entonces con Sole¿
+y con Juli en su momento empe-¿
+zamos a juntarnos antes porque¿
+todas pod°amos. Yo, que soy fa-¿
+n†tica del teatro, tambiÇn quer°a¿
+que nos conozcamos un poco,¿
+que no construyamos directo del¿
+escenario, ver si pod°amos ar-¿
+mar un poco de bagaje antes y¿
+eso re funcion¢. En un momento¿
+Juli tuvo una hernia de disco y se¿
+tuvo que ir del proyecto, y entr¢¿
+Flor. Y estuvo re bueno tambiÇn.¿
+Ella se mand¢ un piletazo total y¿
+nosotras ten°amos que construir¿
+de nuevo ese v°nculo, pero ahora¿
+s° ya casi arriba del escenario. Y¿
+aparecieron cosas nuevas de la¿
+obra generadas por ella y por esa¿
+nueva grupalidad que se genera.¿
+La obra est† en un momento¿
+muy bueno, muy arriba.Ã¿
+˛_Por lo que cont†s, llevaste¿
+las pr†cticas del teatro colectivo¿
+a esta propuesta tambiÇn.Ã¿
+˛_La verdad que s°, porque no¿
+concibo la vida de otra manera,¿
+me cuesta un mont¢n. Esa es mi¿
+manera de ver el teatro y casi¿
+que de ver el mundo. Al toque en-¿
+tramos en una colectiva, sigue¿
+pasando ahora, que terminan las¿
+funciones y nos decimos cosas¿
+entre nosotras.Ã¿
+˛_®Sent°s que hay un v°nculo¿
+virtuoso entre "Las hijasÔ, las¿
+obras que tenÇs en cartel con tus¿
+grupos y tus incursiones en pla-¿
+taformas?Ã¿
+˛S°, hay un c°rculo virtuoso,¿
+sobre todo el del malabar de la¿
+agenda. Pero despuÇs tambiÇn¿
+hay algo muy constitutivo m°o,¿
+que es que yo soy una actriz que¿
+puedo tocar las teclas m†s co-¿
+merciales o populares gracias a¿
+que mi escuela de formaci¢n fue-¿
+ron mis dos grupos, Compa§°a¿
+Silencio y Piel de Lava. Esa sigue¿
+siendo mi escuela emocional,¿
+esos dos grupos que tengo hace¿
+20 a§os y con los que sigo hacien-¿
+do funciones, de "El tiempo todo¿
+enteroÔ con Lamothe, Bigliardi,¿
+Pamp°n y Romi Paula, y de "Par-¿
+lamentoÔ con las Piel de Lava.Ã¿
+˛_Hace poco hablaste de esa¿
+idea de que est†n todos los tea-¿
+tros llenos, y de que en realidad¿
+no es tan as°.Ã¿
+˛_Creo que es un gran mo-¿
+mento del teatro. En las Çpocas¿
+de crisis como la que estamos¿
+atravesando, no hay mucha m†s¿
+salida que hacer teatro, sobre to-¿
+do con la desesperaci¢n de ac-¿
+tuar. Porque no es s¢lo quedarte¿
+sin trabajo, es quedarte sin la lla-¿
+ma que te enciende. Siento que¿
+hay un vuelco enorme al teatro y¿
+eso es re festejable, si vas cami-¿
+nando por Corrientes no podÇs¿
+creer la cantidad de ofertas tea-¿
+trales que hay. Pero s° creo que el¿
+p£blico hace malabares y que¿
+tiene que elegir quÇ obras ver¿
+porque no es una Çpoca de vacas¿
+gordas. Hay mucha financiaci¢n¿
+de la entrada, la gente tiene que¿
+manejar su econom°a con inteli-¿
+gencia y entonces est†n los tan-¿
+ques que la gente va a ir porque¿
+son artistas que quieren, y des-¿
+puÇs hay una cantidad enorme¿
+de personas que la est†n reman-¿
+do bastante m†s. No es que est†n¿
+llenos todos los teatros.Ã¿
+˛_TambiÇn hablaste de c¢mo¿
+en las Çpocas de crisis emergen¿
+experiencias colectivas y art°sti-¿
+cas potentes, como despuÇs de¿
+2001 con las Piel de Lava. ®TenÇs¿
+la esperanza de que estÇ pasando¿
+algo similar en este momento?Ã¿
+˛Estoy segura de que est† pa-¿
+sando lo mismo. El esp°ritu art°s-¿
+tico argentino es muy dif°cil de¿
+derribar. Y sobre todo en el tea-¿
+tro, donde no hay nada, no hay¿
+inteligencia artificial que le pue-¿
+da ganar. Es como ver una banda¿
+en vivo. Ah° no est† el artificio,¿
+est†n los humanos juntos en el¿
+tiempo generando poes°a o lo¿
+que sea. Cuando voy a ver obras¿
+de nuevas generaciones, porque¿
+ya estoy grande y no lo puedo¿
+creer, veo que est† pasando algo¿
+alucinante. En los momentos¿
+m†s de crisis y m†s devastadores¿
+en todos los sentidos espiritua-¿
+les, la posibilidad de estar con¿
+otros en un lugar pensando y ac-¿
+tivando es una responsabilidad.Ã¿

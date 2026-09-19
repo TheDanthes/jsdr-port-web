@@ -1,0 +1,235 @@
+<m11.5><p9l9.75f76m11.6>ùahùxrEl¿
+miÇrcoles 10 de septiembre de¿
+2025 se vot¢ el texto definitivo de¿
+la nueva Constituci¢n de Santa¿
+Fe. Todas las modificaciones es-¿
+taban acordadas, por lo que no¿
+hubo demasiado debate, a dife-¿
+rencia de lo ocurrido en las jor-¿
+nadas anteriores de la Conven-¿
+ci¢n Reformadora. Ese d°a, pasa-¿
+das las 19, la actividad finaliz¢¿
+con una flamante Carta Magna¿
+que marcar°a el trabajo de la Le-¿
+gislatura santafesina en los dos¿
+a§os siguientes.Ã¿
+˛Ya pas¢ un a§o y, desde en-¿
+tonces, se prioriz¢ lo "urgenteÔ:¿
+las leyes de municipios, la del¿
+proceso Contencioso Adminis-¿
+trativo y la reforma electoral.Ã¿
+˛A£n restan cuestiones im-¿
+portantes, como las leyes de co-¿
+participaci¢n y educaci¢n, la¿
+efectivizaci¢n de las modifica-¿
+ciones en el Consejo de la Magis-¿
+tratura o la reglamentaci¢n de¿
+los mecanismos de participa-¿
+ci¢n.Ã¿
+˛En funci¢n de la nueva Cons-¿
+tituci¢n, el per°odo ordinario de¿
+la Legislatura comenz¢ antes. El¿
+gobernador Maximiliano Pulla-¿
+ro encabez¢ la Asamblea Legis-¿
+lativa por primera vez un 15 de¿
+febrero, poniendo en marcha un¿
+a§o legislativo que finalizar† el¿
+30 de noviembre pr¢ximo.Ã¿
+˛En esta primera etapa, Uni-¿
+dos logr¢ cumplir el objetivo de¿
+mantener los grandes acuerdos¿
+_al igual que en la Convenci¢n¿
+Reformadora_, aunque no sin¿
+arduas discusiones previas: hu-¿
+bo debate en comisiones, en al-¿
+gunos casos varios proyectos del¿
+frente oficialista y modificacio-¿
+nes propuestas por la oposici¢n.Ã¿
+˛As° se fueron aprobando las¿
+leyes m†s importantes, con vo-¿
+tos por unanimidad en general.¿
+Hay muchas cl†usulas que mo-¿
+difican el funcionamiento de los¿
+poderes del Estado, pero son ope-¿
+rativas: algunas exigen obligato-¿
+riamente una norma y otras po-¿
+dr°an ordenarse mejor con una¿
+ley, aunque no es imprescindi-¿
+ble.Ã¿
+˛Tras la reforma, una de las¿
+discusiones p£blicas clave gir¢¿
+en torno al Poder Judicial y a la¿
+edad de retiro de los miembros¿
+de la Corte Suprema. De concre-¿
+tarse en noviembre las salidas de¿
+Rafael GutiÇrrez y Roberto Falis-¿
+tocco, la conformaci¢n del alto¿
+tribunal se adecuar°a a la nueva¿
+Constituci¢n.Ã¿
+˛En lo legislativo, durante es-¿
+te primer a§o prim¢ lo urgente y¿
+quedaron fuera discusiones cen-¿
+trales como la ley de coparticipa-¿
+ci¢n (cu†les son los recursos de¿
+los municipios, c¢mo pueden re-¿
+caudar y c¢mo se distribuir† lo¿
+que env°e la provincia), la con-¿
+formaci¢n del Consejo de la Ma-¿
+gistratura y la ley de educaci¢n.Ã¿
+˛La nueva Constituci¢n habi-¿
+lit¢ aspectos como las acciones¿
+positivas o los mecanismos de¿
+participaci¢n ciudadana: dere-¿
+chos existentes cuya aplicaci¢n¿
+a£n no es clara al carecer de un¿
+procedimiento normado.Ã¿
+˛Seg£n declararon distintos¿
+representantes del oficialismo,¿
+sobre todo senadores, la norma¿
+"m†s importante" en este proce-¿
+so de dos a§os era la de munici-¿
+pios. Fue aprobada y entr¢ en vi-¿
+gencia en abril.Ã¿
+˛En sus once art°culos (dividi-¿
+dos en once t°tulos y seis cap°tu-¿
+los), establece las categor°as de¿
+los gobiernos locales seg£n su¿
+n£mero de habitantes, la canti-¿
+dad de concejales en localidades¿
+de m†s de 10 mil vecinos y c¢mo¿
+se compondr†n las comisiones¿
+comunales.Ã¿
+˛TambiÇn organiza las pr¢xi-¿
+mas elecciones, los alcances y¿
+atribuciones de los gobiernos,¿
+los organismos de control, el de-¿
+sarrollo de las transiciones y la¿
+posibilidad de crear regiones.Ã¿
+˛Por otro lado, esa ley se apli-¿
+car† a los municipios que no dic-¿
+ten su carta org†nica. Quienes¿
+decidan redactarla tienen un¿
+plazo de dos a§os para elaborarla¿
+y aprobarla. En ese proceso se¿
+encuentran Rosario y Santa Fe,¿
+que ya comenzaron los debates¿
+sobre la autonom°a; en ambos¿
+casos, los intendentes anuncia-¿
+ron que en las pr¢ximas eleccio-¿
+nes se votar†n convencionales.Ã¿
+˛La segunda gran ley aproba-¿
+da es el C¢digo Electoral (el 27 de¿
+agosto), que define las reglas de¿
+juego para la pr¢xima contienda¿
+en las urnas. Con casi 300 art°cu-¿
+los, ordena todas las normas vi-¿
+gentes, reafirma varias y modifi-¿
+ca unas pocas.Ã¿
+˛En Santa Fe se mantienen las¿
+Paso con un piso del 1 %, que se¿
+eleva al 4 % para las generales. A¿
+la hora de repartir bancas, en Di-¿
+putados ya no habr† mayor°a au-¿
+tom†tica: los 50 esca§os se distri-¿
+buir†n proporcionalmente entre¿
+las fuerzas que superen el piso.Ã¿
+˛TambiÇn contin£a la boleta¿
+£nica. En las Paso habr† cinco¿
+papeletas (una por categor°a),¿
+mientras que en las generales se-¿
+r†n tres (gobernador y diputa-¿
+dos, senadores y gobiernos loca-¿
+les), con la opci¢n de votar una¿
+lista completa o candidatos en¿
+particular.Ã¿
+˛Una de las novedades intro-¿
+ducidas a £ltima hora en las dis-¿
+cusiones de Unidos es la posibili-¿
+dad de que un precandidato a go-¿
+bernador lleve hasta tres aspi-¿
+rantes a la Vicegobernaci¢n,¿
+aunque los votos no se acumula-¿
+r†n.Ã¿
+˛A partir de 2029, el Tribunal¿
+Electoral asumir† el fuero Con-¿
+tencioso Administrativo. Tam-¿
+biÇn hay cambios en los debates¿
+y en la veda. Bajo esta ley se in-¿
+corpor¢ la Ficha Limpia, requisi-¿
+to que la Constituci¢n establece¿
+de forma obligatoria para pre-¿
+sentar cualquier candidatura.Ã¿
+˛Asimismo, Santa Fe aprob¢¿
+la ley del proceso Contencioso¿
+Administrativo (encargada de¿
+resolver los conflictos entre el¿
+Estado y los ciudadanos) y la¿
+creaci¢n del Colegio de Jueces¿
+para ese fuero, aunque resta que¿
+Diputados apruebe el procedi-¿
+miento, el cual cuenta con san-¿
+ci¢n de ambas C†maras pero con¿
+modificaciones.Ã¿
+˛A mediados de julio, el Ejecu-¿
+tivo dict¢ el decreto para modifi-¿
+car la estructura del personal del¿
+Poder Judicial e implementar el¿
+Colegio de Jueces en lo Conten-¿
+cioso Administrativo, fuero que¿
+hasta ahora solo contaba con dos¿
+c†maras: una en Santa Fe y otra¿
+en Rosario.Ã¿
+˛La nueva Constituci¢n esta-¿
+blece adem†s la creaci¢n de un¿
+Consejo Asesor de la Magistratu-¿
+ra, encargado de seleccionar a¿
+los jueces que luego propondr†¿
+el gobernador con el acuerdo de¿
+la Asamblea Legislativa.Ã¿
+˛Ese organismo deber† inte-¿
+grarse con un juez, un fiscal o un¿
+defensor (seg£n el cargo concur-¿
+sado), un representante del Cole-¿
+gio de Profesionales de la Aboga-¿
+c°a, un referente acadÇmico, un¿
+diputado y un senador.Ã¿
+˛En la actualidad, el Consejo¿
+funciona bajo el sistema ante-¿
+rior. Existen discrepancias so-¿
+bre su futura integraci¢n, espe-¿
+cialmente en lo relativo al repre-¿
+sentante acadÇmico.Ã¿
+˛Asimismo, la reforma otorg¢¿
+autonom°a a los Ministerios P£-¿
+blicos de la acusaci¢n y de la De-¿
+fensa, que avanzan progresiva-¿
+mente en su jerarquizaci¢n: sus¿
+autoridades ya prestan jura de¿
+forma aut¢noma (sin la inter-¿
+venci¢n de la Corte) y gestionan¿
+sus propios recursos.Ã¿
+˛"Nuestra Constituci¢n ir† to-¿
+mando cuerpo con el tiempo y la¿
+gente ir† incorporando los cam-¿
+bios y los nuevos derechosÔ, sos-¿
+tuvo Pullaro un a§o atr†s, al ju-¿
+rar la nueva Carta Magna.Ã¿
+˛Sin embargo, hay una pre-¿
+gunta fundamental que tanto los¿
+representantes de los poderes¿
+del Estado como la ciudadan°a¿
+deben formularse: ®c¢mo cono-¿
+cemos y exigimos el cumpli-¿
+miento de esta ley suprema?Ã¿
+˛Diversos autores, como el¿
+convencional cordobÇs Antonio¿
+Mar°a Hern†ndez, aluden al con-¿
+cepto de una "dÇbil cultura cons-¿
+titucionalÔ, vinculada al escaso¿
+compromiso de la sociedad ar-¿
+gentina con la Carta Magna y sus¿
+leyes, a una elevada percepci¢n¿
+de desigualdad ante la ley y a¿
+una democracia de baja calidad,¿
+agravada por la falta de confian-¿
+za en las instituciones.Ã¿

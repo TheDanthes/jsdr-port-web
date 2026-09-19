@@ -1,0 +1,100 @@
+!
+!   Listado de fuentes Al modificar este listado correr programa lisfon
+!
+
+1 ~News701 BT~  -P                      ! Ionic 5    Plain
+2 ~News701BT-BoldA~                     ! Ionic 5    Bold
+3 ~News701BT-ItalicA~                   ! Ionic 5    Italic
+8 ~Bookman~  -P           		! Bookman Plain
+9 ~Bookman~  -I           		! Bookman Italic
+10 ~Helvetica~  -P			! Helvetica Plain
+11 ~Helvetica~  -B			! Helvetica Bold
+12 ~Helvetica~  -I			! Helvetica Italic
+13 ~N Helvetica Narrow~  -P		! Helvetica Narrow
+14 ~Helvetica-Condensed-Light~ -P       ! Helvetica condensada light
+15 ~Helvetica-Condensed-Light~ -B       ! Helvetica condensada light Bold
+16 ~Helvetica-Condensed~ -P       ! Helvetica condensada 
+17 ~Helvetica-Condensed~ -B       ! Helvetica condensada  BOld
+18 ~N Helvetica Narrow~  -B		! Helvetica Narrow Bold
+20 ~HelveticaNeue-Black~  -P		! Helvetica Neue Plain
+21 ~HelveticaNeue-Black~  -I		! Helvetica Neue Italic
+22 ~Helvetica-Condensed~ -I      ! Helvetica condensada  italica
+23 ~Helvetica-Condensed~ -BI       ! Helvetica condensada bold italica
+24 ~Helvetica-Black~  -P		! Helvetica Black
+30 ~BodoniMT~  -P				! Bodoni Plain
+31 ~BodoniMT~  -B				! Bodoni Bold
+32 ~BodoniMT~  -I				! Bodoni Italic
+34 ~Times-Roman~ -P				! Times Roman
+35 ~Times-Roman~ -B				! Times Roman
+36 ~Times-Roman~ -I				! Times Roman
+37 ~Times-Roman~ -BI			! Times Roman
+38 ~GillSans~ -P			! GillSans Roman
+39 ~GillSans~ -B			! GillSans Bold
+40 ~GillSans~ -I			! GillSans Italic
+41 ~GillSans~ -BI			! GillSans Bold Italic
+45 ~Optima~ -P 			! Optim Plain
+46 ~Optima~ -B 			! Optim Bold
+47 ~Optima~ -I 			! Optim Italic
+48 ~Helvetica-Compressed~ -P 			! helvetica compres
+51 ~AmericanTypewriter-Medium~ -P		! American Typewriter
+52 ~Helvetica-Compressed~ -B			! helvetica compres Bold
+53 ~Franklin Gothic Demi~ -P			! Franklin Gothic Demi plain
+54 ~Franklin Gothic Book~ -P			! Franklin Gothic Book plain
+55 ~Palatino~ -P			! Palatino plain
+56 ~Eurostile-Demi~ -P			! euroestile demi plain
+57 ~Eurostile Bold~ -P			! euroestile Bold plain
+58 ~Eurostile~ -P			! euroestile Bold plain
+59 ~Franklin Gothic Heavy~ -P			! Franklin heavy plain
+60 ~Clarendon~ -P				! Clarendon
+61 ~Clarendon~ -B				! Clarendon BOLD
+63 ~BentonGothic-RegularCond~ -P               ! Benton Gothic Light
+64 ~Futura-Condensed~  -P		! Futura Regular
+65 ~BentonGothic-Regular~ -P               ! Benton Gothic Regular
+66 ~BentonGothic-Bold~ -P               ! Benton Gothic Bold
+67 ~BentonGothic-Black~ -P               ! Benton Gothic Black
+68 ~BentonGothic-Medium~ -P               ! Benton Gothic Medium
+69 ~BentonGothic-Light~ -P               ! Benton Gothic Light
+70 ~Centennial~ -P               ! Centennial regular
+71 ~Centennial-Bold~ -P               ! Centennial Bold
+72 ~ZineSlabDis-BlackRomanTf~         ! ZineSlab
+73 ~ZineSlabDis-BoldRomanTf~         ! ZineSlab
+74 ~Blk Serifa Black~
+75 ~Serifa Roman~
+76 ~ClarionMT~
+77 ~ClarionMT-Bold~ 
+78 ~BentonGothic-BlackCond~ -P          ! Benton Gothic Black condensada
+79 ~HelveticaNeue-MediumCond~  -P	! Helvetica Neue Medium Cond
+80 ~HelveticaNeue-Medium~ -P		! HelveticaNeue-medium
+81 ~Corona~  -I				! Corona Italic
+83 ~HelveticaNeue-Light~ -P		! HelveticaNeue-Light
+84 ~Bitstream Vera Serif~ -P               ! Bitstream Vera Serif
+85 ~Bitstream Vera Sans~ -P               ! Bitstream Vera Sans
+86 ~Eras Bold ITC~ -P               ! Eras Bold ITC
+87 ~Bitstream Vera Serif~ -B               ! Bitstream Vera Serif Bold
+90 ~HelveticaNeue-HeavyCond~  -P		! Helvetica Heavy condensada
+91 ~HelveticaNeue-LightCond~  -P		! Helvetica Light condensada
+96 ~Wingdings~ 		      -P                ! wingdings dibujos
+97 ~LAstrologyPi-Two~		-P	! fuente astrologica
+98 ~Universal-NewswithCommPi~	-P	! fuente pi
+99 ~Zapf Dingbats~  -P			! Zapf Dingbat
+101 ~Copperplate Gothic Light~	-P	! Cooper
+102 ~Book Antiqua~ -BI	! book antiqua bold italic
+103 ~Book Antiqua~ -P      ! book plain
+104 ~Eras Demi ITC~ -P	! eras demi
+105 ~Eras Medium ITC~ -P	! eras medium
+106 ~Eras Bold ITC~ -P	! eras bold
+107 ~Book Antiqua~ -B	! Book bold
+108 ~Gotham Medium~ -P	! Gotham Medium Regular
+109 ~Gotham Light~ -P   ! Gotham Light regular
+110 ~Gotham Bold~ -P ! Gotham Bold Regular
+111 ~Gotham Black~ -P ! Gothan Black Regular
+112 ~Gotham Light~ -P ! Gothan Light Regular
+113 ~Stag Semibold~ -P ! Stag-Semibold 
+113 ~Publico~ -B ! Publico-Bold
+115 ~Montserrat~ -B ! Monserrat-Bold
+116 ~MontserratBlack~ -P ! Monserrat-Black
+117 ~MontserratLight~ -P ! Monserrat-Light
+118 ~HelveticaNeue-Roman~ -P ! HelveticaNeue-Roman
+119 ~Montserrat-ExtraBold~ -B ! Monserrat-ExtraBold
+
+! no hay mas fuentes

@@ -1,0 +1,4 @@
+Tragedia en la costanera: declar¢ el acusado, pidi¢ perd¢n y cont¢ su ver-¿
+si¢n del siniestro Agust°n L¢pez Gagliasso, que enfrenta un pedido de¿
+condena de 18 a§os de c†rcel, dio su versi¢n del hecho a pocos d°as de que¿
+se conozca la sentenciaÃ¿

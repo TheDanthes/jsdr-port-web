@@ -1,0 +1,261 @@
+/*  FUENTE 3  italica, Ionic italic
+	    en partes de 54
+Dec.	ASCCI	anchura 	comentarios     Conv a Mac
+===============================================================================
+
+0	00	0	   # comandos de control 	0
+1	01	0	   # comandos de control 	0
+2	02	0	   # comandos de control 	0
+3	03	0	   # comandos de control 	0
+4	04	0	   # comandos de control 	0
+5	05	0	   # comandos de control 	0
+6	06	0	   # comandos de control 	0
+7	07	0	   # comandos de control 	0
+8	08	0	   # comandos de control 	0
+9	09	0	   # comandos de control 	0
+10	0a	0	   # comandos de control 	0
+11	0b	0	   # comandos de control 	0
+12	0c	0	   # comandos de control 	0
+13	0d	0	   # comandos de control 	0
+14	0e	0	   # comandos de control 	0
+15	0f	0	   # comandos de control 	0
+16	10	0	   # comandos de control 	0
+17	11	0	   # comandos de control 	0
+18	12	0	   # comandos de control 	0
+19	13	0	   # comandos de control 	0
+20	14	0	   # comandos de control 	0
+21	15	0	   # comandos de control 	0
+22	16	0	   # comandos de control 	0
+23	17	0	   # comandos de control 	0
+24	18	0	   # comandos de control 	0
+25	19	0	   # comandos de control 	0
+26	1a	0	   # comandos de control 	0
+27	1b	0	   # comandos de control 	0
+28	1c	0	   # comandos de control 	0
+29	1d	0	   # comandos de control 	0
+30	1e	0	   # comandos de control 	0
+31	1f	0	   # comandos de control 	0
+32	20	0	   # espacio de banda 	0
+33	21	18	   # ! 	15
+34	22	26	   # "(abrir dob. comilla) 	30
+35	23	28	   # # 	36
+36	24	28	   # $ 	26
+37	25	42	   # % 	50
+38	26	34	   # & 	41
+39	27	14	   # ' cerrar comilla 	15
+40	28	17	   # ( 	23
+41	29	17	   # ) 	23
+42	2a	22	   # * 	26
+43	2b	32	   # + 	36
+44	2c	14	   # , coma 	15
+45	2d	20	   # - guion 	20
+46	2e	14	   # . punto 	15
+47	2f	19	   # / 	15
+48	30	28	   # 0 	26
+49	31	28	   # 1 	26
+50	32	28	   # 2 	26
+51	33	28	   # 3 	26
+52	34	28	   # 4 	26
+53	35	28	   # 5 	26
+54	36	28	   # 6 	26
+55	37	28	   # 7 	26
+56	38	28	   # 8 	26
+57	39	28	   # 9 	26
+58	3a	14	   # : dos puntos 	15
+59	3b	14	   # ; punto y coma 	15
+60	3c	0	   # < parentesis ordenes 	0
+61	3d	32	   # = 	36
+62	3e	0	   # > parentesis ordenes 	0
+63	3f	27	   # ? 	23
+64	40	43	   # @ 	50
+65	41	31	   # A 	38
+66	42	31	   # B 	35
+67	43	29	   # C 	29
+68	44	31	   # D 	38
+69	45	27	   # E 	35
+70	46	26	   # F 	32
+71	47	30	   # G 	35
+72	48	31	   # H 	41
+73	49	15	   # I 	20
+74	4a	27	   # J 	26
+75	4b	31	   # K 	40
+76	4c	25	   # L 	32
+77	4d	42	   # M 	44
+78	4e	32	   # N 	35
+79	4f	31	   # O 	35
+80	50	30	   # P 	32
+81	51	31	   # Q 	35
+82	52	31	   # R 	38
+83	53	29	   # S 	26
+84	54	26	   # T 	32
+85	55	30	   # U 	38
+86	56	29	   # V 	35
+87	57	42	   # W 	52
+88	58	30	   # X 	38
+89	59	29	   # Y 	35
+90	5a	26	   # Z 	35
+91	5b	18	   # [ 	23
+92	5c	0	   # \ 	0
+93	5d	18	   # ] 	23
+94	5e	32	   # ^ 	31
+95	5f	54	   # _ raya cuadratin 	27
+96	60	14	   # ` abrir comilla 	18
+97	61	27	   # a 	26
+98	62	28	   # b 	26
+99	63	26	   # c 	23
+100	64	28	   # d 	26
+101	65	26	   # e 	23
+102	66	16	   # f 	17
+103	67	28	   # g 	26
+104	68	28	   # h 	29
+105	69	14	   # i 	15
+106	6a	14	   # j 	17
+107	6b	28	   # k 	29
+108	6c	14	   # l 	15
+109	6d	43	   # m 	44
+110	6e	28	   # n 	29
+111	6f	27	   # o 	26
+112	70	28	   # p 	26
+113	71	28	   # q 	26
+114	72	20	   # r 	20
+115	73	25	   # s 	20
+116	74	17	   # t 	17
+117	75	28	   # u 	29
+118	76	26	   # v 	25
+119	77	40	   # w 	38
+120	78	26	   # x 	26
+121	79	26	   # y 	26
+122	7a	25	   # z 	23
+123	7b	18	   # { 	30
+124	7c	27	   # | 	31
+125	7d	18	   # } 	30
+126	7e	0	   # ~ 	0
+127	7f	0	   # DEL (borrado) 	0
+128	80	29	   # C mayus. con cedilla 	38
+129	81	28	   # u dieresis 	38
+130	82	26	   # e acentuada 	29
+131	83	27	   # a con carat 	35
+132	84	27	   # a dieresis 	35
+133	85	27	   # a acento frances 	35
+134	86	27	   # a con bolita 	38
+135	87	26	   # c minus. con cedilla 	26
+136	88	26	   # e con carat 	26
+137	89	26	   # e dieresis 	26
+138	8a	26	   # e acento frances 	26
+139	8b	14	   # i dieresis 	26
+140	8c	14	   # i con carat 	26
+141	8d	14	   # i acento frances 	23
+142	8e	0	   # A dieresis 	0
+143	8f	0	   # A con bolita 	0
+144	90	0	   # E acento 	0
+145	91	0	   # union ae 	0
+146	92	0	   # union AE 	0
+147	93	27	   # o con carat 	15
+148	94	27	   # o dieresis 	15
+149	95	27	   # o acento frances 	15
+150	96	28	   # u con carat 	29
+151	97	28	   # u acento frances 	26
+152	98	0	   # y con dieresis 	0
+153	99	0	   # O con dieresis 	0
+154	9a	0	   # U con dieresis 	0
+155	9b	28	   # simbolo centavos 	26
+156	9c	28	   # libra 	29
+157	9d	0	   # BELL 	0
+158	9e	0	   # union Pt 	0
+159	9f	0	   # f de funcion 	0
+160	a0	27	   # a acentuada 	26
+161	a1	14	   # i acentuada 	22
+162	a2	27	   # o acentuada 	23
+163	a3	28	   # u acentuada 	26
+164	a4	28	   # ene minuscula 	29
+165	a5	32	   # ene mayuscula 	19
+166	a6	18	   # a volada 	29
+167	a7	18	   # o volada 	26
+168	a8	27	   # abrir ? 	40
+169	a9	0	   # grafico 	0
+170	aa	0	   # 	0
+171	ab	54	   # un medio 	54
+172	ac	54	   # un cuarto 	54
+173	ad	18	   # abrir ! 	18
+174	ae	24	   # comillas francesas << 	52
+175	af	24	   # comillas francesas >> 	35
+176	b0	28	   # 1/2 cuadratin guiona 	30
+177	b1	0	   # grafico 	0
+178	b2	0	   # grafico 	0
+179	b3	0	   # grafico 	0
+180	b4	0	   # grafico 	0
+181	b5	0	   # grafico 	0
+182	b6	0	   # grafico 	0
+183	b7	0	   # grafico 	0
+184	b8	0	   # grafico 	0
+185	b9	0	   # QUAD RIGHT 	0
+186	ba	0	   # grafico 	0
+187	bb	0	   # grafico 	0
+188	bc	0	   # grafico 	0
+189	bd	0	   # grafico 	0
+190	be	0	   # ELEVATE 	0
+191	bf	0	   # grafico 	0
+192	c0	0	   # grafico 	0
+193	c1	0	   # END OF TAB (ELEVATE) 	0
+194	c2	0	   # grafico 	0
+195	c3	0	   # grafico 	0
+196	c4	0	   # grafico 	0
+197	c5	28	   # CRUZ DE MALTA 	54
+198	c6	0	   # grafico 	0
+199	c7	0	   # grafico 	0
+200	c8	0	   # grafico 	0
+201	c9	0	   # grafico 	0
+202	ca	0	   # grafico 	0
+203	cb	0	   # grafico 	0
+204	cc	0	   # QUAD LEFT 	0
+205	cd	0	   # grafico 	0
+206	ce	0	   # QUAD CENTER 	0
+207	cf	0	   # grafico 	0
+208	d0	0	   # grafico 	0
+209	d1	0	   # grafico 	0
+210	d2	0	   # grafico 	0
+211	d3	0	   # grafico 	0
+212	d4	0	   # grafico 	0
+213	d5	0	   # grafico 	0
+214	d6	0	   # grafico 	0
+215	d7	0	   # grafico 	0
+216	d8	0	   # grafico 	0
+217	d9	0	   # grafico 	0
+218	da	0	   # grafico 	0
+219	db	0	   # grafico 	0
+220	dc	0	   # grafico 	0
+221	dd	0	   # grafico 	0
+222	de	0	   # grafico 	0
+223	df	0	   # grafico 	0
+224	e0	0	   # alfa 	0
+225	e1	0	   # beta 	0
+226	e2	0	   # sigma 	0
+227	e3	14	   # ESPACIO FINO 	26
+228	e4	0	   # MERGE 	0
+229	e5	0	   # 	0
+230	e6	0	   # 	0
+231	e7	0	   # 	0
+232	e8	0	   # 	0
+233	e9	0	   # 	0
+234	ea	0	   # 	0
+235	eb	0	   # infinito 	0
+236	ec	0	   # simbolo diametro 	0
+237	ed	0	   # epsilon 	0
+238	ee	31	   # TRES CUARTOS (3/4) 	35
+239	ef	26	   # CERRAR DOBLE COMILLA 	35
+240	f0	28	   # EN SPACE 	30
+241	f1	32	   # mas menos 	35
+242	f2	0	   # mayor igual 	0
+243	f3	0	   # menor igual 	0
+244	f4	0	   # gancho 	0
+245	f5	0	   # gancho 	0
+246	f6	32	   # simbolo dividido 	18
+247	f7	0	   # simbolo ~ igual 	0
+248	f8	0	   # redondel volado 	0
+249	f9	0	   # punto volado 	0
+250	fa	0	   # cuadrado volado 	0
+251	fb	0	   # simbolo raiz 	0
+252	fc	0	   # n volada 	0
+253	fd	0	   # 2 volado 	0
+254	fe	54	   # EM SPACE 	54
+255	ff	0	   # 	0

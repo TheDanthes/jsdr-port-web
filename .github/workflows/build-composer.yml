@@ -1,0 +1,111 @@
+# Construye la imagen del composer (motor tipográfico) y la publica.
+#
+# La diferencia con el workflow de la API: acá el banco de pruebas corre DENTRO
+# de la imagen recién construida, antes de publicarla. Si el motor deja de
+# medir exactamente igual que el servidor de producción, no sale imagen.
+#
+# Publica:
+#   ghcr.io/thedanthes/jsdr-composer:latest
+#   ghcr.io/thedanthes/jsdr-composer:<sha>
+# y deja además la imagen como archivo descargable en la propia corrida, para
+# instalarla sin token.
+name: Construir imagen del composer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'composer/**'
+      - '.github/workflows/build-composer.yml'
+  workflow_dispatch:
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Nombre de la imagen (en minúsculas)
+        id: img
+        run: |
+          # ${VAR,,} pasa a minúsculas: `github.repository_owner` devuelve
+          # "TheDanthes" y Docker exige minúsculas.
+          echo "nombre=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/jsdr-composer" >> "$GITHUB_OUTPUT"
+
+      - name: Construir la imagen
+        uses: docker/build-push-action@v6
+        with:
+          context: ./composer
+          file: ./composer/Dockerfile
+          tags: jsdr-composer:local
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # ----------------------------------------------------------------------
+      #  EL PORTÓN: 534 comparaciones byte a byte contra producción.
+      #
+      #  Corre adentro del contenedor, con el mismo Node, el mismo Perl y las
+      #  mismas bibliotecas de 32 bits que van a estar en el ZimaOS. No es una
+      #  prueba "parecida a" producción: es la imagen que se publica.
+      # ----------------------------------------------------------------------
+      - name: Banco de pruebas del motor, dentro de la imagen
+        run: |
+          docker run --rm --user root jsdr-composer:local \
+            sh /opt/jsdr/verificar-motor.sh
+
+      - name: Prueba de humo del servicio HTTP
+        run: |
+          docker run -d --name composer -p 3098:3098 jsdr-composer:local
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:3098/salud > /dev/null && break || sleep 1
+          done
+          echo "--- /salud"
+          curl -s http://127.0.0.1:3098/salud
+          echo
+          echo "--- /medir"
+          # Una nota corta, una palabra por línea, como la manda el cliente.
+          printf '{"texto":"<m11.5><u7301>Prueba\\nde\\nmedicion\\ndel\\nservicio"}' > /tmp/m.json
+          curl -s -X POST http://127.0.0.1:3098/medir \
+               -H 'content-type: application/json' --data-binary @/tmp/m.json \
+            | tee /tmp/m.out
+          echo
+          grep -q '"cm"' /tmp/m.out || { echo "no devolvió medida"; docker logs composer; exit 1; }
+          docker rm -f composer
+
+      - name: Exportar la imagen a un archivo
+        run: |
+          docker save jsdr-composer:local | gzip -9 > /tmp/jsdr-composer.tar.gz
+          ls -lh /tmp/jsdr-composer.tar.gz
+
+      - name: Publicar el archivo en esta corrida
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsdr-composer-imagen
+          path: /tmp/jsdr-composer.tar.gz
+          retention-days: 30
+          compression-level: 0
+
+      - name: Login en GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publicar en GHCR
+        uses: docker/build-push-action@v6
+        with:
+          context: ./composer
+          file: ./composer/Dockerfile
+          push: true
+          tags: |
+            ${{ steps.img.outputs.nombre }}:latest
+            ${{ steps.img.outputs.nombre }}:${{ github.sha }}
+          cache-from: type=gha

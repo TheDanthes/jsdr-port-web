@@ -1,0 +1,515 @@
+!
+!   Listado de estilos
+!
+
+3 "<*d(1,3)>"                   ! Letra capital editorial
+4 "<*d0><*kt0><*ra0><*rb0><*kn0><b0><t0><c~Negro~><s100>"        ! Normal
+5 "<*d0>"			! Anular letra capital
+6 "<*d0><*kt0><*ra0><*rb0><*kn0><b0><t0><c~Negro~><s100><*p(0,0,0,$,$,$,G)>"
+
+10 "<*h~Bandera~>"		! PyJ Bandera
+
+12 "<b-6>"			! linea base -3
+13 "<*kn1>"			! permanecer con proxima
+14 "<*kn0>"			! no permanecer con proxima
+16 "<*rb(.5,$,$,100,0,0,6)>"	! linea debajo de 0.5 pt
+
+19 "<*rb(.5,$,$,100,0,0,4.5)>"	! linea debajo de 0.5 pt
+20 "<*C*kn1*ra(2,0,~Negro~,100,0,0,2.2677)*rb0*p(0,0,0,1,6.8031,0,g,~~)Iz2f~HelveticaNeue-Black~>"		! cabeza 1 titulados
+21 "<*ra0*p(0,0,0,7.15,0,0,g,~~)z7>" ! cabeza 2 titulados 
+22 "<*rb(2,0,~Negro~,100,0,0,0.5669)><*p(0,0,0,1,0,0,g,~~)><z2>" ! pie 1 titulados
+23 "<*kn0*rb0*p(0,0,0,1,0,0,g,~~)z2>"	! pie 2 titulados
+24 "<*kt(20,10)>"				! corte de avisos largos
+
+
+31 "<*p($,$,$,9.1,$,9.1,G,)>"		! alinear a rejilla base esp desp. 9.1
+32 "<*kt(1,2)>"				! juntar lineas 1,2 
+33 "<b-3>"			! linea base -3
+
+35 "<*ra(12,$,$,100,0,0,0)>"	! linea encima de 0.5 pt
+36 "<b2>"			! linea base 2
+37 "<*ra(0.4,0,~Negro~,100,113.38,113.38,2.126)><*rb(0.4,0,~Negro~,100,113.38,113.38,0)><*p(0,0,0,2.126,0,0,g,~~)z2>"			! bigote de u112
+
+38 "<b0>"			! linea base 0
+
+40 "<*f~Zapf Dingbats~>l"	! Bolita de Zaph dinbats
+41 "<*f~Zapf Dingbats~>n"	! Cuadrado  Zaph dinbats
+42 "<c~Blanco~>"			! seteo letra Blanca
+43 "<c~Negro~>"			! seteo Negro
+44 "<*ktA>"			! No cortar parrafo
+45 "<*kt0>"			! reset No cortar parrafo
+46 "<c~Azul plomo~>" 		! seteo letra azul plomo
+
+48 "<c~MONO~>"			! seteo letra color nuevo MONO
+49 "<c~Rojo~>"			! seteo letra color nuevo Rouge
+50 "<*ra(12,0,~Negro~,100,0,96,-2.8346)><*rb(1,0,~Negro~,100,0,0,-0.4819)>" !raya especial
+51 "<*ra0*rb0>"			! reset raya
+52 "<*p($,$,$,12,0,3,g)>	! espacio despues 3 pt.
+
+53 "<*ra(12,0,~Negro~,100,0,96,-2.8346)><*rb0>" !raya especial
+54 "<*ra(1,0,~Negro~,100,93.6,0,3.4016)*p($,$,$,2,$,$,g)z2>"    ! raya esp. fina
+55 "<*ra(1,0,~Negro~,100,0,0,4.4)><*rb(15,0,~Blanco~,100,T0,0,-7.5)>" !raya u126
+56 "<*p(0,36,0,19,0,0,g)>"	! indent 3 para u126
+57 "<*f~Universal-NewswithCommPi~s40>m<s100>"	! cuadrado pi para u126
+58 "<*rb(11.75,0,$,100,0,0,-0.25)>"	! linea para chapa 1 u127
+59 "<*ra(0.5,0,$,100,0,0,-0.25)><*rb(11.75,0,$,100,T0,0,-0.25)><*p(0,36,0,12.84,0,0,g)>"	! chapa 2 u128
+60 "<*ra(0.5,0,$,100,0,0,-0.25)><*rb(4,0,$,100,T0,0,0)><*p(0,36,0,12.84,0,0,g)>"	! chapa 3 u129
+
+61 "<*f~Universal-NewswithCommPi~>m" ! Flecha   pi para u71
+
+62 "<*rb(0.5,0,$,100,0,0,0)>"	! linea para u76
+63 "<*rb(0.5,0,$,100,0,0,3.5)>"	! linea para u77
+64 "<*ra(2,0,$,100,0,0,7.0866)><*rb(1,0,$,100,0,0,2.8346)><*p($,$,$,9.63,8,0,g)>" ! linea para u311
+
+65 "<*ra(2,0,$,100,0,0,11.3386)><*rb(2,0,$,100,0,0,4.252)>" ! Rayas funebres u800
+66 "<*p(0,0,0,11,8.5,0,g)>"	! espacio antes funebres para cruz u801
+67 "<*f~Zapf Dingbats~>"	! Zaph dinbats
+68 "<*kt(3,2)>"			! corte de funebres
+69 "<*p(0,0,0,7.5,5.7,0,g)>"	! espacio antes texto u803 
+70 "<*p(0,0,0,10,5.7,g)>"	! espacio antes texto u41 (cine)
+
+
+71 "<*rb(1,0,$,100,-12,-12,18%)>" ! Rayas debajo funebres u803 u804
+72 "<*p(12,0,12,7.5,5.7,0,g)>"	! espacio antes texto u804
+
+76 "<z2><*rb(3,0,$,30.0003,0,0,-1.4995)>" ! raya 1 de farma u24
+77 "<*rb(9,0,$,30.0003,0,0,-4.4986)>" ! raya 2 de farma u24
+
+79 "<*ra(1.5,0,$,100,0,0,9.9213)><*rb(0.8,0,$,100,0,0,3.4016)>"   ! rayas u360
+
+81 "<*rb(1,0,$,100,0,0,18%)>" ! Rayas debajo cartelera u41 
+82 "<*rb(1,1,$,100,0,0,18%)>" ! Rayas punteado debajo cartelera u41 
+83 "<*p(0,0,0,7.5,5.7,0,g)>"	! espacio antes texto u42
+84 "<*kt(2,2)>"			! corte de cartelera u41
+
+86 "<*ra(1,2,$,100,0,0,7.937)><*rb(1,0,$,100,0,0,2.8346)>"   ! raya de 271
+87 "<*ra(1,0,$,100,0,0,11.9055)><*rb(1,0,$,100,0,0,3.4016)>" ! raya de 274
+88 "<*p(0,0,0,7,7,0,g)>"	! espacio antes texto u43
+89 "<*p(0,0,0,9.5,7,0,g)>"	! espacio antes texto u44
+90 "<*rb(7,0,$,30.0003,0,0,-2.2677)><z2>"	! raya1 de u46 (quini)
+91 "<*rb(15,0,$,30.0003,0,0,-7.4835)>"	! raya 2 de u46 (quini)
+92 "<*rb(1,0,$,100,0,0,2.8346)>"	! raya 3 de u46
+93 "<*rb(1,0,$,100,0,0,4.252)>"		! raya 4 de u46
+94 "<*rb(20,0,~Blanco~,100,0,0,-5.1024)><z2>"	! raya 1 de u370 (candi)
+95 "<*rb(17,0,$,100,0,206,-7.3701)>"	! raya 2 de u370
+96 "<*rb(0.5,0,$,100,0,0,0.5669)>" ! raya 3 de u370
+97 "<*ra0><*rb(12,0,~Blanco~,100,9,9,3.4016)>"	raya 4 de u370
+98 "<*ra(1,0,$,100,8,8,4.8189)><*rb(12,0,$,50,8,265,-5.1024)>" ! raya 5 u370
+99 "<*ra0><*rb(2,0,$,100,0,0,5.1024)>" ! Raya goles y resultados u277 u285
+100 "<*rb0><*ra(21,0,$,30,0,0,-9.9213)>" ! Raya resultados u285
+101 "<*ra(15,0,$,100,0,0,-3)>"  ! raya cabeza bolsa
+102 "<*rb(1.5,0,$,100,0,0,3)>"  ! subraya cabeza bolsa
+103 "<*ra(10,0,$,30,0,0,-2)>"  ! grisado cabeza bolsa
+104 "<*ra(1.5,0,$,100,0,0,8)><*rb(1.5,0,$,100,0,0,4)>"  ! raya doble  bolsa
+105 "<-t40>" 		! kerning de 40
+106 "<*ra(18,0,$,30.0003,29,0,-3)><*rb(1.5,0,$,100,29,0,4)>" ! raya cabeza u50
+107 "<-t0>"		! cancelar kerning
+108 "<*rb(1.5,0,$,100,0,0,3)>"  ! raya loteria santafe
+
+110 "<*rb(0.7,0,$,100,0,0,1)>"  ! subraya cabeza bolsa especial
+111 "<*rb(.5,$,$,100,0,0,2)>"	! linea debajo de 0.5 pt
+
+113 "<*rb(1.5,$,$,100,0,0,1)>"	! linea debajo de 0.5 pt
+114 "<*rb(3,$,$,40,T0,0,7)>"	! linea debajo para u202
+115 "<*rb(2,$,$,50,T0,0,4)>"	! linea debajo para u203
+116 "<*rb(2,$,$,50,0,0,7)>"	! linea debajo para u213
+
+118 "<*rb(3,$,~PANTONE S 145-1~,100,T0,0,7)>"	! linea debajo para u222
+119 "<c~PANTONE S 145-1~>"			! seteo PANTONE para u226
+120 "<*d(1,3)>"                   ! Letra capital texto tapa u229
+121 "<*rb(2,$,$,50,T0,0,6)>"	! linea debajo para u223
+122 "<*ra(14,0,$,100,0,0,2.83)>"  ! negro pie foto ovacion u221
+123 "<*d(1,4)>"                   ! Letra capital pagina 2
+124 "<*ra(9,0,~Azul oscuro~,100,0,0,0)>"  ! azul oscuro titulo cartelera u47
+125 "<*rb(.5,$,$,100,0,0,1.5)>"	! linea debajo de 0.5 pt para bolsa
+126 "<*rb(.3,$,$,100,0,0,4)>"	! linea debajo de 0.5 pt para subtitulos u210
+127 "<*ra(8,0,$,100,0,0,-1.1)>"  ! grisado cabeza bolsa
+128 "<*rb(0.3,0,$,100,T0,0,3)>"  ! raya debajo para u514
+129 "<*f~BodoniS90-Medium~>"  ! fuente especial para u514
+130 "<*d(1,4)>"                   ! Letra capital pagina 2
+131 "<*rb(2,$,$,50,0,0,2.5)>"	! linea tabla formaciones 
+132 "<*rb(2,$,$,100,0,0,0)>"	! linea tabla formaciones
+133 "<*rb(3,$,$,50,0,0,0)>"	! linea tabla formaciones
+134 "<*ra(11,$,$,20,11,11,-3)>" ! grisado tabla AFA
+135 "<*ra(15,$,$,100,0,0,-3)>"  ! fondo negro proxima fecha
+136 "<*ra(8,0,$,100,0,0,-3.685)>"  ! grisado cabeza hipica isidro la plata
+
+137 "<*ra(11,$,$,20,5,5,-3)>"   ! grisado tabla posiciones
+138 "<*ra(8,0,$,100,0,0,-2)>"  ! grisado cabeza hipica rosario
+
+139 "<*ra(11,$,$,20,0,0,-3)>"   ! grisado tabla hipica candidatos
+140 "<*ra(9,$,$,100,0,0,-0.45)>"   ! cabeza tabla basket
+141 "<*ra(7,$,$,20,11,11,-0.85)>" ! grisado tabla liga region
+142 "<*ra(12,$,$,50,0,0,-1.7)>"	!grisado television
+
+144 "<*rb(2,$,$,40,0,0,2.835)>"	!raya gris posiciones u1974
+145 "<*ra(8,$,$,20,0,0,-1.5)>"	!grisado goleadores amateur
+146 "<*f~Helvetica-Black~>"	!fuente goleadores
+147 "<*ra(15,$,$,100,0,0,-4.252)>"	!fondo negro sintesis mundial
+148 "<*ra(15,$,$,50,0,0,-4.252)>"	!fondo gris sintesis mundial
+149 "<*ra(0.5,$,$,50,0,0,0)>"	!raya fina sintesis mundial 2
+150 "<*p(0,0,0,10.4,0.567,0,G)>"	! espacio antes para subtitulo ova
+151 "<t-5>"	        	! track 5
+152 "<*d(1,2)>"                   ! capitular 1/2
+153 "<c~OVA Rojo~>"           ! Color OVA Rojo
+154 "<*ra(8,0,~OVA Naranja~,70,0,0,-2)>"  ! cabeza hipica rosario Naranja
+155 "<*ra(8,0,~OVA Verde~,70,0,0,-2)>"  ! cabeza hipica rosario Verde
+156 "<*ra(8,0,~OVA Naranja~,70,0,0,-3.685)>"  ! hipica Naranja isidro la plata
+157 "<*ra(8,0,~OVA Verde~,70,0,0,-3.685)>"  ! hipica Verde isidro la plata
+
+
+
+159 "<s40>"			! grisado 40%
+160 "<s50>"			! grisado 50%
+161 "<s100>"			! grisado normal 100%
+162 "<s70>"			! grisado normal 70%
+163 "<t-3.5>"                   ! track 3.5
+164 "<t-2>"                   	! track 2
+165 "<t-3>"	        	! track 3
+166 "<s90>"			! grisado 90%
+167 "<t-7>"	        	! track 7
+168 "<c~OVA Naranja~>"           ! Color OVA naranja
+169 "<\>><\>>"
+
+
+170 "<*eSubtitulo>"	! estilo indesign
+171 "<*ePie de foto>"	! estilo indesign
+172 "<*eTexto>"	! estilo indesign
+173 "<*eTexto Apoyos>"	! estilo indesign
+174 "<*eTexto primer parrafo>"	! estilo indesign
+175 "<*eVolanta>"	! estilo indesign
+176 "<*eTitulo>"	! estilo indesign
+177 "<*eTitulo Apoyo>"	! estilo indesign
+178 "<*eBajada Extendida>"	! estilo indesign
+179 "<*eBajada a una columna>"	! estilo indesign
+180 "<*eTitulos breves>"	! estilo indesign
+181 "<*eTexto Breves>"	! estilo indesign
+182 "<b-2>"	        ! back -2
+183 "<*eTITULO>"	! estilo indesign cartas
+184 "<*eTEXTO>" 	! estilo indesign cartas
+185 "<*eFIRMA>" 	! estilo indesign cartas
+186 "<*eNDR>"		! estilo indesign cartas
+
+190 "<*eS-Subtitulo>"	! estilo indesign turismo
+191 "<*eP-Pie de foto>"	! estilo indesign turismo
+192 "<*eT-Texto>"	! estilo indesign turismo
+193 "<*eT-Texto Apoyo primer parrafo>"	! estilo indesign turismo
+194 "<*eT-Texto primer parrafo>"	! estilo indesign turismo
+195 "<*eVolanta>"	! estilo indesign turismo
+196 "<*eA-Titulo>"	! estilo indesign turismo
+197 "<*eU-Titulo Apoyo>"	! estilo indesign turismo
+198 "<*eB-Bajada Extendida>"	! estilo indesign turismo
+199 "<*eB-Bajada a una columna>"	! estilo indesign turismo
+200 "<*eV-Titulos breves>"	! estilo indesign turismo
+201 "<*eV-Texto Breves>"	! estilo indesign turismo
+
+210 "<*eVOLANTA>"		! estilo indesign seniales
+211 "<*eVOLANTA SECUNDARIA>"	! estilo indesign seniales
+212 "<*eTITULO>"		! estilo indesign seniales
+213 "<*eBAJADA>"		! estilo indesign seniales
+214 "<*eBAJADA SECUNDARIA>"	! estilo indesign seniales
+215 "<*eTEXTO>"			! estilo indesign seniales
+216 "<*eTEXTO PRIMER PARRAFO>"	! estilo indesign seniales
+217 "<*eTEXTO RECUADRO>"	! estilo indesign seniales
+218 "<*eSUBTUITULO>"		! estilo indesign seniales
+219 "<*ePIE DE FOTO>"		! estilo indesign seniales
+220 "<*eTITULO BREVES>"		! estilo indesign seniales
+221 "<*eTEXTO BREVES>"		! estilo indesign seniales
+222 "<*eOASIS>"			! estilo indesign seniales
+223 "<*eINSTA>"			! estilo indesign seniales
+224 "<ccase:Normal>"
+225 "<ccase:>"
+
+230 "<*eVOLANTA>"			! estilo indesign mujer		
+231 "<*eA-TITULO>"			! estilo indesign mujer		
+232 "<*eA-TITULO BREVE>"		! estilo indesign mujer		
+233 "<*eB-BAJADA A UNA COLUMNA>"	! estilo indesign mujer		
+234 "<*eB-BAJADA EXTENDIDA>"		! estilo indesign mujer		
+235 "<*eB-TXT BREVE>"			! estilo indesign mujer		
+236 "<*eT-TEXTO PRIMER PARRAFO>"	! estilo indesign mujer		
+237 "<*eS-SUBTITULO>"			! estilo indesign mujer
+238 "<*eP-PIE DE FOTO>"			! estilo indesign mujer		
+239 "<*eT-TEXTO>"			! estilo indesign mujer		
+240 "<*eT-FIRMA LIBRO>"			! estilo indesign mujer		
+241 "<*eT-TXT LIBROS>"			! estilo indesign mujer		
+242 "<*eA-TITULO LIBROS>"		! estilo indesign mujer		
+243 "<*eA-TITULO Ingredientes>"		! estilo indesign mujer		
+244 "<*eT-TEXTO Ingredientes>"		! estilo indesign mujer		
+245 "<*eA-TITULO VINOS>"		! estilo indesign mujer		
+
+250 "<*eBajada>"			! estilo diario
+251 "<*ePie Foto>"			! estilo diario
+252 "<*eT~itulo Apoyos>"			! estilo diario
+253 "<*eT~itulo Breves>"			! estilo diario
+254 "<*eTexto Apoyos y Breves>"		! estilo diario
+255 "<*eTexto frases>"			! estilo diario
+256 "<*eTitulo>"			! estilo diario
+257 "<*eTXT>"				! estilo diario
+258 "<*eVolanta>"			! estilo diario
+259 "<*eTexto para n~umeros>            ! estilo diario
+
+270 "<*eTituloBreve>"			! estilo suple economia
+271 "<*eTextoBreve>"			! estilo suple economia
+272 "<*eTitulo Principal>"		! estilo suple economia
+273 "<*eTextoPrincipal>"		! estilo suple economia
+274 "<*eTexto primer p~arrafo>"		! estilo suple economia
+275 "<*eTexto Apoyos>"			! estilo suple economia
+
+280 "<*eINT-BAJADA>"			! estilo suple escenario
+281 "<*eINT-BAJADA EXTENDIDA>"		! estilo suple escenario
+282 "<*eINT-FIRMA-Escenario>"		! estilo suple escenario
+283 "<*eINT-FIRMA-Nombre>"		! estilo suple escenario
+284 "<*eINT-PIE DE FOTO>"		! estilo suple escenario
+285 "<*eINT-TITULO>"			! estilo suple escenario
+286 "<*eINT-TITULO APOYO>"		! estilo suple escenario
+287 "<*eINT-TXTAPOYO>"			! estilo suple escenario
+288 "<*eINT-TXTLIMPIO>"			! estilo suple escenario
+289 "<*eINT-VOLANTA>"			! estilo suple escenario
+
+290 "<*eBajada Principal>"		! estilo ovacion
+291 "<*eBajada Secundaria>"		! estilo ovacion
+292 "<*ePie de foto>"			! estilo ovacion
+293 "<*eSubtitulo>"			! estilo ovacion
+294 "<*eTexto Apoyos y Breves>"		! estilo ovacion
+295 "<*eTexto normal>"			! estilo ovacion
+296 "<*eTexto primer parrafo>"		! estilo ovacion
+297 "<*eTitulo>"			! estilo ovacion
+298 "<*eTitulo Apoyos>"			! estilo ovacion
+299 "<*eTitulo Breves>"			! estilo ovacion
+300 "<*eVolanta de situacion>"		! estilo ovacion
+301 "<*eTitulo Empotrado>"		! estilo ovacion
+302 "<*eTexto Empotrado>"		! estilo ovacion
+303 "<*eTitulo Perla>"			! estilo ovacion
+304 "<*eTexto Perla>"			! estilo ovacion
+310 "<*eECO-TIT-1 col>"			! estilo titulo economia
+311 "<*eECO-TIT-2 cols>"			! estilo titulo economia
+312 "<*eECO-TIT-3 cols>"			! estilo titulo economia
+313 "<*eECO-TIT-4 cols>"			! estilo titulo economia
+314 "<*eECO-TIT-5 cols>"			! estilo titulo economia
+315 "<*eECO-TXT-A primer p~arrafo>"	! estilo texto economia
+316 "<*eECO-TXT-B p~arrafo siguiente>"	! estilo texto economia
+317 "<*eECO-TIT-Complementarios>"	! estilo titulo economia
+318 "<*eECO-TIT-Opini~on>"		! estilo titulo economia
+319 "<*eECO-TXT-B preguntas>"		! estilo texto economia
+320 "<*eECO-TXT-C breves y empresarias>"	! estilo texto economia
+321 "<*eECO-TXT-D apoyos>"		! estilo texto economia
+322 "<*eECO-TXT-Z separador BYN>"	! estilo texto economia
+323 "<*eECO-TXT-Z separador Color>"	! estilo texto economia
+324 "<*eECO-Volanta breves>"		! estilo texto economia
+325 "<*eECO-Volanta general>"		! estilo texto economia
+326 "<*eECO-Volanta situaci~on>"	! estilo texto economia
+327 "<*eECO-Bajada>"			! estilo texto economia
+328 "<*eECO-Oasis>"			! estilo texto economia
+329 "<*eECO-OPINION-A primer p~arrafo>"	! estilo texto economia
+330 "<*eECO-OPINION-B parrafo siguiente>"	! estilo texto economia
+331 "<*eECO-Pie de Foto>"	! estilo texto economia
+332 "<*eECO-T~itulo apoyos>"	! estilo texto economia
+333 "<*eECO-T~itulo breves y empresarias>"	! estilo texto economia
+380 "<t-50>"	        		! track 50
+381 "<t-70>"	        		! track 70
+382 "<t-20>"	        		! track 20
+383 "<t-15>"	        		! track 15
+384 "<t-40>"	        		! track 40
+385 "<t-30>"	        		! track 30
+386 "<t40>"	        		! track -40
+387 "<t-10>"	        		! track 10
+390 "<*eEDU-bajada-AUNA>"	! estilo educacion
+391 "<*eEDU-bajada-extendida>"	! estilo educacion
+392 "<*eEDU-Oasis>"	! estilo educacion
+393 "<*eEDU-Pie de Foto>"	! estilo educacion
+394 "<*eEDU-T~itulo apoyos>"	! estilo educacion
+395 "<*eEDU-T~itulo breves>"	! estilo educacion
+396 "<*eEDU-TIT-1 col>"	! estilo educacion
+397 "<*eEDU-TIT-2 cols>"	! estilo educacion
+398 "<*eEDU-TIT-3 cols>"	! estilo educacion
+399 "<*eEDU-TIT-4 cols>"	! estilo educacion
+400 "<*eEDU-TIT-5 cols>"	! estilo educacion
+401 "<*eEDU-TIT-complementario>"	! estilo educacion
+402 "<*eEDU-TIT-PRINCIPAL>"	! estilo educacion
+403 "<*eEDU-TXT-A primer p~arrafo>"	! estilo educacion
+404 "<*eEDU-TXT-B p~arrafo siguiente>"	! estilo educacion
+405 "<*eEDU-TXT-B preguntas>"	! estilo educacion
+406 "<*eEDU-TXT-C breves>"	! estilo educacion
+407 "<*eEDU-TXT-Columnas+YOpino>"	! estilo educacion
+408 "<*eEDU-TXT-D apoyos>"	! estilo educacion
+409 "<*eEDU-TXT-Z separador BYN>"	! estilo educacion
+410 "<*eEDU-TXT-Z separador Color>"	! estilo educacion
+411 "<*eEDU-Volanta>"	! estilo educacion
+412 "<*eEDU-Volanta breves>"	! estilo educacion
+413 "<*eEDU-Volanta Guia>"	! estilo educacion
+414 "<*eEDU-Volanta situaci~on>"	! estilo educacion
+415 "<*eEDU-Volanta+Cintillo>"	! estilo educacion
+416 "<*eEDU-Volanta+Cintillo+TPA>"	! estilo educacion
+417 "<*eEDU-volanta-complementario>"	! estilo educacion
+420 "<*eTUR-Bajada>"	! estilo turismo
+421 "<*eTUR-Oasis-A>"	! estilo turismo
+422 "<*eTUR-Oasis-B>"	! estilo turismo
+423 "<*eTUR-Pie de Foto>"	! estilo turismo
+424 "<*eTUR-T~itulo apoyos>"	! estilo turismo
+425 "<*eTUR-T~itulo breves>"	! estilo turismo
+426 "<*eTUR-TIT-1 col>"	! estilo turismo
+427 "<*eTUR-TIT-2 cols>"	! estilo turismo
+428 "<*eTUR-TIT-3 cols>"	! estilo turismo
+429 "<*eTUR-TIT-4 cols>"	! estilo turismo
+430 "<*eTUR-TIT-5 cols>"	! estilo turismo
+431 "<*eTUR-TIT-PRINCIPAL>"	! estilo turismo
+432 "<*eTUR-TXT-A primer p~arrafo>"	! estilo turismo
+433 "<*eTUR-TXT-B p~arrafo siguiente>"	! estilo turismo
+434 "<*eTUR-TXT-B preguntas>"	! estilo turismo
+435 "<*eTUR-TXT-C breves>"	! estilo turismo
+436 "<*eTUR-TXT-D apoyos>"	! estilo turismo
+437 "<*eTUR-TXT-Z separador BYN>"	! estilo turismo
+438 "<*eTUR-TXT-Z separador Color>"	! estilo turismo
+439 "<*eTUR-Volanta>"	! estilo turismo
+440 "<*eTUR-Volanta breves>"	! estilo turismo
+450 "<*eMUJ-Bajada>"	! MUJER PLANTILLA-PAR
+451 "<*eMUJ-OASIS>"	! MUJER PLANTILLA-PAR
+452 "<*eMUJ-Pie de Foto>"	! MUJER PLANTILLA-PAR
+453 "<*eMUJ-T~itulo breves y empresarias>"	! MUJER PLANTILLA-PAR
+454 "<*eMUJ-TITULO+APERTURA>"	! MUJER PLANTILLA-PAR
+455 "<*eMUJ-TITULO+COLUMNA>"	! MUJER PLANTILLA-PAR
+456 "<*eMUJ-TXT-A primer p~arrafo>"	! MUJER PLANTILLA-PAR
+457 "<*eMUJ-TXT-B p~arrafo siguiente>"	! MUJER PLANTILLA-PAR
+458 "<*eMUJ-TXT-C breves y opinion>"	! MUJER PLANTILLA-PAR
+459 "<*eMUJ-TXT-Columnas+CAPITULAR>"	! MUJER PLANTILLA-PAR
+460 "<*eMUJ-TXT-RECETAS>"	! MUJER PLANTILLA-PAR
+461 "<*eMUJ-VOLANTA>"	! MUJER PLANTILLA-PAR
+462 "<*eMUJ-Volanta breves>"	! MUJER PLANTILLA-PAR
+470 "<*eFirma (Medio)>"	! salud 2 nueva
+471 "<*ePie Foto>"	! salud 2 nueva
+472 "<*eSALUD-APOYO-TIT>"	! salud 2 nueva
+473 "<*eSALUD-APOYO-TXT>"	! salud 2 nueva
+474 "<*eSALUD-Bajada>"	! salud 2 nueva
+475 "<*eSALUD-BREVES-TIT>"	! salud 2 nueva
+476 "<*eSALUD-BREVES-TXT>"	! salud 2 nueva
+477 "<*eSALUD-OASIS>"	! salud 2 nueva
+478 "<*eSALUD-Pie de Foto>"	! salud 2 nueva
+479 "<*eSALUD-TIT-1 col>"	! salud 2 nueva
+480 "<*eSALUD-TIT-2 cols>"	! salud 2 nueva
+481 "<*eSALUD-TIT-3 cols>"	! salud 2 nueva
+482 "<*eSALUD-TIT-4 cols>"	! salud 2 nueva
+483 "<*eSALUD-TIT-5 cols>"	! salud 2 nueva
+484 "<*eSALUD-TPA-TIT>"	! salud 2 nueva
+485 "<*eSALUD-TPA-TXT>"	! salud 2 nueva
+486 "<*eSALUD-TXT-A primer p~arrafo>"	! salud 2 nueva
+487 "<*eSALUD-TXT-B p~arrafo siguiente>"	! salud 2 nueva
+488 "<*eSALUD-TXT-B preguntas>"	! salud 2 nueva
+489 "<*eSALUD-TXT-Separador BYN>"	! salud 2 nueva
+490 "<*eSALUD-TXT-Separador Color>"	! salud 2 nueva
+491 "<*eSALUD-VOLANTA>"	! salud 2 nueva
+492 "<*eSALUD-VOLANTA-VINCULADO>"	! salud 2 nueva
+493 "<*eTexto>"	! salud 2 nueva
+494 "<*eTXT>"	! salud 2 nueva
+495 "<cstyle:SALUD-CINTILLO>" ! estilo caracter
+
+500 "<*eC-TEXTO>"
+501 "<*cb>"
+502 "<c~None~>" ! sin color
+503 "<*ra(1.5,0,$,60,T0,0,6)><*rb(1.5,0,$,60,T0,0,2)><c~beneficios~>" ! linea para BENEFICIO
+504 "<*eNormal>"
+505 "<c~beneficios~>" ! color  BENEFICIO
+506 "<c~~>" ! color  Negro
+
+510 "<*eESC-Bajada>"	! escenario nuevo
+511 "<*eESC-Cintillo>"	! escenario nuevo
+512 "<*eESC-FichaDisco-AUTOR>"	! escenario nuevo
+513 "<*eESC-Oasis>"	! escenario nuevo
+514 "<*eESC-Piedefoto>"	! escenario nuevo
+515 "<*eESC-TAPA bajada PRINC>"	! escenario nuevo
+516 "<*eESC-TAPA bajada SEC>"	! escenario nuevo
+517 "<*eESC-TAPA titulo SEC>"	! escenario nuevo
+518 "<*eESC-TAPA titutlo PRINC>"	! escenario nuevo
+519 "<*eESC-TAPA volanta TIT princ>"	! escenario nuevo
+520 "<*eESC-TAPA volanta TIT sec>"	! escenario nuevo
+521 "<*eESC-TIT-5 col>"	! escenario nuevo
+522 "<*eESC-TIT-Breves>"	! escenario nuevo
+523 "<*eESC-TIT-CriticasCine>"	! escenario nuevo
+524 "<*eESC-TIT-FichaDisco>"	! escenario nuevo
+525 "<*eESC-TIT-Opinion>"	! escenario nuevo
+526 "<*eESC-TIT-Perla>"	! escenario nuevo
+527 "<*eESC-TIT-Vinculado>"	! escenario nuevo
+528 "<*eESC-TV-Recomendados-LETRA>"	! escenario nuevo
+529 "<*eESC-TXT-Breves>"	! escenario nuevo
+530 "<*eESC-TXT-FichaDisco>"	! escenario nuevo
+531 "<*eESC-TXT-OPINION PrimerP~arrafo >"	! escenario nuevo
+532 "<*eESC-TXT-ParrafoSiguiente>"	! escenario nuevo
+533 "<*eESC-TXT-Perla>"	! escenario nuevo
+534 "<*eESC-TXT-Preguntas>"	! escenario nuevo
+535 "<*eESC-TXT-PrimerParrafo-CAP3>"	! escenario nuevo
+536 "<*eESC-TXT-PrimerParrafo-CAP5>"	! escenario nuevo
+537 "<*eESC-TXT-Vinculado>"	! escenario nuevo
+538 "<*eESC-VOLANTA 1>"	! escenario nuevo
+539 "<*eESC-VOLANTA-Critica>"	! escenario nuevo
+540 "<*eESC-VOLANTA-Situacion>"	! escenario nuevo
+! NUevo diario
+550 "<*eCPO-B-Bajada a una>"	! Interior-IMPAR
+551 "<*eCPO-B-Bajada extendida>"	! Interior-IMPAR
+552 "<*eCPO-B-Cintillo>"	! Interior-IMPAR
+553 "<*eCPO-Copete>"	! Interior-IMPAR
+554 "<*eCPO-Creditos>"	! Interior-IMPAR
+555 "<*eCPO-ESC-Oasis>"	! Interior-IMPAR
+556 "<*eCPO-ESC-Titulo apoyos>"	! Interior-IMPAR
+557 "<*eCPO-ESC-Titulo principal>"	! Interior-IMPAR
+558 "<*eCPO-F-Firma>"	! Interior-IMPAR
+559 "<*eCPO-N~umero>"	! Interior-IMPAR
+560 "<*eCPO-O-Oasis general>"	! Interior-IMPAR
+561 "<*eCPO-O-Oasis opini~on>"	! Interior-IMPAR
+562 "<*eCPO-O-Oasis repercusiones>"	! Interior-IMPAR
+563 "<*eCPO-Pie de foto>"	! Interior-IMPAR
+564 "<*eCPO-Pie de foto americano>"	! Interior-IMPAR
+565 "<*eCPO-T-T~itulo complementario>"	! Interior-IMPAR
+566 "<*eCPO-T-T~itulo principal>"	! Interior-IMPAR
+567 "<*eCPO-T-Titulo apoyos>"	! Interior-IMPAR
+568 "<*eCPO-T-Titulo breves>"	! Interior-IMPAR
+569 "<*eCPO-T-Titulo chapa piezas>"	! Interior-IMPAR
+570 "<*eCPO-T-Titulo columnas-vinculados>"	! Interior-IMPAR
+571 "<*eCPO-T-Titulo empotrado>"	! Interior-IMPAR
+572 "<*eCPO-T-Titulo perla>"	! Interior-IMPAR
+573 "<*eCPO-TXT>"	! Interior-IMPAR
+574 "<*eCPO-TXT-Apoyos>"	! Interior-IMPAR
+575 "<*eCPO-TXT-Breves-columnas-empotrados>"	! Interior-IMPAR
+576 "<*eCPO-TXT-Vinculado>"	! Interior-IMPAR
+577 "<*eCPO-V-Volanta general>"	! Interior-IMPAR
+578 "<*eCPO-V-Volanta situaci~on>"	! Interior-IMPAR
+579 "<*eCPO-Z-P~arrafo numerado>"	! Interior-IMPAR
+580 "<*eCPO-Z-Pseudoinfo TXT>"	! Interior-IMPAR
+581 "<*eCPO-Z-Separador>"	! Interior-IMPAR
+582 "<*eCPO-Z-Texto asteriscos>"	! Interior-IMPAR
+583 "<*eCPO-Z-Texto palabra>"	! Interior-IMPAR
+584 "<*eCPO-Z-Texto vinculos>"	! Interior-IMPAR
+585 "<cstyle:CPO-Titulo pie de foto>" ! estilo caracter
+586 "<cstyle:>" ! estilo caracter
+587 "<*eCPO-TXT-Preguntas>"	! interior diario
+600 "<*eBajada Principal>"	! Ovacion nueva blanco negro
+601 "<*eBajada secundaria>"	! Ovacion nueva blanco negro
+602 "<*ePie de foto>"	! Ovacion nueva blanco negro
+603 "<*eTexto apoyos perlita empotrado>"	! Ovacion nueva blanco negro
+604 "<*eTexto Breves>"	! Ovacion nueva blanco negro
+605 "<*eTexto normal>"	! Ovacion nueva blanco negro
+606 "<*eTitulo 2 material>"	! Ovacion nueva blanco negro
+607 "<*eTitulo de chapas>"	! Ovacion nueva blanco negro
+608 "<*eTitulo para secundario>"	! Ovacion nueva blanco negro
+609 "<*eTitulo perlita>"	! Ovacion nueva blanco negro
+610 "<*eTitulo principal>"	! Ovacion nueva blanco negro
+611 "<*eTitulos apoyos>"	! Ovacion nueva blanco negro
+620 "<*eMUNDIAL (Bajada)>"	! Mundial 2014
+621 "<*eMUNDIAL (Texto Cabeza)>" ! Mundial 2014
+622 "<*eMUNDIAL (Texto normal)>" ! Mundial 2014
+623 "<*eMUNDIAL (Texto para apoyo)>" ! Mundial 2014
+624 "<*eMUNDIAL (Texto para Dato)>" ! Mundial 2014
+625 "<*eMUNDIAL (Volanta)>" ! Mundial 2014 
+626 "<c~OVA Azul~>"           ! Color OVA Azul
+627 "<*eL~inea sin filete>"   ! estilo faltante mundial 2014
+628 "<-t15>" 		! kerning de 15
+629 "<t50>" 		! Track   de 50
+670 "<t40>"		! Track de 40
+671 "<t60>"		! Track de 60
+672 "<*eFINDE_chapa estrenos>"
+673 "<*eFINDE_beneficios>"
+674 "<*eFINDE_g~enero>"
+675 "<*eFINDE_t~itulo pel~icula>"
+676 "<*eFINDE_texto>"
+677 "<c~Beneficios-naranja~>" ! Color naranja beneficios
+678 "<c~Beneficios-cyan~>"    ! Color cyan beneficios
+
+! no hay mas estilos
