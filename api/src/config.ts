@@ -29,6 +29,18 @@ export const config = {
   limitePagina: 30,
   limitePalabras: 100,
 
+  /**
+   * Tope del conteo de resultados.
+   *
+   * `count(*)` exacto sobre el join completo cuesta ~950 ms medidos sobre
+   * 1,3 millones de filas, y no baja con ningún índice: para decir el número
+   * exacto hay que recorrer todo. Acotarlo a 1000 lo deja en ~3 ms, y arriba
+   * del tope la web muestra "más de 1.000".
+   *
+   * Nadie navega hasta la página 36.000; el que busca en serio filtra.
+   */
+  topeConteo: 1000,
+
   secretoSesion: secretoSesion(),
   /** Duración del token de sesión. Una jornada de redacción entra holgada. */
   horasSesion: Number(process.env.JSDR_HORAS_SESION ?? 12),

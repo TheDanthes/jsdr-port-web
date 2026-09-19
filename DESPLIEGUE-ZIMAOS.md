@@ -24,6 +24,8 @@ Subir por el explorador de archivos:
 | Archivo | Destino |
 |---|---|
 | `db/esquema-moderno.sql` | `/DATA/AppData/jsdr/db/` |
+| `db/indices.sql` | `/DATA/AppData/jsdr/db/` |
+| `db/medir-buscador.sh` | `/DATA/AppData/jsdr/db/` |
 | `db/datos-prueba.sql` | `/DATA/AppData/jsdr/db/` |
 | `jsdr-completo.dump` (1,4 GB) | `/DATA/AppData/jsdr/dumps/` |
 
@@ -78,8 +80,16 @@ psql -U jsdr -d jsdr_copia -v ON_ERROR_STOP=1 -f /db/esquema-moderno.sql
 pg_restore --data-only --no-owner --disable-triggers -U jsdr -d jsdr_copia -j 2 \
   /dumps/jsdr-completo.dump
 
-# 5. Secuencias — están al final de esquema-moderno.sql, comentadas
+# 5. Secuencias — el bloque setval() del final de esquema-moderno.sql
+
+# 6. Índices del buscador. IMPRESCINDIBLE, y va acá: crearlos antes de
+#    restaurar haría que la carga mantuviera cada índice fila por fila.
+psql -U jsdr -d jsdr_copia -f /db/indices.sql
 ```
+
+> **Sin el paso 6 una búsqueda tarda entre 1 y 6 segundos; con él, 8 milisegundos.**
+> Medido sobre 1,3 millones de filas. `db/medir-buscador.sh` hace ese paso y
+> además mide el antes y el después con tus propios datos.
 
 ### Qué esperar
 
@@ -123,9 +133,9 @@ Qué mirar en la primera vuelta:
 2. Que el buscador traiga resultados y que los filtros de sección, estado y fecha
    achiquen la lista.
 3. Que al abrir una noticia aparezca su historial de versiones.
-4. **Cuánto tarda una búsqueda.** Sobre 1,3 millones de filas y con los índices que
-   trae la base original, puede ir lento: es justamente lo que hay que medir para
-   decidir qué índices agregar (documento 06 §4).
+4. **Cuánto tarda una búsqueda.** Con `indices.sql` aplicado debería responder en
+   milisegundos, no en segundos. Si va lenta, lo más probable es que falte ese
+   paso o el `ANALYZE` que lo acompaña.
 
 La suite de humo, desde cualquier máquina con `bash`, `curl` y `python3`:
 

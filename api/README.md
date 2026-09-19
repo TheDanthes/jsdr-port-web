@@ -73,6 +73,38 @@ cueste.
 Devuelve **una fila por noticia: su versión activa**, como el buscador original.
 Paginado por defecto de 30, igual que `Constants.FIND_NOTICIAS_LIMIT`.
 
+### El conteo viene acotado
+
+La respuesta trae `total`, `total_exacto` y `hay_mas`:
+
+```json
+{ "items": [...], "total": 1000, "total_exacto": false, "hay_mas": true,
+  "offset": 0, "limite": 30 }
+```
+
+`count(*)` exacto sobre el join completo cuesta **~950 ms medidos** sobre 1,3
+millones de filas, con o sin índices: para decir el número exacto hay que
+recorrer todo. Acotado a 1000 queda en ~3 ms, y la web muestra "más de 1.000".
+
+`hay_mas` no se deduce del total —que puede venir acotado— sino que se pide una
+fila más de las que se devuelven y se descarta. Así el paginado es exacto aunque
+el conteo no lo sea.
+
+### El ORDER BY y los nulos
+
+El buscador emite `NULLS LAST` al ordenar descendente y `NULLS FIRST` al
+ascender, y desempata por `(fecha_publicacion, id_noticia)`. No es capricho:
+**decide si los índices sirven**. Un índice `(columna DESC NULLS LAST, fecha
+DESC NULLS LAST, id_noticia DESC)` satisface ese orden leído hacia adelante, y
+leído hacia atrás da exactamente la variante ascendente. Con eso, un solo índice
+por columna cubre las dos direcciones *y* el filtrado por esa columna.
+
+Cambiar cualquiera de esas tres cosas —dirección, lugar de los nulos o
+desempate— hace que el planificador descarte el índice y vuelva a ordenar un
+millón de filas. Medido: 1.900 ms contra 8 ms.
+
+Los índices están en `db/indices.sql`, con la explicación completa.
+
 ### Filtros de `/api/cables`
 
 `agencias` · `prioridad` · `desde` · `hasta` · `tema` · `texto` · `numero` ·

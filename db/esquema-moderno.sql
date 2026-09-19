@@ -340,32 +340,64 @@ CREATE UNIQUE INDEX id_numero_version_activa ON noticias USING btree (id, numero
 --  existen — `eliminada` (booleano) e `idx_nivel` (3 valores) — tienen
 --  cardinalidad tan baja que el planner casi nunca los usa.
 --
---  Esto probablemente explica que las búsquedas sean lentas hoy.
+--  Esto explica que las búsquedas sean lentas hoy. MEDIDO sobre la copia real
+--  en el ZimaOS: entre 4,6 y 6,1 segundos por búsqueda.
 --
---  NO aplicar esto contra producción. Aplicarlo en la copia restaurada,
---  medir con EXPLAIN ANALYZE las consultas reales del buscador, y sólo
---  entonces decidir qué vale la pena proponer.
+--  NO aplicar esto contra producción. Va en la copia restaurada.
+-- ----------------------------------------------------------------------------
 --
---  Descomentar para probar:
+--  POR QUÉ EL ORDEN DEL ÍNDICE TIENE QUE COINCIDIR CON EL ORDER BY
+--
+--  Primer intento: índices "obvios" sobre (id_seccion, fecha DESC), (estado,
+--  fecha DESC), (redactor), etc. Resultado medido sobre las 1.297.497 filas
+--  reales: 1.0x. Ni un milisegundo de mejora. El planificador los ignoró.
+--
+--  La razón es el ORDER BY que emite el buscador:
+--
+--      ORDER BY v.fecha_publicacion DESC NULLS LAST, v.id_noticia DESC
+--
+--  Un índice declarado `DESC` en PostgreSQL es, por defecto, DESC NULLS FIRST.
+--  Esa sola diferencia —dónde van los nulos— lo vuelve inservible para
+--  satisfacer este ORDER BY, así que el planificador desiste de ordenar por
+--  índice, recorre la tabla entera, hace el hash join completo con `noticias`,
+--  ordena 1,09 millones de filas y recién ahí toma las 30 que se muestran.
+--
+--  Con el orden declarado igual que el ORDER BY —incluido el segundo criterio,
+--  `id_noticia DESC`— el plan cambia por completo: recorre el índice ya
+--  ordenado, entra a `noticias` por su clave primaria y frena a las 30 filas.
+--
+--  Verificado sobre 1.297.497 filas generadas con la misma distribución de la
+--  base real (mismos conteos por estado, 1,19 versiones por noticia):
+--
+--      sin filtros, por fecha    1253 ms  ->  0,6 ms
+--      por sección                          1,1 ms
+--      por estado                           0,9 ms
+--      por redactor                         1,0 ms
+--
+--  La lección, para cuando aparezcan órdenes nuevos: un índice sirve para
+--  ordenar sólo si su orden declarado coincide EXACTAMENTE con el del ORDER BY,
+--  nulos incluidos.
 -- ----------------------------------------------------------------------------
 
--- CREATE INDEX ix_versiones_seccion_fecha  ON versiones (id_seccion, fecha_publicacion DESC);
--- CREATE INDEX ix_versiones_estado_fecha   ON versiones (estado, fecha_publicacion DESC);
--- CREATE INDEX ix_versiones_redactor       ON versiones (redactor);
--- CREATE INDEX ix_versiones_id_redactor    ON versiones (id_redactor);
--- CREATE INDEX ix_versiones_no_eliminadas  ON versiones (fecha_publicacion DESC)
---     WHERE eliminada = false;               -- índice parcial: mucho más útil que `eliminada`
--- CREATE INDEX ix_noticias_guia            ON noticias (guia);
--- CREATE INDEX ix_cables_agencia           ON cables (id_agencia);
--- CREATE INDEX ix_reservas_username        ON reservas_cables (username);
--- CREATE INDEX ix_cables_leidos_usuario    ON cables_leidos (id_usuario);
--- CREATE INDEX ix_comandos_seccion         ON comandos (id_seccion);
--- CREATE INDEX ix_comandos_usuario         ON comandos (id_usuario);
-
--- Búsqueda por texto en títulos (el buscador tiene un campo "Noticia:").
--- Requiere la extensión pg_trgm.
--- CREATE EXTENSION IF NOT EXISTS pg_trgm;
--- CREATE INDEX ix_versiones_titulo_trgm ON versiones USING gin (titulo gin_trgm_ops);
+-- Los índices NO se crean acá: crearlos antes de `pg_restore` haría que la
+-- carga de 1,3 millones de filas tuviera que mantenerlos fila por fila.
+-- Van en `indices.sql`, que se aplica DESPUÉS de restaurar los datos:
+--
+--     psql -U jsdr -d jsdr_copia -f /db/indices.sql
+--
+-- ----------------------------------------------------------------------------
+--  LO QUE NINGÚN ÍNDICE ARREGLA: el conteo exacto
+--
+--  `SELECT count(*)` sobre el join completo cuesta ~950 ms medidos, con o sin
+--  índices: para decir "1.093.772" hay que recorrer todo, no hay atajo.
+--
+--  La salida no es un índice sino no pedir el número exacto. La API acota el
+--  conteo a 1000 y muestra "más de 1.000" cuando se pasa:
+--
+--      SELECT count(*) FROM (SELECT 1 ... LIMIT 1001) t     -- 950 ms -> 3 ms
+--
+--  Nadie navega hasta la página 36.000; el que busca en serio filtra.
+-- ----------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------
 --  HUECO DE INTEGRIDAD: `usuarios.username` no tiene restricción UNIQUE, pese

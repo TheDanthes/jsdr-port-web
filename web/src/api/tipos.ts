@@ -100,7 +100,11 @@ export interface Reserva {
 
 export interface Pagina<T> {
   items: T[];
+  /** Si `total_exacto` es false, es el tope alcanzado: hay más que esto. */
   total: number;
+  total_exacto: boolean;
+  /** Si hay al menos una página más. Lo sabe la API con certeza. */
+  hay_mas: boolean;
   offset: number;
   limite: number;
 }

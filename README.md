@@ -104,7 +104,9 @@ DESPLIEGUE-ZIMAOS.md        Guía de instalación desde Container Manager
 db/
   esquema-moderno.sql       Esquema traducido de PG 8.0.3 a PG 16. Réplica fiel:
                             109 columnas, verificado una a una contra el original.
-                            Al final, índices propuestos (comentados) y setval().
+  indices.sql               Índices del buscador. Se aplica DESPUÉS de restaurar.
+                            Sin esto una búsqueda tarda segundos; con esto, 8 ms.
+  medir-buscador.sh         Los aplica y mide antes/después contra la copia real
   datos-prueba.sql          Datos sintéticos para desarrollo (nada real del diario)
   restaurar-copia.sh        Restaura el dump en el Postgres local
 dumps/                      Dumps de producción. NO van al repo (.gitignore).

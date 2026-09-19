@@ -123,23 +123,57 @@ export async function buscarNoticias(f: FiltroNoticias): Promise<Pagina<Noticia>
   const orden = ORDEN_NOTICIAS[f.orden ?? 'fecha'];
   const dir = f.ascendente ? 'ASC' : 'DESC';
 
+  /**
+   * Dónde van los nulos. No es un detalle estético: decide si un índice sirve.
+   *
+   * Un índice `(col DESC NULLS LAST, id DESC)` satisface ese orden leído hacia
+   * adelante, y leído hacia atrás da exactamente `(col ASC NULLS FIRST, id ASC)`.
+   * Con esta regla —NULLS LAST al bajar, NULLS FIRST al subir— un solo índice
+   * por columna cubre las dos direcciones. Si en cambio se pidiera NULLS LAST
+   * en ambas, la dirección ascendente no coincidiría con nada y volvería a
+   * ordenar el millón de filas a mano.
+   *
+   * De paso es más coherente: lo que no tiene valor queda siempre en el
+   * extremo "más bajo", suba o baje el orden.
+   *
+   * El desempate es (fecha, id_noticia) y no sólo id_noticia, por la misma
+   * razón: los índices del buscador son `(columna, fecha, id_noticia)`, así
+   * que con este desempate el MISMO índice sirve para filtrar por esa columna
+   * y para ordenar por ella. Con sólo `id_noticia` no coincidía y ordenar por
+   * estado o por redactor costaba 1,9 segundos.
+   *
+   * Además es mejor criterio: dentro de un mismo estado, primero lo más nuevo.
+   */
+  const nulos = f.ascendente ? 'NULLS FIRST' : 'NULLS LAST';
+
   const base = `
       FROM versiones v
       JOIN noticias  n ON n.id = v.id_noticia AND v.numero = n.numero_version_activa
       JOIN secciones s ON s.id = v.id_seccion
      WHERE ${where}`;
 
-  const [{ total }] = await consultar<{ total: number }>(
-    `SELECT count(*)::bigint AS total ${base}`, par,
+  // Conteo acotado: contar exacto sobre el join completo cuesta ~950 ms y no
+  // baja con índices. Con el tope queda en ~3 ms. Se pide una fila más que el
+  // tope para poder distinguir "justo 1000" de "más de 1000".
+  const tope = config.topeConteo;
+  const [{ total: contadas }] = await consultar<{ total: number }>(
+    `SELECT count(*)::bigint AS total FROM (SELECT 1 ${base} LIMIT ${tope + 1}) t`,
+    par,
   ) as [{ total: number }];
+  const total_exacto = contadas <= tope;
+  const total = total_exacto ? contadas : tope;
 
+  // Una fila de más: si vuelve, hay página siguiente. Así el paginado no
+  // depende del total, que puede venir acotado.
   const filas = await consultar<FilaVersion>(
     `SELECT n.guia, n.numero_version_activa, n.numero_proxima_version, ${COLUMNAS_VERSION}
        ${base}
-     ORDER BY ${orden} ${dir} NULLS LAST, v.id_noticia ${dir}
-     LIMIT ${limite} OFFSET ${offset}`,
+     ORDER BY ${orden} ${dir} ${nulos}, v.fecha_publicacion ${dir} ${nulos}, v.id_noticia ${dir}
+     LIMIT ${limite + 1} OFFSET ${offset}`,
     par,
   );
+  const hay_mas = filas.length > limite;
+  if (hay_mas) filas.pop();
 
   return {
     items: filas.map((f2) => ({
@@ -150,6 +184,8 @@ export async function buscarNoticias(f: FiltroNoticias): Promise<Pagina<Noticia>
       version: aVersion(f2),
     })),
     total,
+    total_exacto,
+    hay_mas,
     offset,
     limite,
   };

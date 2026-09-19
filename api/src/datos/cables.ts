@@ -89,11 +89,15 @@ export async function buscarCables(f: FiltroCables): Promise<Pagina<Cable>> {
             c.medida_cm, c.medida_lineas${extra}
        ${base}
      ORDER BY ${orden}, c.id ${dir}
-     LIMIT ${limite} OFFSET ${offset}`,
+     LIMIT ${limite + 1} OFFSET ${offset}`,
     par,
   );
+  const hay_mas = filas.length > limite;
+  if (hay_mas) filas.pop();
 
-  return { items: filas.map(aCable), total, offset, limite };
+  // En cables el conteo va exacto: la tabla es una ventana móvil de 1 a 3 días
+  // —156 filas en producción—, así que contar no cuesta nada.
+  return { items: filas.map(aCable), total, total_exacto: true, hay_mas, offset, limite };
 }
 
 export async function obtenerCable(id: number): Promise<Cable | null> {

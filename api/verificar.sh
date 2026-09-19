@@ -85,6 +85,12 @@ t "filtro por guia parcial" "$T_M" "/api/noticias?guia=paro" \
   "import sys,json;print('PASS' if json.load(sys.stdin)['total']==1 else 'mal')"
 t "paginado con total real" "$T_M" "/api/noticias?limite=1" \
   "import sys,json;d=json.load(sys.stdin);print('PASS' if d['total']==3 and len(d['items'])==1 else 'mal')"
+t "hay_mas cuando falta página" "$T_M" "/api/noticias?limite=1" \
+  "import sys,json;d=json.load(sys.stdin);print('PASS' if d['hay_mas'] is True and d['total_exacto'] is True else d)"
+t "hay_mas falso en la última" "$T_M" "/api/noticias?limite=1&offset=2" \
+  "import sys,json;d=json.load(sys.stdin);print('PASS' if d['hay_mas'] is False else d)"
+t "no devuelve la fila de sondeo" "$T_M" "/api/noticias?limite=2" \
+  "import sys,json;d=json.load(sys.stdin);print('PASS' if len(d['items'])==2 else len(d['items']))"
 t "orden invalido da 400" "$T_M" "/api/noticias?orden=xx" \
   "import sys,json;print('PASS' if 'validos' in json.load(sys.stdin) else 'no valida')"
 

@@ -316,7 +316,13 @@ export function BuscadorNoticias() {
           )}
 
           <Paginado
-            total={pagina.total} offset={pagina.offset} limite={pagina.limite} alIr={irA}
+            total={pagina.total}
+            totalExacto={pagina.total_exacto}
+            hayMas={pagina.hay_mas}
+            mostrados={pagina.items.length}
+            offset={pagina.offset}
+            limite={pagina.limite}
+            alIr={irA}
           />
         </>
       )}

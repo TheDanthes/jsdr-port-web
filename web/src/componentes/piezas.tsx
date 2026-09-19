@@ -78,28 +78,41 @@ export function ThOrden({
 }
 
 export function Paginado({
-  total, offset, limite, alIr,
+  total, totalExacto = true, hayMas, mostrados, offset, limite, alIr,
 }: {
-  total: number; offset: number; limite: number; alIr: (offset: number) => void;
+  total: number;
+  /** false cuando el conteo se cortó en el tope: se muestra "más de N". */
+  totalExacto?: boolean;
+  /** Lo dice la API, no se deduce del total (que puede venir acotado). */
+  hayMas: boolean;
+  mostrados: number;
+  offset: number;
+  limite: number;
+  alIr: (offset: number) => void;
 }) {
-  const desde = total === 0 ? 0 : offset + 1;
-  const hasta = Math.min(offset + limite, total);
+  const desde = mostrados === 0 ? 0 : offset + 1;
+  const hasta = offset + mostrados;
   const hayAnterior = offset > 0;
-  const haySiguiente = hasta < total;
+
+  const cuenta = () => {
+    if (mostrados === 0) return 'Sin resultados';
+    const rango = `${desde.toLocaleString('es-AR')}–${hasta.toLocaleString('es-AR')}`;
+    return totalExacto
+      ? `${rango} de ${total.toLocaleString('es-AR')}`
+      // Contar exacto sobre el archivo entero cuesta casi un segundo y no
+      // aporta: quien busca en serio filtra.
+      : `${rango} de más de ${total.toLocaleString('es-AR')}`;
+  };
 
   return (
     <div className="paginado">
-      <span className="cuenta">
-        {total === 0
-          ? 'Sin resultados'
-          : `${desde.toLocaleString('es-AR')}–${hasta.toLocaleString('es-AR')} de ${total.toLocaleString('es-AR')}`}
-      </span>
+      <span className="cuenta">{cuenta()}</span>
       <div className="acciones">
         <button onClick={() => alIr(0)} disabled={!hayAnterior}>« Primera</button>
         <button onClick={() => alIr(Math.max(0, offset - limite))} disabled={!hayAnterior}>
           ‹ Anterior
         </button>
-        <button onClick={() => alIr(offset + limite)} disabled={!haySiguiente}>
+        <button onClick={() => alIr(offset + limite)} disabled={!hayMas}>
           Siguiente ›
         </button>
       </div>

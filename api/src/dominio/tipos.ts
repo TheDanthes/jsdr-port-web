@@ -90,7 +90,16 @@ export interface Cable {
 
 export interface Pagina<T> {
   items: T[];
+  /** Cantidad de resultados. Si `total_exacto` es false, es el tope alcanzado. */
   total: number;
+  /** false cuando el conteo se cortó en el tope: hay más de `total`. */
+  total_exacto: boolean;
+  /**
+   * Si hay al menos una página más. Se sabe con certeza porque la consulta
+   * pide una fila de más y la descarta; no se deduce del total, que puede
+   * venir acotado.
+   */
+  hay_mas: boolean;
   offset: number;
   limite: number;
 }
