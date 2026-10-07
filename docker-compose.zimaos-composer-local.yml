@@ -1,0 +1,113 @@
+# jSDR — Composer (motor tipográfico) en ZimaOS
+#
+# Container Manager → Apps → + → Instalar una app personalizada → Importar.
+#
+# Va como stack APARTE del de la API, a propósito: el composer no toca la base
+# ni depende de ella, y así se puede reiniciar, actualizar o apagar sin tocar
+# lo que la redacción está usando para leer.
+#
+# IMPORTANTE: este archivo no usa NINGUNA variable ni interpolación.
+# Container Manager no interpreta la sintaxis de variables con valor por
+# defecto de Docker Compose: la reemplaza por vacío. Ni en los comentarios se
+# escribe una, para no tentar a la suerte.
+# Todo va literal, igual que en el stack de la API.
+#
+# ----------------------------------------------------------------------------
+#  ANTES DE IMPORTAR: cargar la imagen en el equipo
+#
+#  Este compose NO baja nada de internet: usa la imagen que ya esté cargada en
+#  el Docker del ZimaOS. Por eso no hace falta token ni `docker login`.
+#
+#  1. En GitHub -> Actions -> "Construir imagen del composer" -> la ultima
+#     corrida verde -> al final de la pagina, descargar el artefacto
+#     **jsdr-composer-imagen** (93 MB). Baja como .zip.
+#
+#  2. Descomprimir el .zip: adentro esta `jsdr-composer.tar.gz`.
+#
+#  3. Copiarlo al ZimaOS, por ejemplo a /DATA/AppData/jsdr/ con el explorador
+#     de archivos.
+#
+#  4. En la terminal del ZimaOS:
+#         gunzip -c /DATA/AppData/jsdr/jsdr-composer.tar.gz | sudo docker load
+#
+#     Tiene que terminar diciendo:  Loaded image: jsdr-composer:local
+#
+#  5. Recien ahi, importar este archivo en Container Manager.
+#
+#  Para actualizar mas adelante: repetir los pasos 1 a 4 con la corrida nueva
+#  y reiniciar el contenedor. La imagen vieja queda; se limpia con
+#  `sudo docker image prune`.
+# ----------------------------------------------------------------------------
+
+name: jsdr-composer
+
+x-casaos:
+  architectures:
+    - amd64
+  main: composer
+  author: OnDesk
+  developer: OnDesk
+  category: Developer
+  title:
+    en_us: jSDR Composer
+    es_ar: jSDR Composer
+  tagline:
+    en_us: Typesetting engine as a service (phase 2)
+    es_ar: Motor tipográfico como servicio (fase 2)
+  description:
+    es_ar: >
+      El motor tipográfico original de jSDR —medir y sr2xp, de 2005— detrás de
+      HTTP. Mide noticias en centímetros y didots, y deja el material
+      fotocompuesto donde InDesign lo levanta. Verificado contra 534 salidas
+      reales de producción, idénticas byte a byte.
+  index: /salud
+  port_map: "3098"
+  scheme: http
+
+services:
+
+  composer:
+    # Imagen cargada en el equipo con `docker load`, no bajada de ningún
+    # registro: no hace falta token ni `docker login`.
+    image: jsdr-composer:local
+    container_name: jsdr-composer
+
+    environment:
+      COMPOSER_PORT: 3098
+      LOG_LEVEL: info
+      TZ: America/Argentina/Buenos_Aires
+
+      # Dónde caen los .txt que levanta InDesign. Adentro del contenedor esta
+      # ruta es fija; lo que cambia es a qué carpeta del equipo apunta el
+      # volumen de más abajo. El día del corte, esto pasa a /u/indesign en el
+      # servidor del diario y no se toca nada más.
+      JSDR_SALIDA_INDESIGN: /salida-indesign
+
+      # Tope por corrida del motor, en milisegundos.
+      # NO es una precaución teórica: `medir` entra en bucle infinito con
+      # ciertas entradas —el archivo que lo colgaba quedó guardado en el
+      # servidor viejo y se reprodujo—. Sin esto, una sola nota deja un
+      # proceso girando para siempre.
+      JSDR_TOPE_MOTOR_MS: 20000
+
+      # Corridas simultáneas. Son procesos de 2005 que leen y escriben
+      # archivos; con la redacción entera midiendo al cierre es preferible
+      # esperar 200 ms a quedarse sin CPU.
+      JSDR_CONCURRENCIA: 4
+
+    volumes:
+      # Bind mount, como todo el resto: se ve y se respalda desde el explorador
+      # de archivos del ZimaOS.
+      - /DATA/AppData/jsdr/salida-indesign:/salida-indesign
+
+    ports:
+      - "3098:3098"
+
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3098/salud').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+    restart: unless-stopped

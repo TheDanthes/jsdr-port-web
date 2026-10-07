@@ -1,0 +1,103 @@
+# jSDR — Composer (motor tipográfico) en ZimaOS
+#
+# Container Manager → Apps → + → Instalar una app personalizada → Importar.
+#
+# Va como stack APARTE del de la API, a propósito: el composer no toca la base
+# ni depende de ella, y así se puede reiniciar, actualizar o apagar sin tocar
+# lo que la redacción está usando para leer.
+#
+# IMPORTANTE: este archivo no usa NINGUNA variable ni interpolación.
+# Container Manager no interpreta `${VAR:-valor}`: lo reemplaza por vacío.
+# Todo va literal, igual que en el stack de la API.
+#
+# ----------------------------------------------------------------------------
+#  ANTES DE IMPORTAR: hay que tener la imagen en el equipo
+#
+#  El paquete de GHCR es PRIVADO, así que hay dos caminos.
+#
+#  A) Con token (queda andando solo en adelante)
+#     En la terminal del ZimaOS:
+#         sudo docker login ghcr.io -u TheDanthes
+#         (pega un token clásico con permiso read:packages)
+#         sudo docker pull ghcr.io/thedanthes/jsdr-composer:latest
+#     Y se deja la línea `image:` como está.
+#
+#  B) Sin token, desde el archivo de la corrida
+#     En GitHub → Actions → "Construir imagen del composer" → la última
+#     corrida → al final, descargar **jsdr-composer-imagen**. Copiarlo al
+#     ZimaOS y ahí:
+#         gunzip -c jsdr-composer.tar.gz | sudo docker load
+#     Eso deja la imagen como `jsdr-composer:local`, así que hay que cambiar
+#     la línea `image:` de abajo por:  image: jsdr-composer:local
+# ----------------------------------------------------------------------------
+
+name: jsdr-composer
+
+x-casaos:
+  architectures:
+    - amd64
+  main: composer
+  author: OnDesk
+  developer: OnDesk
+  category: Developer
+  title:
+    en_us: jSDR Composer
+    es_ar: jSDR Composer
+  tagline:
+    en_us: Typesetting engine as a service (phase 2)
+    es_ar: Motor tipográfico como servicio (fase 2)
+  description:
+    es_ar: >
+      El motor tipográfico original de jSDR —medir y sr2xp, de 2005— detrás de
+      HTTP. Mide noticias en centímetros y didots, y deja el material
+      fotocompuesto donde InDesign lo levanta. Verificado contra 534 salidas
+      reales de producción, idénticas byte a byte.
+  index: /salud
+  port_map: "3098"
+  scheme: http
+
+services:
+
+  composer:
+    image: ghcr.io/thedanthes/jsdr-composer:latest
+    container_name: jsdr-composer
+
+    environment:
+      COMPOSER_PORT: 3098
+      LOG_LEVEL: info
+      TZ: America/Argentina/Buenos_Aires
+
+      # Dónde caen los .txt que levanta InDesign. Adentro del contenedor esta
+      # ruta es fija; lo que cambia es a qué carpeta del equipo apunta el
+      # volumen de más abajo. El día del corte, esto pasa a /u/indesign en el
+      # servidor del diario y no se toca nada más.
+      JSDR_SALIDA_INDESIGN: /salida-indesign
+
+      # Tope por corrida del motor, en milisegundos.
+      # NO es una precaución teórica: `medir` entra en bucle infinito con
+      # ciertas entradas —el archivo que lo colgaba quedó guardado en el
+      # servidor viejo y se reprodujo—. Sin esto, una sola nota deja un
+      # proceso girando para siempre.
+      JSDR_TOPE_MOTOR_MS: 20000
+
+      # Corridas simultáneas. Son procesos de 2005 que leen y escriben
+      # archivos; con la redacción entera midiendo al cierre es preferible
+      # esperar 200 ms a quedarse sin CPU.
+      JSDR_CONCURRENCIA: 4
+
+    volumes:
+      # Bind mount, como todo el resto: se ve y se respalda desde el explorador
+      # de archivos del ZimaOS.
+      - /DATA/AppData/jsdr/salida-indesign:/salida-indesign
+
+    ports:
+      - "3098:3098"
+
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3098/salud').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+    restart: unless-stopped
