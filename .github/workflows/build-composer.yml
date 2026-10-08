@@ -55,9 +55,15 @@ jobs:
       #  mismas bibliotecas de 32 bits que van a estar en el ZimaOS. No es una
       #  prueba "parecida a" producción: es la imagen que se publica.
       # ----------------------------------------------------------------------
+      #
+      #  Corre con el usuario POR DEFECTO de la imagen (`node`), igual que
+      #  `docker exec jsdr-composer ...` en el ZimaOS. Antes corría con
+      #  --user root y por eso nunca se vio que como `node` el bloque 3
+      #  fallaba con "Permission denied": el portón probaba algo distinto de
+      #  lo que se instala.
       - name: Banco de pruebas del motor, dentro de la imagen
         run: |
-          docker run --rm --user root jsdr-composer:local \
+          docker run --rm jsdr-composer:local \
             sh /opt/jsdr/verificar-motor.sh
 
       - name: Prueba de humo del servicio HTTP

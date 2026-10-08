@@ -35,20 +35,49 @@ MOTOR=${SDR_ROOT:-$AQUI/../motor}
 # así —el diario sale todos los días—, así que el CRLF entró en el rescate, al
 # pasar los archivos por Windows. Se normaliza al copiarlos; el original en el
 # repositorio queda tal cual se rescató.
-rm -rf /home/jsdr/bin
-mkdir -p /home/jsdr/bin
-for f in "$MOTOR"/bin/*; do
-  case "$f" in
-    *.pl|*.sh) sed 's/\r$//' "$f" > "/home/jsdr/bin/$(basename "$f")" ;;
-    *)         cp "$f" "/home/jsdr/bin/$(basename "$f")" ;;
-  esac
-done
-chmod +x /home/jsdr/bin/*.pl /home/jsdr/bin/*.sh 2>/dev/null || true
+#
+# DENTRO DE LA IMAGEN NO SE TOCA NADA. Ahí /home/jsdr/bin ya es un enlace al
+# motor y los .pl ya vienen en LF (lo hace el Dockerfile), así que se usa tal
+# cual. Antes se borraba y se rearmaba siempre: eso exigía root —el usuario
+# del contenedor es `node`— y dejaba el contenedor distinto de la imagen.
+# Corrido como `node` fallaba con "Permission denied" y el banco informaba
+# "58 de 534 NO coinciden" sin haber comparado nada.
+#
+# Fuera de la imagen (una máquina de desarrollo) se arma la copia como antes.
+CR=$(printf '\r')
+if [ "$(readlink -f /home/jsdr/bin 2>/dev/null)" = "$(readlink -f "$MOTOR/bin")" ]; then
+  if grep -l "$CR" "$MOTOR"/bin/*.pl >/dev/null 2>&1; then
+    echo "  /home/jsdr/bin apunta al motor pero sus .pl tienen CRLF: no van a arrancar."
+    echo "  La imagen los normaliza al construirse; si esto aparece, el Dockerfile no lo hizo."
+    exit 1
+  fi
+else
+  if ! { mkdir -p /home/jsdr 2>/dev/null && [ -w /home/jsdr ]; }; then
+    echo "  No puedo armar /home/jsdr/bin (sin permiso de escritura en /home/jsdr)."
+    echo "  Es la ruta que mac.pl y xtg2ind.pl tienen escrita adentro. Fuera de la"
+    echo "  imagen del composer este script necesita poder crearla: correrlo como root."
+    exit 1
+  fi
+  rm -rf /home/jsdr/bin
+  mkdir -p /home/jsdr/bin
+  for f in "$MOTOR"/bin/*; do
+    case "$f" in
+      *.pl|*.sh) sed 's/\r$//' "$f" > "/home/jsdr/bin/$(basename "$f")" ;;
+      *)         cp "$f" "/home/jsdr/bin/$(basename "$f")" ;;
+    esac
+  done
+  chmod +x /home/jsdr/bin/*.pl /home/jsdr/bin/*.sh 2>/dev/null || true
+fi
 
-# mac.pl escribe en /u/indesign/<carpeta>/<guia>.txt, hardcodeado.
+# mac.pl escribe en /u/indesign/<carpeta>/<guia>.txt, hardcodeado. En la
+# imagen esa carpeta ya existe y es del usuario `node` (ver Dockerfile).
 for d in ciudad escenario deportes economia educacion seniales mundo hipica \
          infgeneral region policiales politica secretaria fundacion suplementos; do
-  mkdir -p "/u/indesign/$d"
+  if ! mkdir -p "/u/indesign/$d" 2>/dev/null || [ ! -w "/u/indesign/$d" ]; then
+    echo "  No puedo escribir en /u/indesign/$d: mac.pl deja ahí su salida."
+    echo "  En la imagen esa carpeta es del usuario node; fuera de ella, correr como root."
+    exit 1
+  fi
 done
 
 mkdir -p "$DESTINO"

@@ -76,8 +76,12 @@ RUN mkdir -p /home/jsdr && ln -s /opt/jsdr/motor/bin /home/jsdr/bin
 
 # Carpeta de trabajo de las corridas. SIN PUNTOS en el nombre: sr2xp arma el
 # nombre del .xtg cortando la ruta en el primer punto.
-RUN mkdir -p /var/tmp/jsdr-composer /salida-indesign /usr/local/jSDR/medir/amedir \
- && chown -R node:node /var/tmp/jsdr-composer /salida-indesign /usr/local/jSDR
+#
+# /u/indesign no lo usa el servicio —escribe en JSDR_SALIDA_INDESIGN—: es la
+# ruta hardcodeada del `mac.pl` original, que el banco corre como referencia
+# en el bloque 3. Es del usuario `node` para que el banco ande sin root.
+RUN mkdir -p /var/tmp/jsdr-composer /salida-indesign /usr/local/jSDR/medir/amedir /u/indesign \
+ && chown -R node:node /var/tmp/jsdr-composer /salida-indesign /usr/local/jSDR /u/indesign
 
 ENV NODE_ENV=production \
     SDR_ROOT=/opt/jsdr/motor \
