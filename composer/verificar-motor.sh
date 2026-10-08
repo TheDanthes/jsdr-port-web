@@ -102,7 +102,7 @@ for entrada in "$PRUEBAS"/medir/amedir/*.medir; do
   rm -f "$AMEDIR/$id.frm"
   # El código de salida NO es señal de error: medir devuelve la cantidad de
   # avisos. Lo que se compara es la salida.
-  "$BIN/medir" -f "$AMEDIR/$id.medir" > "$TRABAJO/$id.out" 2> "$TRABAJO/$id.err"
+  "$BIN/medir" -f -a "$AMEDIR/$id.medir" > "$TRABAJO/$id.out" 2> "$TRABAJO/$id.err"
   comparar "medir/$id.out" "$PRUEBAS/medir/out/$id.out" "$TRABAJO/$id.out"
   comparar "medir/$id.err" "$PRUEBAS/medir/err/$id.err" "$TRABAJO/$id.err"
   comparar "medir/$id.frm" "$PRUEBAS/medir/amedir/$id.frm" "$AMEDIR/$id.frm"
@@ -155,7 +155,7 @@ fi
 echo "[4/4] el caso que cuelga el motor"
 if [ -f "$PRUEBAS/cuelga/cuelga.medir" ]; then
   cp "$PRUEBAS/cuelga/cuelga.medir" "$AMEDIR/cuelga.medir"
-  if timeout 10 "$BIN/medir" -f "$AMEDIR/cuelga.medir" > /dev/null 2>&1; then
+  if timeout 10 "$BIN/medir" -f -a "$AMEDIR/cuelga.medir" > /dev/null 2>&1; then
     echo "      ⚠️  terminó: el motor de este contenedor NO se cuelga con ese caso."
     echo "          Vale la pena mirar por qué antes de bajar el tope de tiempo."
   else

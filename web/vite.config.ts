@@ -14,5 +14,15 @@ export default defineConfig({
       '/salud': { target: 'http://127.0.0.1:3099', changeOrigin: true },
     },
   },
-  build: { outDir: 'dist', sourcemap: false },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        // CodeMirror (el editor) en su propio archivo: cambia poco, así el
+        // navegador lo guarda y no lo vuelve a bajar con cada versión de la web.
+        manualChunks: { codemirror: ['@codemirror/state', '@codemirror/view', '@codemirror/commands', '@codemirror/search'] },
+      },
+    },
+  },
 });

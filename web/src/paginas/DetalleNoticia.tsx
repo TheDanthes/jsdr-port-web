@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { api, descargar } from '../api/cliente';
+import { useSesion } from '../sesion';
+import { useEditor } from '../editor/EditorContexto';
 import type { Medida, Noticia, Version } from '../api/tipos';
 import {
   AvisoError, Cargando, Dato, EstadoNoticia, MarcasVersion, Vacio,
@@ -32,6 +34,11 @@ export function DetalleNoticia() {
   const [activa, setActiva] = useState<number | null>(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [aviso, setAviso] = useState<string | null>(null);
+  const [errorAccion, setErrorAccion] = useState<string | null>(null);
+  const [recargar, setRecargar] = useState(0);
+  const edicion = useSesion().sesion?.edicion === true;
+  const ed = useEditor();
 
   useEffect(() => {
     let vivo = true;
@@ -48,7 +55,7 @@ export function DetalleNoticia() {
       .finally(() => { if (vivo) setCargando(false); });
 
     return () => { vivo = false; };
-  }, [id]);
+  }, [id, recargar]);
 
   if (cargando) return <Cargando que="Abriendo la noticia" />;
 
@@ -70,6 +77,39 @@ export function DetalleNoticia() {
   const v: Version =
     noticia.versiones.find((x) => x.numero === activa) ?? noticia.versiones[0]!;
   const esActiva = v.numero === noticia.numero_version_activa;
+
+  /** BuscadorNoticiasJPanel.editarNoticia: confirma y abre en el editor. */
+  async function editar() {
+    const r = await ed.preguntar({
+      titulo: 'Buscador de Noticias', mensaje: '¿Quiere editar la noticia?',
+      botones: [{ etiqueta: 'Sí', valor: 'si', principal: true }, { etiqueta: 'No', valor: 'no' }],
+      cancelar: 'no',
+    });
+    if (r.boton !== 'si') return;
+    if (await ed.abrir(noticia!.id)) navegar('/editor');
+  }
+
+  /** BuscadorNoticiasJPanel.fotocomponerNoticia. */
+  async function fotocomponer() {
+    const r = await ed.preguntar({
+      titulo: 'Buscador de Noticias', mensaje: '¿Quiere fotocomponer la noticia?',
+      botones: [{ etiqueta: 'Sí', valor: 'si', principal: true }, { etiqueta: 'No', valor: 'no' }],
+      cancelar: 'no',
+    });
+    if (r.boton !== 'si') return;
+    setErrorAccion(null);
+    setAviso(null);
+    try {
+      const f = await api.fotocomponer(noticia!.id);
+      const avisos = f.avisos.length
+        ? ` Atención, el motor avisó: ${f.avisos.map((a) => `línea ${a.linea}: ${a.mensaje}`).join('; ')}.`
+        : '';
+      setAviso(`Noticia fotocompuesta. Quedó en la carpeta "${f.carpeta}" para InDesign.${avisos}`);
+      setRecargar((n) => n + 1);
+    } catch (e) {
+      setErrorAccion(e instanceof Error ? e.message : 'Se ha producido un error al fotocomponer la noticia');
+    }
+  }
 
   async function exportarTexto() {
     try {
@@ -132,9 +172,18 @@ export function DetalleNoticia() {
             </h2>
             <div className="acciones">
               <MarcasVersion v={v} />
+              {edicion && esActiva && (
+                <>
+                  <button className="primario" onClick={() => void editar()}>Editar</button>
+                  <button onClick={() => void fotocomponer()}>Fotocomponer</button>
+                </>
+              )}
               <button onClick={exportarTexto}>Exportar texto</button>
             </div>
           </header>
+
+          {aviso && <div style={{ padding: '10px 14px 0' }}><div className="aviso info" role="status">{aviso}</div></div>}
+          {errorAccion && <div style={{ padding: '10px 14px 0' }}><AvisoError>{errorAccion}</AvisoError></div>}
 
           <div className="ficha">
             <Dato rotulo="Sección">{v.seccion.codigo} — {v.seccion.nombre}</Dato>

@@ -116,6 +116,74 @@ export interface Sesion {
   secciones: Seccion[];
   permisos: Permiso[];
   permisos_por_seccion: Record<string, number[]>;
+  /** Si esta instalación permite editar (JSDR_EDICION en la API). */
+  edicion?: boolean;
+}
+
+// --- editor (Fase 3) ---------------------------------------------------------
+
+export interface MedidaSimple { cm: number; lineas: number }
+
+export interface Aviso { linea: number; mensaje: string }
+
+/** Medición de un campo: `linea` de cada error es el número de palabra. */
+export interface MedidaCampo extends MedidaSimple {
+  formateado: string;
+  errores: Aviso[];
+}
+
+export interface MedicionNoticia {
+  titular: MedidaCampo;
+  cuerpo: MedidaCampo;
+  noticia: MedidaSimple;
+}
+
+export interface Comando {
+  id: number;
+  nombre: string;
+  valor: string;
+  etiqueta: string;
+  de_usuario: boolean;
+}
+
+export interface EstadoEditor {
+  id: number;
+  numero: number;
+  guia_usuario: string;
+  guia_auto: string;
+  guia_editable: boolean;
+  seccion_id: number;
+  fecha: string;
+  fecha_anterior: string | null;
+  confidencial: boolean;
+  titular: string;
+  cuerpo: string;
+  medidas: { titular: MedidaSimple; cuerpo: MedidaSimple; noticia: MedidaSimple };
+  estado: string;
+  nivel: number;
+  redactor: string;
+  creando: boolean;
+  nueva_version: boolean;
+}
+
+export interface AperturaEditor {
+  noticia: EstadoEditor;
+  secciones: Seccion[];
+  comandos: Comando[];
+  autosave_cambios: number;
+}
+
+export type AccionCierre = 'guardando' | 'sin_guardar' | 'descartar_creacion' | 'descartar_version';
+
+/** Lo que se manda al guardar, autoguardar o cerrar. */
+export interface DatosEditor {
+  guia_usuario: string;
+  seccion_id: number;
+  fecha: string;
+  confidencial: boolean;
+  titular: string;
+  cuerpo: string;
+  medidas: { titular: MedidaSimple; cuerpo: MedidaSimple; noticia: MedidaSimple };
 }
 
 /** jsdr.common.Estado — los cinco del código Java. */

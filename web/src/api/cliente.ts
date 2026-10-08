@@ -1,5 +1,6 @@
 import type {
-  Agencia, Cable, Noticia, Pagina, Permiso, Reserva, Seccion, Sesion, Usuario, Version,
+  AccionCierre, Agencia, AperturaEditor, Cable, Comando, DatosEditor, MedicionNoticia, MedidaCampo,
+  Noticia, Pagina, Permiso, Reserva, Seccion, Sesion, Usuario, Version,
 } from './tipos';
 
 const CLAVE_TOKEN = 'jsdr.token';
@@ -22,7 +23,7 @@ export const leerToken = (): string | null => {
 };
 
 export class ErrorApi extends Error {
-  constructor(readonly codigo: number, mensaje: string) {
+  constructor(readonly codigo: number, mensaje: string, readonly errores: string[] = []) {
     super(mensaje);
   }
   /** La sesión venció o el usuario dejó de estar habilitado. */
@@ -50,16 +51,21 @@ async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promise<T> {
 
   if (!r.ok) {
     let mensaje = `Error ${r.status}`;
+    let errores: string[] = [];
     try {
       const cuerpo = await r.json();
       if (cuerpo?.error) mensaje = cuerpo.error;
+      if (Array.isArray(cuerpo?.errores)) {
+        errores = cuerpo.errores.map((e: unknown) =>
+          typeof e === 'string' ? e : (e as { mensaje?: string })?.mensaje ?? String(e));
+      }
     } catch { /* la respuesta no era JSON */ }
 
     if (r.status === 401) {
       guardarToken(null);
       escuchas.forEach((f) => f());
     }
-    throw new ErrorApi(r.status, mensaje);
+    throw new ErrorApi(r.status, mensaje, errores);
   }
 
   return r.status === 204 ? (undefined as T) : r.json();
@@ -109,6 +115,31 @@ export const api = {
     pedir<Pagina<Cable>>(`/api/cables${query(p)}`),
   cable: (id: number) => pedir<Cable>(`/api/cables/${id}`),
   reservas: (id: number) => pedir<Reserva[]>(`/api/cables/${id}/reservas`),
+
+  // -- editor (Fase 3) ------------------------------------------------------
+  editor: {
+    nueva: () => pedir<AperturaEditor>('/api/editor/nueva', { method: 'POST' }),
+    abrir: (id: number) => pedir<AperturaEditor>(`/api/editor/${id}/abrir`, { method: 'POST' }),
+    guardar: (id: number, numero: number, d: DatosEditor) =>
+      pedir<{ guia: string }>(`/api/editor/${id}/${numero}`, { method: 'PUT', body: JSON.stringify(d) }),
+    autoguardar: (id: number, numero: number, d: DatosEditor) =>
+      pedir<{ ok: true }>(`/api/editor/${id}/${numero}/temporal`, { method: 'PUT', body: JSON.stringify(d) }),
+    cerrar: (id: number, numero: number, accion: AccionCierre, d?: DatosEditor) =>
+      pedir<{ cerrada: true }>(`/api/editor/${id}/${numero}/cerrar`, {
+        method: 'POST', body: JSON.stringify({ accion, ...(d ?? {}) }),
+      }),
+    comandos: (seccion: number) => pedir<Comando[]>(`/api/editor/comandos${query({ seccion })}`),
+    medir: (titular: string, cuerpo: string) =>
+      pedir<MedicionNoticia>('/api/editor/medir', { method: 'POST', body: JSON.stringify({ titular, cuerpo }) }),
+    medirCampo: (texto: string) =>
+      pedir<MedidaCampo>('/api/editor/medir-campo', { method: 'POST', body: JSON.stringify({ texto }) }),
+    medirAncho: (texto: string) =>
+      pedir<{ medidas: { palabra: number; valor: string }[]; errores: { linea: number; mensaje: string }[] }>(
+        '/api/editor/medir-ancho', { method: 'POST', body: JSON.stringify({ texto }) }),
+  },
+  fotocomponer: (id: number) =>
+    pedir<{ archivo: string; carpeta: string; bytes: number; avisos: { linea: number; mensaje: string }[] }>(
+      `/api/noticias/${id}/fotocomponer`, { method: 'POST' }),
 };
 
 /**
@@ -119,10 +150,16 @@ export const api = {
  * descarga rechazada muestra el error en pantalla en vez de abrir una página
  * con un JSON de error.
  */
-export async function descargar(ruta: string, nombrePorDefecto: string) {
+export async function descargar(ruta: string, nombrePorDefecto: string, cuerpo?: unknown) {
   const token = leerToken();
   const r = await fetch(ruta, {
-    headers: token ? { authorization: `Bearer ${token}` } : {},
+    // Con cuerpo, POST: es el caso de exportar lo que está en el editor, que
+    // todavía no está guardado en ningún lado.
+    ...(cuerpo !== undefined ? { method: 'POST', body: JSON.stringify(cuerpo) } : {}),
+    headers: {
+      ...(token ? { authorization: `Bearer ${token}` } : {}),
+      ...(cuerpo !== undefined ? { 'content-type': 'application/json' } : {}),
+    },
   });
 
   if (!r.ok) {

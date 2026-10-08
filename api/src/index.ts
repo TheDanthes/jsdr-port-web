@@ -3,13 +3,14 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Fastify from 'fastify';
 import { config } from './config.js';
-import { pool } from './db.js';
+import { cerrarPools, pool } from './db.js';
 import { exigirSesion } from './sesion/guardia.js';
 import { rutasSesion } from './rutas/sesion.js';
 import { rutasCatalogos } from './rutas/catalogos.js';
 import { rutasNoticias } from './rutas/noticias.js';
 import { rutasCables } from './rutas/cables.js';
 import { rutasExportar } from './rutas/exportar.js';
+import { rutasEditor } from './rutas/editor.js';
 
 const app = Fastify({ logger: { level: process.env.LOG_LEVEL ?? 'info' } });
 
@@ -29,6 +30,27 @@ app.get('/salud', async () => {
   return { ok: true, fase: 1, solo_lectura: true, ...rows[0] };
 });
 
+/**
+ * Errores con mensaje para el usuario.
+ *
+ * Las reglas del editor (MotorReglas), las validaciones y el composer tiran
+ * errores con `statusCode` y un mensaje en castellano pensado para mostrarse
+ * tal cual —"La noticia está EN_EDICION"—. Se devuelven como `{ error }`, que
+ * es lo que la web ya sabe mostrar. Lo inesperado (500) se registra y no
+ * expone detalles internos.
+ */
+app.setErrorHandler((err: Error & { statusCode?: number; errores?: unknown }, req, rep) => {
+  const codigo = err.statusCode ?? 500;
+  if (codigo >= 500 && codigo !== 502 && codigo !== 504) {
+    req.log.error({ err }, 'error interno');
+    return rep.code(codigo).send({ error: 'Error interno del servidor.' });
+  }
+  return rep.code(codigo).send({
+    error: err.message,
+    ...(err.errores ? { errores: err.errores } : {}),
+  });
+});
+
 // Login: la única ruta de /api que no exige sesión.
 await app.register(rutasSesion, { prefix: '/api' });
 
@@ -40,6 +62,7 @@ await app.register(
     await protegido.register(rutasNoticias);
     await protegido.register(rutasCables);
     await protegido.register(rutasExportar);
+    await protegido.register(rutasEditor);
   },
   { prefix: '/api' },
 );
@@ -68,7 +91,7 @@ if (existsSync(join(rutaWeb, 'index.html'))) {
   app.log.info({ rutaWeb }, 'sin build de la web: arranca sólo la API');
 }
 
-const cerrar = async () => { await app.close(); await pool.end(); process.exit(0); };
+const cerrar = async () => { await app.close(); await cerrarPools(); process.exit(0); };
 process.on('SIGTERM', cerrar);
 process.on('SIGINT', cerrar);
 

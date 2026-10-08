@@ -45,6 +45,9 @@ services:
       DATABASE_URL: postgresql://jsdr:${POSTGRES_PASSWORD:-jsdr_dev}@db:5432/jsdr_copia
       API_PORT: 3099
       JSDR_SECRETO_SESION: ${JSDR_SECRETO_SESION:-secreto-solo-para-desarrollo-local}
+      # Editor (Fase 3): apagado salvo que se pida. Escribe en la base de arriba.
+      JSDR_EDICION: ${JSDR_EDICION:-no}
+      JSDR_COMPOSER_URL: ${JSDR_COMPOSER_URL:-http://host.docker.internal:3098}
       TZ: America/Argentina/Buenos_Aires
     ports:
       - "127.0.0.1:3099:3099"

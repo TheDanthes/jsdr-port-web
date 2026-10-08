@@ -1,0 +1,2534 @@
+{
+ "generado": "FiltradorNoticia.filtrarParaMedir / filtrarSalidaMedir / filtrarParaTXT del cliente jSDR 1.6.0 (decompilado), corridos con Java sobre estas entradas",
+ "motor": [
+  "U+00F5",
+  "U+25A0",
+  "U+00AD",
+  "U+00D2",
+  "U+00D8",
+  "U+2534",
+  "U+2560",
+  "U+256C",
+  "U+2563",
+  "U+0022",
+  "U+00B4",
+  "U+00AB",
+  "U+00BB"
+ ],
+ "casos": [
+  {
+   "entrada": "\t\t  \t\n\n  \nhola\tcomo\testás        , todo bien?, espero que sí\n\n\n Salu2!\n\n    \n\t",
+   "paraMedir": "hola \ncomo \nestás \n, \ntodo \nbien?, \nespero \nque \nsí\nSalu2!\n",
+   "salidaMedir": "\t\t  \t\n\n  \nhola\tcomo\testás        , todo bien?, espero que sí\n\n\n Salu2!\n\n    \n\t",
+   "paraTXT": "\t\t  \t\r\n\r\n  \r\nhola\tcomo\testás        , todo bien?, espero que sí\r\n\r\n\r\n Salu2!\r\n\r\n    \r\n\t"
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": " ",
+   "paraMedir": "",
+   "salidaMedir": " ",
+   "paraTXT": " "
+  },
+  {
+   "entrada": "\n",
+   "paraMedir": "",
+   "salidaMedir": "\n",
+   "paraTXT": "\r\n"
+  },
+  {
+   "entrada": "\t",
+   "paraMedir": "",
+   "salidaMedir": "\t",
+   "paraTXT": "\t"
+  },
+  {
+   "entrada": "a",
+   "paraMedir": "a\n",
+   "salidaMedir": "a",
+   "paraTXT": "a"
+  },
+  {
+   "entrada": "a ",
+   "paraMedir": "a \n",
+   "salidaMedir": "a ",
+   "paraTXT": "a "
+  },
+  {
+   "entrada": " a",
+   "paraMedir": "a\n",
+   "salidaMedir": " a",
+   "paraTXT": " a"
+  },
+  {
+   "entrada": "a  b",
+   "paraMedir": "a \nb\n",
+   "salidaMedir": "a  b",
+   "paraTXT": "a  b"
+  },
+  {
+   "entrada": "a \tb",
+   "paraMedir": "a \nb\n",
+   "salidaMedir": "a \tb",
+   "paraTXT": "a \tb"
+  },
+  {
+   "entrada": "a\t b",
+   "paraMedir": "a \nb\n",
+   "salidaMedir": "a\t b",
+   "paraTXT": "a\t b"
+  },
+  {
+   "entrada": "a\n\nb",
+   "paraMedir": "a\nb\n",
+   "salidaMedir": "a\n\nb",
+   "paraTXT": "a\r\n\r\nb"
+  },
+  {
+   "entrada": "a\r\nb c\r\n",
+   "paraMedir": "a\r\nb \nc\r\n",
+   "salidaMedir": "a\r\nb c\r\n",
+   "paraTXT": "a\r\r\nb c\r\r\n"
+  },
+  {
+   "entrada": "<m15.3><p9l10.4f76>♫ahLa ciudad “vieja”╠\nOtro párrafo ∏ con ■cuadratín□ y ▪fino╣",
+   "paraMedir": "<m15.3><p9l10.4f76>ØahLa \nciudad \n\"vieja´╠\nOtro \npárrafo \nõ \ncon \n■cuadratín­ \ny \nÒfino╣\n",
+   "salidaMedir": "<m15.3><p9l10.4f76>♫ahLa ciudad “vieja”╠\nOtro párrafo ∏ con ■cuadratín□ y ▪fino╣",
+   "paraTXT": "<m15.3><p9l10.4f76>La ciudad \"vieja\"\r\nOtro párrafo  con cuadratín y fino"
+  },
+  {
+   "entrada": "«comillas» ┴tab ret ╬centrado ♫xr",
+   "paraMedir": "«comillas» \n┴tab \nret \n╬centrado \nØxr\n",
+   "salidaMedir": "«comillas» ┴tab ret ╬centrado ♫xr",
+   "paraTXT": "«comillas» ┴tab ret centrado "
+  },
+  {
+   "entrada": "∏■□▪♫┴╠╬╣“”«»õ­ÒØ´\"",
+   "paraMedir": "õ■­ÒØ┴╠╬╣\"´«»õ­ÒØ´\"\n",
+   "salidaMedir": "∏■□▪♫┴╠╬╣“”«»∏□▪♫”“",
+   "paraTXT": "\"\"«»õ­ÒØ´\""
+  },
+  {
+   "entrada": "∏ ■ □ ▪ ♫ ┴ ╠ ╬ ╣ “ ” « » õ ­ Ò Ø ´ \"",
+   "paraMedir": "õ \n■ \n­ \nÒ \nØ \n┴ \n╠ \n╬ \n╣ \n\" \n´ \n« \n» \nõ \n­ \nÒ \nØ \n´ \n\"\n",
+   "salidaMedir": "∏ ■ □ ▪ ♫ ┴ ╠ ╬ ╣ “ ” « » ∏ □ ▪ ♫ ” “",
+   "paraTXT": "    ┴    \" \" « » õ ­ Ò Ø ´ \""
+  },
+  {
+   "entrada": "Título de tapa\n\nCuerpo de la nota con  dos espacios\ty un tab al final\t",
+   "paraMedir": "Título \nde \ntapa\nCuerpo \nde \nla \nnota \ncon \ndos \nespacios \ny \nun \ntab \nal \nfinal \n",
+   "salidaMedir": "Título de tapa\n\nCuerpo de la nota con  dos espacios\ty un tab al final\t",
+   "paraTXT": "Título de tapa\r\n\r\nCuerpo de la nota con  dos espacios\ty un tab al final\t"
+  },
+  {
+   "entrada": "😀 emoji y año",
+   "paraMedir": "😀 \nemoji \ny \naño\n",
+   "salidaMedir": "😀 emoji y año",
+   "paraTXT": "😀 emoji y año"
+  },
+  {
+   "entrada": "┴╬□╣╣<m9>\"□▪∏♫õ ■╣▪\nb ┴““ ´┴Ø­­\"∏õ­\nñ»▪\t",
+   "paraMedir": "┴╬­╣╣<m9>\"­ÒõØõ \n■╣Ò\nb \n┴\"\" \n´┴Ø­­\"õõ­\nñ»Ò \n",
+   "salidaMedir": "┴╬□╣╣<m9>“□▪∏♫∏ ■╣▪\nb ┴““ ”┴♫□□“∏∏□\nñ»▪\t",
+   "paraTXT": "┴<m9>\" \r\nb ┴\"\" ´┴Ø­­\"õ­\r\nñ»\t"
+  },
+  {
+   "entrada": "ñ»■■╬□“□  »▪Ø╣»╣«∏Òañ▪­ñ´<m9>õ­╣Øñ╣­ñ\"╬",
+   "paraMedir": "ñ»■■╬­\"­ \n»ÒØ╣»╣«õÒañÒ­ñ´<m9>õ­╣Øñ╣­ñ\"╬\n",
+   "salidaMedir": "ñ»■■╬□“□  »▪♫╣»╣«∏▪añ▪□ñ”<m9>∏□╣♫ñ╣□ñ“╬",
+   "paraTXT": "ñ»\"  »Ø»«Òañ­ñ´<m9>õ­Øñ­ñ\""
+  },
+  {
+   "entrada": "b<m9>«\n╬´\"┴õ´\n╣∏╣\t´\"■■",
+   "paraMedir": "b<m9>«\n╬´\"┴õ´\n╣õ╣ \n´\"■■\n",
+   "salidaMedir": "b<m9>«\n╬”“┴∏”\n╣∏╣\t”“■■",
+   "paraTXT": "b<m9>«\r\n´\"┴õ´\r\n\t´\""
+  },
+  {
+   "entrada": "■ÒÒ”╣\t ■╣”",
+   "paraMedir": "■ÒÒ´╣ \n■╣´\n",
+   "salidaMedir": "■▪▪”╣\t ■╣”",
+   "paraTXT": "ÒÒ\"\t \""
+  },
+  {
+   "entrada": "»┴\n∏\n┴∏\n\n“«\nØõÒ»“∏ ∏□□­□\"\t ▪\"Ò┴Ø“a”",
+   "paraMedir": "»┴\nõ\n┴õ\n\"«\nØõÒ»\"õ \nõ­­­­\" \nÒ\"Ò┴Ø\"a´\n",
+   "salidaMedir": "»┴\n∏\n┴∏\n\n“«\n♫∏▪»“∏ ∏□□□□“\t ▪“▪┴♫“a”",
+   "paraTXT": "»┴\r\n\r\n┴\r\n\r\n\"«\r\nØõÒ»\" ­\"\t \"Ò┴Ø\"a\""
+  },
+  {
+   "entrada": "õ\n┴\nØ■<m9>┴Ò∏«╬",
+   "paraMedir": "õ\n┴\nØ■<m9>┴Òõ«╬\n",
+   "salidaMedir": "∏\n┴\n♫■<m9>┴▪∏«╬",
+   "paraTXT": "õ\r\n┴\r\nØ<m9>┴Ò«"
+  },
+  {
+   "entrada": "Òõ□╣”■´┴b« ▪┴╬´ÒÒ “Ò ab",
+   "paraMedir": "Òõ­╣´■´┴b« \nÒ┴╬´ÒÒ \n\"Ò \nab\n",
+   "salidaMedir": "▪∏□╣”■”┴b« ▪┴╬”▪▪ “▪ ab",
+   "paraTXT": "Òõ\"´┴b« ┴´ÒÒ \"Ò ab"
+  },
+  {
+   "entrada": "♫õ\t \t╠\"“■╬\tÒ╠┴»õ »\n■\t ”\t■ba »\"­╣□”■",
+   "paraMedir": "Øõ \n╠\"\"■╬ \nÒ╠┴»õ \n»\n■ \n´ \n■ba \n»\"­╣­´■\n",
+   "salidaMedir": "♫∏\t \t╠““■╬\t▪╠┴»∏ »\n■\t ”\t■ba »“□╣□”■",
+   "paraTXT": "\t \t\"\"\tÒ┴»õ »\r\n\t \"\tba »\"­\""
+  },
+  {
+   "entrada": "<m9>╣\n",
+   "paraMedir": "<m9>╣\n",
+   "salidaMedir": "<m9>╣\n",
+   "paraTXT": "<m9>\r\n"
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "»□┴□<m9>”▪",
+   "paraMedir": "»­┴­<m9>´Ò\n",
+   "salidaMedir": "»□┴□<m9>”▪",
+   "paraTXT": "»┴<m9>\""
+  },
+  {
+   "entrada": "□a“« \nb",
+   "paraMedir": "­a\"« \nb\n",
+   "salidaMedir": "□a“« \nb",
+   "paraTXT": "a\"« \r\nb"
+  },
+  {
+   "entrada": "<m9>□Ò┴╣´╠añ”▪«õ╣<m9>«∏\t■Ø ╠╣\n",
+   "paraMedir": "<m9>­Ò┴╣´╠añ´Ò«õ╣<m9>«õ \n■Ø \n╠╣\n",
+   "salidaMedir": "<m9>□▪┴╣”╠añ”▪«∏╣<m9>«∏\t■♫ ╠╣\n",
+   "paraTXT": "<m9>Ò┴´añ\"«õ<m9>«\tØ \r\n"
+  },
+  {
+   "entrada": "<m9>Ø ■Ø♫ñ\"□««õ\nÒ<m9>añ┴",
+   "paraMedir": "<m9>Ø \n■ØØñ\"­««õ\nÒ<m9>añ┴\n",
+   "salidaMedir": "<m9>♫ ■♫♫ñ“□««∏\n▪<m9>añ┴",
+   "paraTXT": "<m9>Ø Ø\"««õ\r\nÒ<m9>añ┴"
+  },
+  {
+   "entrada": "■╠Ò╠\" ♫aÒ\n▪□\t▪õ ­",
+   "paraMedir": "■╠Ò╠\" \nØaÒ\nÒ­ \nÒõ \n­\n",
+   "salidaMedir": "■╠▪╠“ ♫a▪\n▪□\t▪∏ □",
+   "paraTXT": "Ò\" \r\n\tõ ­"
+  },
+  {
+   "entrada": "\t«■▪ñ┴▪õ\"«õ■“ ♫▪aØ□\t«▪´ «",
+   "paraMedir": "«■Òñ┴Òõ\"«õ■\" \nØÒaØ­ \n«Ò´ \n«\n",
+   "salidaMedir": "\t«■▪ñ┴▪∏“«∏■“ ♫▪a♫□\t«▪” «",
+   "paraTXT": "\t«ñ┴õ\"«õ\" \t«´ «"
+  },
+  {
+   "entrada": " ╣<m9> ╠┴ñÒ╬“\n­»Ò∏<m9>õ<m9>Ò╣<m9>ñ\"▪\n”ñ“a  ",
+   "paraMedir": "╣<m9> \n╠┴ñÒ╬\"\n­»Òõ<m9>õ<m9>Ò╣<m9>ñ\"Ò\n´ñ\"a \n",
+   "salidaMedir": " ╣<m9> ╠┴ñ▪╬“\n□»▪∏<m9>∏<m9>▪╣<m9>ñ“▪\n”ñ“a  ",
+   "paraTXT": " <m9> ┴ñÒ\"\r\n­»Ò<m9>õ<m9>Ò<m9>ñ\"\r\n\"ñ\"a  "
+  },
+  {
+   "entrada": "a∏∏▪╬┴­╬Øñ╬a“▪∏╣\n╣b\"\n∏",
+   "paraMedir": "aõõÒ╬┴­╬Øñ╬a\"Òõ╣\n╣b\"\nõ\n",
+   "salidaMedir": "a∏∏▪╬┴□╬♫ñ╬a“▪∏╣\n╣b“\n∏",
+   "paraTXT": "a┴­Øña\"\r\nb\"\r\n"
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "ña\nØ«Òb",
+   "paraMedir": "ña\nØ«Òb\n",
+   "salidaMedir": "ña\n♫«▪b",
+   "paraTXT": "ña\r\nØ«Òb"
+  },
+  {
+   "entrada": "\"♫Ò´ññ<m9>∏´∏“”□▪♫ab  a▪╬ññ\t´a",
+   "paraMedir": "\"ØÒ´ññ<m9>õ´õ\"´­ÒØab \naÒ╬ññ \n´a\n",
+   "salidaMedir": "“♫▪”ññ<m9>∏”∏“”□▪♫ab  a▪╬ññ\t”a",
+   "paraTXT": "\"´ññ<m9>´\"\"  aññ\t´a"
+  },
+  {
+   "entrada": " ┴  »",
+   "paraMedir": "┴ \n»\n",
+   "salidaMedir": " ┴  »",
+   "paraTXT": " ┴  »"
+  },
+  {
+   "entrada": "□╠\tÒØ■╬┴­□ñ<m9>♫b»­ Ò««╬«□▪õ­a»╣",
+   "paraMedir": "­╠ \nÒØ■╬┴­­ñ<m9>Øb»­ \nÒ««╬«­Òõ­a»╣\n",
+   "salidaMedir": "□╠\t▪♫■╬┴□□ñ<m9>♫b»□ ▪««╬«□▪∏□a»╣",
+   "paraTXT": "\tÒØ┴­ñ<m9>»­ Ò«««õ­a»"
+  },
+  {
+   "entrada": "<m9>\na■▪Ò“ ­<m9>╣ ╠­∏╬╬ b∏»■┴\"Ø\n\tÒ▪╣",
+   "paraMedir": "<m9>\na■ÒÒ\" \n­<m9>╣ \n╠­õ╬╬ \nbõ»■┴\"Ø\nÒÒ╣\n",
+   "salidaMedir": "<m9>\na■▪▪“ □<m9>╣ ╠□∏╬╬ b∏»■┴“♫\n\t▪▪╣",
+   "paraTXT": "<m9>\r\naÒ\" ­<m9> ­ b»┴\"Ø\r\n\tÒ"
+  },
+  {
+   "entrada": "╠­Øõ",
+   "paraMedir": "╠­Øõ\n",
+   "salidaMedir": "╠□♫∏",
+   "paraTXT": "­Øõ"
+  },
+  {
+   "entrada": "■┴» ´­b\"Ø\n╣\t┴ñ«Ò«\n╬«╬““╠┴»ñ",
+   "paraMedir": "■┴» \n´­b\"Ø\n╣ \n┴ñ«Ò«\n╬«╬\"\"╠┴»ñ\n",
+   "salidaMedir": "■┴» ”□b“♫\n╣\t┴ñ«▪«\n╬«╬““╠┴»ñ",
+   "paraTXT": "┴» ´­b\"Ø\r\n\t┴ñ«Ò«\r\n«\"\"┴»ñ"
+  },
+  {
+   "entrada": "□\t´■\nÒ»┴□ñ╣\n<m9>õ\t»■»ñ■",
+   "paraMedir": "­ \n´■\nÒ»┴­ñ╣\n<m9>õ \n»■»ñ■\n",
+   "salidaMedir": "□\t”■\n▪»┴□ñ╣\n<m9>∏\t»■»ñ■",
+   "paraTXT": "\t´\r\nÒ»┴ñ\r\n<m9>õ\t»»ñ"
+  },
+  {
+   "entrada": "♫´■╠”▪╠▪»▪a┴ <m9>\nñ“´ ■»\n\"´Ø▪╬´­»┴╠□┴»",
+   "paraMedir": "Ø´■╠´Ò╠Ò»Òa┴ \n<m9>\nñ\"´ \n■»\n\"´ØÒ╬´­»┴╠­┴»\n",
+   "salidaMedir": "♫”■╠”▪╠▪»▪a┴ <m9>\nñ“” ■»\n“”♫▪╬”□»┴╠□┴»",
+   "paraTXT": "\"»a┴ <m9>\r\nñ\"´ »\r\n\"´Ø´­»┴┴»"
+  },
+  {
+   "entrada": "´□“□­b■▪b\n\n╠Ò▪ñÒ□♫\"╬ ┴┴<m9>",
+   "paraMedir": "´­\"­­b■Òb\n╠ÒÒñÒ­Ø\"╬ \n┴┴<m9>\n",
+   "salidaMedir": "”□“□□b■▪b\n\n╠▪▪ñ▪□♫“╬ ┴┴<m9>",
+   "paraTXT": "´\"­bb\r\n\r\nÒñÒ ┴┴<m9>"
+  },
+  {
+   "entrada": "õ“«\"“´▪╣õ♫»",
+   "paraMedir": "õ\"«\"\"´Ò╣õØ»\n",
+   "salidaMedir": "∏“«““”▪╣∏♫»",
+   "paraTXT": "õ\"«\"\"´õ"
+  },
+  {
+   "entrada": "«\"““«\"▪«\"▪ ´ Ø­\n\"“╬”╬\nØ┴┴õ╠«bõ”",
+   "paraMedir": "«\"\"\"«\"Ò«\"Ò \n´ \nØ­\n\"\"╬´╬\nØ┴┴õ╠«bõ´\n",
+   "salidaMedir": "«“““«“▪«“▪ ” ♫□\n““╬”╬\n♫┴┴∏╠«b∏”",
+   "paraTXT": "«\"\"\"«\"«\" ´ Ø­\r\n\"\"\"\r\nØ┴┴õ«bõ\""
+  },
+  {
+   "entrada": "”Ø╬■´Øab”╣┴ ╠\n«\"╬□Ø▪╬",
+   "paraMedir": "´Ø╬■´Øab´╣┴ \n╠\n«\"╬­ØÒ╬\n",
+   "salidaMedir": "”♫╬■”♫ab”╣┴ ╠\n«“╬□♫▪╬",
+   "paraTXT": "\"Ø´Øab\"┴ \r\n«\"Ø"
+  },
+  {
+   "entrada": "▪õ□”♫\tÒ□▪­Òa bØ♫▪┴",
+   "paraMedir": "Òõ­´Ø \nÒ­Ò­Òa \nbØØÒ┴\n",
+   "salidaMedir": "▪∏□”♫\t▪□▪□▪a b♫♫▪┴",
+   "paraTXT": "õ\"Ò­Òa bØ"
+  },
+  {
+   "entrada": "<m9>\" »▪»“■ ­«bñ□“┴ <m9>\"╠Ø♫­╬♫”♫╠Ò õ<m9>Øñ»╬­▪b",
+   "paraMedir": "<m9>\" \n»Ò»\"■ \n­«bñ­\"┴ \n<m9>\"╠ØØ­╬Ø´Ø╠Ò \nõ<m9>Øñ»╬­Òb\n",
+   "salidaMedir": "<m9>“ »▪»“■ □«bñ□“┴ <m9>“╠♫♫□╬♫”♫╠▪ ∏<m9>♫ñ»╬□▪b",
+   "paraTXT": "<m9>\" »»\" ­«bñ\"┴ <m9>\"Ø õ<m9>Øñ»­b"
+  },
+  {
+   "entrada": "”\"<m9>Ò”╬´»\"\n∏«▪",
+   "paraMedir": "´\"<m9>Ò´╬´»\"\nõ«Ò\n",
+   "salidaMedir": "”“<m9>▪”╬”»“\n∏«▪",
+   "paraTXT": "\"\"<m9>Ò\"´»\"\r\n«"
+  },
+  {
+   "entrada": "□╬õb”a∏ ■▪∏╠┴b┴ØØ∏Ò╣╬╠♫╣ ▪“\n­",
+   "paraMedir": "­╬õb´aõ \n■Òõ╠┴b┴ØØõÒ╣╬╠Ø╣ \nÒ\"\n­\n",
+   "salidaMedir": "□╬∏b”a∏ ■▪∏╠┴b┴♫♫∏▪╣╬╠♫╣ ▪“\n□",
+   "paraTXT": "õb\"a ┴b┴ØØÒ\"\r\n­"
+  },
+  {
+   "entrada": "♫∏Ø´Ø\t ♫ñ□ñ<m9> □<m9>∏╬ □┴““■\t´■",
+   "paraMedir": "ØõØ´Ø \nØñ­ñ<m9> \n­<m9>õ╬ \n­┴\"\"■ \n´■\n",
+   "salidaMedir": "♫∏♫”♫\t ♫ñ□ñ<m9> □<m9>∏╬ □┴““■\t”■",
+   "paraTXT": "´Ø\t ñ<m9> <m9> ┴\"\"\t´"
+  },
+  {
+   "entrada": "Ò∏“õñ\"”´Ò“õõ□╣ñ\"╣\"╣╣­<m9>□õ▪\"­<m9>■\t∏Ò \ta□” ",
+   "paraMedir": "Òõ\"õñ\"´´Ò\"õõ­╣ñ\"╣\"╣╣­<m9>­õÒ\"­<m9>■ \nõÒ \na­´ \n",
+   "salidaMedir": "▪∏“∏ñ“””▪“∏∏□╣ñ“╣“╣╣□<m9>□∏▪“□<m9>■\t∏▪ \ta□” ",
+   "paraTXT": "Ò\"õñ\"\"´Ò\"õõñ\"\"­<m9>õ\"­<m9>\tÒ \ta\" "
+  },
+  {
+   "entrada": "”<m9>╠♫aõ \" ­<m9>“a”<m9>\n\t«õ",
+   "paraMedir": "´<m9>╠Øaõ \n\" \n­<m9>\"a´<m9>\n«õ\n",
+   "salidaMedir": "”<m9>╠♫a∏ “ □<m9>“a”<m9>\n\t«∏",
+   "paraTXT": "\"<m9> \" ­<m9>\"a\"<m9>\r\n\t«õ"
+  },
+  {
+   "entrada": "a«■♫╬Ò┴╬\n”»ab  ■“õñ´Ø“\"Ò▪\nØ“­ \na”­┴",
+   "paraMedir": "a«■Ø╬Ò┴╬\n´»ab \n■\"õñ´Ø\"\"ÒÒ\nØ\"­ \na´­┴\n",
+   "salidaMedir": "a«■♫╬▪┴╬\n”»ab  ■“∏ñ”♫““▪▪\n♫“□ \na”□┴",
+   "paraTXT": "a«┴\r\n\"»ab  \"õñ´Ø\"\"Ò\r\nØ\"­ \r\na\"­┴"
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "\"\n b »aØÒ b╬╠\t╣■<m9>õ´\"\n♫´\n□”<m9><m9>╣<m9>´ ♫ ´┴",
+   "paraMedir": "\"\nb \n»aØÒ \nb╬╠ \n╣■<m9>õ´\"\nØ´\n­´<m9><m9>╣<m9>´ \nØ \n´┴\n",
+   "salidaMedir": "“\n b »a♫▪ b╬╠\t╣■<m9>∏”“\n♫”\n□”<m9><m9>╣<m9>” ♫ ”┴",
+   "paraTXT": "\"\r\n b »aØÒ b\t<m9>õ´\"\r\n\r\n\"<m9><m9><m9>´ ´┴"
+  },
+  {
+   "entrada": "ñ<m9>╠a\"ñ´õ\t\"┴­■ ▪▪Ø╣»­\t □Øb",
+   "paraMedir": "ñ<m9>╠a\"ñ´õ \n\"┴­■ \nÒÒØ╣»­ \n­Øb\n",
+   "salidaMedir": "ñ<m9>╠a“ñ”∏\t“┴□■ ▪▪♫╣»□\t □♫b",
+   "paraTXT": "ñ<m9>a\"ñ´õ\t\"┴­ Ø»­\t Øb"
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "«╣»b╣∏b",
+   "paraMedir": "«╣»b╣õb\n",
+   "salidaMedir": "«╣»b╣∏b",
+   "paraTXT": "«»bb"
+  },
+  {
+   "entrada": "<m9>a Òñ»╠ ■■””» ┴­■ “ ØÒ<m9>b\n<m9>□ ╣♫´\t",
+   "paraMedir": "<m9>a \nÒñ»╠ \n■■´´» \n┴­■ \n\" \nØÒ<m9>b\n<m9>­ \n╣Ø´ \n",
+   "salidaMedir": "<m9>a ▪ñ»╠ ■■””» ┴□■ “ ♫▪<m9>b\n<m9>□ ╣♫”\t",
+   "paraTXT": "<m9>a Òñ» \"\"» ┴­ \" ØÒ<m9>b\r\n<m9> \t"
+  },
+  {
+   "entrada": "<m9>«♫ñ \t»b╠ÒØ\"´╣\t­╬♫ÒÒ\"╣∏Ø” Ò´",
+   "paraMedir": "<m9>«Øñ \n»b╠ÒØ\"´╣ \n­╬ØÒÒ\"╣õØ´ \nÒ´\n",
+   "salidaMedir": "<m9>«♫ñ \t»b╠▪♫“”╣\t□╬♫▪▪“╣∏♫” ▪”",
+   "paraTXT": "<m9>« \t»bÒØ\"´\t­Ò\"Ø\" Ò´"
+  },
+  {
+   "entrada": "a■´╠ □­“Ò<m9>“♫<m9><m9>▪∏▪´╠ñ´∏ “\ta»´",
+   "paraMedir": "a■´╠ \n­­\"Ò<m9>\"Ø<m9><m9>ÒõÒ´╠ñ´õ \n\" \na»´\n",
+   "salidaMedir": "a■”╠ □□“▪<m9>“♫<m9><m9>▪∏▪”╠ñ”∏ “\ta»”",
+   "paraTXT": "a´ ­\"Ò<m9>\"m9><m9>´ñ´ \"\ta»´"
+  },
+  {
+   "entrada": "“<m9>▪ØØ Ø«”“<m9>\n<m9>b“╣õ“”∏\n ñ□“♫╠╠a▪▪Ò",
+   "paraMedir": "\"<m9>ÒØØ \nØ«´\"<m9>\n<m9>b\"╣õ\"´õ\nñ­\"Ø╠╠aÒÒÒ\n",
+   "salidaMedir": "“<m9>▪♫♫ ♫«”“<m9>\n<m9>b“╣∏“”∏\n ñ□“♫╠╠a▪▪▪",
+   "paraTXT": "\"<m9>ØØ Ø«\"\"<m9>\r\n<m9>b\"õ\"\"\r\n ñ\""
+  },
+  {
+   "entrada": "\tñ▪┴┴╣b\taa<m9>∏▪Ò┴♫ÒØØ « õ╣»a╠aÒñ »“■▪",
+   "paraMedir": "ñÒ┴┴╣b \naa<m9>õÒÒ┴ØÒØØ \n« \nõ╣»a╠aÒñ \n»\"■Ò\n",
+   "salidaMedir": "\tñ▪┴┴╣b\taa<m9>∏▪▪┴♫▪♫♫ « ∏╣»a╠a▪ñ »“■▪",
+   "paraTXT": "\tñ┴┴b\taa<m9>Ò┴ØØ « õ»aaÒñ »\""
+  },
+  {
+   "entrada": "▪Ò´■\nba´´\"┴∏□",
+   "paraMedir": "ÒÒ´■\nba´´\"┴õ­\n",
+   "salidaMedir": "▪▪”■\nba””“┴∏□",
+   "paraTXT": "Ò´\r\nba´´\"┴"
+  },
+  {
+   "entrada": "a╠´«\"ØØ<m9>\t \"Ø□∏┴□”«­bñ■ñ»bõ\n\t╠╠╬∏ ╬┴´■\t□",
+   "paraMedir": "a╠´«\"ØØ<m9> \n\"Ø­õ┴­´«­bñ■ñ»bõ\n╠╠╬õ \n╬┴´■ \n­\n",
+   "salidaMedir": "a╠”«“♫♫<m9>\t “♫□∏┴□”«□bñ■ñ»b∏\n\t╠╠╬∏ ╬┴”■\t□",
+   "paraTXT": "a´«\"ØØ<m9>\t \"Ø┴\"«­bññ»bõ\r\n\t ┴´\t"
+  },
+  {
+   "entrada": "■▪Øb ╣«┴“┴”╣­b­┴“Ø»∏╬»a♫´",
+   "paraMedir": "■ÒØb \n╣«┴\"┴´╣­b­┴\"Ø»õ╬»aØ´\n",
+   "salidaMedir": "■▪♫b ╣«┴“┴”╣□b□┴“♫»∏╬»a♫”",
+   "paraTXT": "Øb «┴\"┴\"­b­┴\"Ø»»a"
+  },
+  {
+   "entrada": "╬■□”« «♫´∏ “õ╠\" \"b",
+   "paraMedir": "╬■­´« \n«Ø´õ \n\"õ╠\" \n\"b\n",
+   "salidaMedir": "╬■□”« «♫”∏ “∏╠“ “b",
+   "paraTXT": "\"« « \"õ\" \"b"
+  },
+  {
+   "entrada": "ñ♫\t╣Ò“a\tñ´ õ­■",
+   "paraMedir": "ñØ \n╣Ò\"a \nñ´ \nõ­■\n",
+   "salidaMedir": "ñ♫\t╣▪“a\tñ” ∏□■",
+   "paraTXT": "ñÒ\"a\tñ´ õ­"
+  },
+  {
+   "entrada": "\t ««╬”Øñ­",
+   "paraMedir": "««╬´Øñ­\n",
+   "salidaMedir": "\t ««╬”♫ñ□",
+   "paraTXT": "\t ««\"Øñ­"
+  },
+  {
+   "entrada": "a□ñ♫´­”╣♫\"ÒÒ",
+   "paraMedir": "a­ñØ´­´╣Ø\"ÒÒ\n",
+   "salidaMedir": "a□ñ♫”□”╣♫“▪▪",
+   "paraTXT": "añ­\"ÒÒ"
+  },
+  {
+   "entrada": "õ´a<m9>Ò \n■ñ\"╬",
+   "paraMedir": "õ´a<m9>Ò \n■ñ\"╬\n",
+   "salidaMedir": "∏”a<m9>▪ \n■ñ“╬",
+   "paraTXT": "õ´a<m9>Ò \r\nñ\""
+  },
+  {
+   "entrada": "<m9>ñ\n┴┴∏□a\"´«□┴ ∏╠«▪∏╠\n<m9>∏b\t♫Ø■♫ \"",
+   "paraMedir": "<m9>ñ\n┴┴õ­a\"´«­┴ \nõ╠«Òõ╠\n<m9>õb \nØØ■Ø \n\"\n",
+   "salidaMedir": "<m9>ñ\n┴┴∏□a“”«□┴ ∏╠«▪∏╠\n<m9>∏b\t♫♫■♫ “",
+   "paraTXT": "<m9>ñ\r\n┴┴a\"´«┴ «\r\n<m9>b\t\""
+  },
+  {
+   "entrada": "«ñ╠“∏╣ab«╬□“õ´<m9>\t■´",
+   "paraMedir": "«ñ╠\"õ╣ab«╬­\"õ´<m9> \n■´\n",
+   "salidaMedir": "«ñ╠“∏╣ab«╬□“∏”<m9>\t■”",
+   "paraTXT": "«ñ\"ab«\"õ´<m9>\t´"
+  },
+  {
+   "entrada": " □\nÒ  ­♫□╠´«b╠□»╠╬\"´╬╠♫╣´b»╬»­∏╣▪",
+   "paraMedir": "­\nÒ \n­Ø­╠´«b╠­»╠╬\"´╬╠Ø╣´b»╬»­õ╣Ò\n",
+   "salidaMedir": " □\n▪  □♫□╠”«b╠□»╠╬“”╬╠♫╣”b»╬»□∏╣▪",
+   "paraTXT": " \r\nÒ  ­«b»\"´b»»­"
+  },
+  {
+   "entrada": "□ñØÒ\n╠´Ø»Ò­a«▪╣□Øba´╠∏Øa\"<m9>╣□ ´»bõ\"­“┴­",
+   "paraMedir": "­ñØÒ\n╠´Ø»Ò­a«Ò╣­Øba´╠õØa\"<m9>╣­ \n´»bõ\"­\"┴­\n",
+   "salidaMedir": "□ñ♫▪\n╠”♫»▪□a«▪╣□♫ba”╠∏♫a“<m9>╣□ ”»b∏“□“┴□",
+   "paraTXT": "ñØÒ\r\n´Ø»Ò­a«Øba´Øa\"<m9> ´»bõ\"­\"┴­"
+  },
+  {
+   "entrada": "b┴┴ ╬b╠”∏» \n╠ ■□<m9>╬´«õ╣□ñ╬´□«“",
+   "paraMedir": "b┴┴ \n╬b╠´õ» \n╠ \n■­<m9>╬´«õ╣­ñ╬´­«\"\n",
+   "salidaMedir": "b┴┴ ╬b╠”∏» \n╠ ■□<m9>╬”«∏╣□ñ╬”□«“",
+   "paraTXT": "b┴┴ b\"» \r\n <m9>´«õñ´«\""
+  },
+  {
+   "entrada": "»┴Òa□",
+   "paraMedir": "»┴Òa­\n",
+   "salidaMedir": "»┴▪a□",
+   "paraTXT": "»┴Òa"
+  },
+  {
+   "entrada": "▪ñ»«­““a<m9>□\tb",
+   "paraMedir": "Òñ»«­\"\"a<m9>­ \nb\n",
+   "salidaMedir": "▪ñ»«□““a<m9>□\tb",
+   "paraTXT": "ñ»«­\"\"a<m9>\tb"
+  },
+  {
+   "entrada": "”♫´a\t╬╬╬╬­<m9>\"<m9>",
+   "paraMedir": "´Ø´a \n╬╬╬╬­<m9>\"<m9>\n",
+   "salidaMedir": "”♫”a\t╬╬╬╬□<m9>“<m9>",
+   "paraTXT": "\"a\t­<m9>\"<m9>"
+  },
+  {
+   "entrada": "« ∏╣",
+   "paraMedir": "« \nõ╣\n",
+   "salidaMedir": "« ∏╣",
+   "paraTXT": "« "
+  },
+  {
+   "entrada": "▪\t”╠▪<m9>□\"╣\n╬ ┴■╣┴\n«õ­b╠´\n´ ┴«",
+   "paraMedir": "Ò \n´╠Ò<m9>­\"╣\n╬ \n┴■╣┴\n«õ­b╠´\n´ \n┴«\n",
+   "salidaMedir": "▪\t”╠▪<m9>□“╣\n╬ ┴■╣┴\n«∏□b╠”\n” ┴«",
+   "paraTXT": "\t\"<m9>\"\r\n ┴┴\r\n«õ­b´\r\n´ ┴«"
+  },
+  {
+   "entrada": "╠“<m9>┴”Ò♫õ╣ ■“õ\n",
+   "paraMedir": "╠\"<m9>┴´ÒØõ╣ \n■\"õ\n",
+   "salidaMedir": "╠“<m9>┴”▪♫∏╣ ■“∏\n",
+   "paraTXT": "\"<m9>┴\"Ò \"õ\r\n"
+  },
+  {
+   "entrada": "♫",
+   "paraMedir": "Ø\n",
+   "salidaMedir": "♫",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "∏a╠\"Ò┴  a”Ø∏Ò╣a\"",
+   "paraMedir": "õa╠\"Ò┴ \na´ØõÒ╣a\"\n",
+   "salidaMedir": "∏a╠“▪┴  a”♫∏▪╣a“",
+   "paraTXT": "a\"Ò┴  a\"ØÒa\""
+  },
+  {
+   "entrada": "“b\"",
+   "paraMedir": "\"b\"\n",
+   "salidaMedir": "“b“",
+   "paraTXT": "\"b\""
+  },
+  {
+   "entrada": "«□´ ­<m9>aÒñ ñ\t»»∏õ\n♫»”õ□∏♫´a╣<m9>╣<m9>∏Ò┴´<m9>",
+   "paraMedir": "«­´ \n­<m9>aÒñ \nñ \n»»õõ\nØ»´õ­õØ´a╣<m9>╣<m9>õÒ┴´<m9>\n",
+   "salidaMedir": "«□” □<m9>a▪ñ ñ\t»»∏∏\n♫»”∏□∏♫”a╣<m9>╣<m9>∏▪┴”<m9>",
+   "paraTXT": "«´ ­<m9>aÒñ ñ\t»»õ\r\n\"õa<m9><m9>Ò┴´<m9>"
+  },
+  {
+   "entrada": "“∏□õñ▪b╠\n<m9>\tb♫\"”\t”▪\ta╠∏∏»╬«­╬õ",
+   "paraMedir": "\"õ­õñÒb╠\n<m9> \nbØ\"´ \n´Ò \na╠õõ»╬«­╬õ\n",
+   "salidaMedir": "“∏□∏ñ▪b╠\n<m9>\tb♫“”\t”▪\ta╠∏∏»╬«□╬∏",
+   "paraTXT": "\"õñb\r\n<m9>\tb\"\t\"\ta»«­õ"
+  },
+  {
+   "entrada": "« ♫” Ø┴”Ø»▪b<m9>a b\"┴\" \ta┴┴",
+   "paraMedir": "« \nØ´ \nØ┴´Ø»Òb<m9>a \nb\"┴\" \na┴┴\n",
+   "salidaMedir": "« ♫” ♫┴”♫»▪b<m9>a b“┴“ \ta┴┴",
+   "paraTXT": "«  Ø┴\"Ø»b<m9>a b\"┴\" \ta┴┴"
+  },
+  {
+   "entrada": "­■aõ■»­”  ╣\"a■ÒØ´□“”»\"∏­┴♫õb■ ",
+   "paraMedir": "­■aõ■»­´ \n╣\"a■ÒØ´­\"´»\"õ­┴Øõb■ \n",
+   "salidaMedir": "□■a∏■»□”  ╣“a■▪♫”□“”»“∏□┴♫∏b■ ",
+   "paraTXT": "­aõ»­\"  \"aÒØ´\"\"»\"­┴b "
+  },
+  {
+   "entrada": "┴\n<m9>»a╠Òa´╬b “\n\t",
+   "paraMedir": "┴\n<m9>»a╠Òa´╬b \n\"\n",
+   "salidaMedir": "┴\n<m9>»a╠▪a”╬b “\n\t",
+   "paraTXT": "┴\r\n<m9>»aÒa´b \"\r\n\t"
+  },
+  {
+   "entrada": "­­aØb\n“□♫♫””Ø╣Ø∏\t╬",
+   "paraMedir": "­­aØb\n\"­ØØ´´Ø╣Øõ \n╬\n",
+   "salidaMedir": "□□a♫b\n“□♫♫””♫╣♫∏\t╬",
+   "paraTXT": "­­aØb\r\n\"\"\"ØØ\t"
+  },
+  {
+   "entrada": "╣ñ»­\n ╣\nØØ╬□“ñ╬ “\n┴\n «“Ò´╣a ",
+   "paraMedir": "╣ñ»­\n╣\nØØ╬­\"ñ╬ \n\"\n┴\n«\"Ò´╣a \n",
+   "salidaMedir": "╣ñ»□\n ╣\n♫♫╬□“ñ╬ “\n┴\n «“▪”╣a ",
+   "paraTXT": "ñ»­\r\n \r\nØØ\"ñ \"\r\n┴\r\n «\"Ò´a "
+  },
+  {
+   "entrada": "Ø Ø╣",
+   "paraMedir": "Ø \nØ╣\n",
+   "salidaMedir": "♫ ♫╣",
+   "paraTXT": "Ø Ø"
+  },
+  {
+   "entrada": "╣",
+   "paraMedir": "╣\n",
+   "salidaMedir": "╣",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "´♫»\t□”╬“∏",
+   "paraMedir": "´Ø» \n­´╬\"õ\n",
+   "salidaMedir": "”♫»\t□”╬“∏",
+   "paraTXT": "´\t\"\""
+  },
+  {
+   "entrada": "♫ØÒ",
+   "paraMedir": "ØØÒ\n",
+   "salidaMedir": "♫♫▪",
+   "paraTXT": "Ò"
+  },
+  {
+   "entrada": "“■õ”­┴□■õõ“\t ╣­õ■«a╣Ò­\"õb\t”Ø´╣\t“ Øb«a",
+   "paraMedir": "\"■õ´­┴­■õõ\" \n╣­õ■«a╣Ò­\"õb \n´Ø´╣ \n\" \nØb«a\n",
+   "salidaMedir": "“■∏”□┴□■∏∏“\t ╣□∏■«a╣▪□“∏b\t”♫”╣\t“ ♫b«a",
+   "paraTXT": "\"õ\"­┴õõ\"\t ­õ«aÒ­\"õb\t\"Ø´\t\" Øb«a"
+  },
+  {
+   "entrada": "ñ«",
+   "paraMedir": "ñ«\n",
+   "salidaMedir": "ñ«",
+   "paraTXT": "ñ«"
+  },
+  {
+   "entrada": "■\tñ┴♫  \na□■∏╣Ø<m9>╠\"b<m9>╬<m9>\t \" ´□╠­ ”",
+   "paraMedir": "■ \nñ┴Ø \na­■õ╣Ø<m9>╠\"b<m9>╬<m9> \n\" \n´­╠­ \n´\n",
+   "salidaMedir": "■\tñ┴♫  \na□■∏╣♫<m9>╠“b<m9>╬<m9>\t “ ”□╠□ ”",
+   "paraTXT": "\tñ┴ \r\naØ<m9>\"b<m9><m9>\t \" ´­ \""
+  },
+  {
+   "entrada": "­♫∏”▪“Ò­ aa",
+   "paraMedir": "­Øõ´Ò\"Ò­ \naa\n",
+   "salidaMedir": "□♫∏”▪“▪□ aa",
+   "paraTXT": "­\"Ò­ aa"
+  },
+  {
+   "entrada": "\n□ b\t« Ò<m9>”\"■\"»Ò▪<m9>▪\"┴ Ò  ",
+   "paraMedir": "­ \nb \n« \nÒ<m9>´\"■\"»ÒÒ<m9>Ò\"┴ \nÒ \n",
+   "salidaMedir": "\n□ b\t« ▪<m9>”“■“»▪▪<m9>▪“┴ ▪  ",
+   "paraTXT": "\r\n b\t« Ò<m9>\"\"\"»Ò<m9>\"┴ Ò  "
+  },
+  {
+   "entrada": "«╬■▪´□õ ´\t­“\"b”“<m9><m9>╠▪´b♫<m9>╠\"╬<m9>",
+   "paraMedir": "«╬■Ò´­õ \n´ \n­\"\"b´\"<m9><m9>╠Ò´bØ<m9>╠\"╬<m9>\n",
+   "salidaMedir": "«╬■▪”□∏ ”\t□““b”“<m9><m9>╠▪”b♫<m9>╠“╬<m9>",
+   "paraTXT": "«´õ ´\t­\"\"b\"\"<m9><m9>´bm9>\"<m9>"
+  },
+  {
+   "entrada": "­\"õñ∏ña´“Ò",
+   "paraMedir": "­\"õñõña´\"Ò\n",
+   "salidaMedir": "□“∏ñ∏ña”“▪",
+   "paraTXT": "­\"õñña´\"Ò"
+  },
+  {
+   "entrada": "“ñ■»\"∏»»■□",
+   "paraMedir": "\"ñ■»\"õ»»■­\n",
+   "salidaMedir": "“ñ■»“∏»»■□",
+   "paraTXT": "\"ñ»\"»»"
+  },
+  {
+   "entrada": "╣<m9>■ ",
+   "paraMedir": "╣<m9>■ \n",
+   "salidaMedir": "╣<m9>■ ",
+   "paraTXT": "<m9> "
+  },
+  {
+   "entrada": "”Øõ\n»╣b♫´■<m9>«□",
+   "paraMedir": "´Øõ\n»╣bØ´■<m9>«­\n",
+   "salidaMedir": "”♫∏\n»╣b♫”■<m9>«□",
+   "paraTXT": "\"Øõ\r\n»b<m9>«"
+  },
+  {
+   "entrada": "♫┴∏■\"♫\"ñ” Øõa\t╣ ñ´´",
+   "paraMedir": "Ø┴õ■\"Ø\"ñ´ \nØõa \n╣ \nñ´´\n",
+   "salidaMedir": "♫┴∏■“♫“ñ” ♫∏a\t╣ ñ””",
+   "paraTXT": "\"ñ\" Øõa\t ñ´´"
+  },
+  {
+   "entrada": "õ\"┴  »┴”“",
+   "paraMedir": "õ\"┴ \n»┴´\"\n",
+   "salidaMedir": "∏“┴  »┴”“",
+   "paraTXT": "õ\"┴  »┴\"\""
+  },
+  {
+   "entrada": "∏╣▪“<m9>b ´▪Ò╠ñ■■╠╠ñØ□",
+   "paraMedir": "õ╣Ò\"<m9>b \n´ÒÒ╠ñ■■╠╠ñØ­\n",
+   "salidaMedir": "∏╣▪“<m9>b ”▪▪╠ñ■■╠╠ñ♫□",
+   "paraTXT": "\"<m9>b ´ÒññØ"
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "♫b┴╠╣a­<m9>´∏┴b\"\"b∏Ò<m9>",
+   "paraMedir": "Øb┴╠╣a­<m9>´õ┴b\"\"bõÒ<m9>\n",
+   "salidaMedir": "♫b┴╠╣a□<m9>”∏┴b““b∏▪<m9>",
+   "paraTXT": "┴a­<m9>´┴b\"\"bÒ<m9>"
+  },
+  {
+   "entrada": "╠\t\t ”■■\"▪<m9>╠\nb»b∏õÒbñ”  \tñ┴■▪»",
+   "paraMedir": "╠ \n´■■\"Ò<m9>╠\nb»bõõÒbñ´ \nñ┴■Ò»\n",
+   "salidaMedir": "╠\t\t ”■■“▪<m9>╠\nb»b∏∏▪bñ”  \tñ┴■▪»",
+   "paraTXT": "\t\t \"\"<m9>\r\nb»bõÒbñ\"  \tñ┴»"
+  },
+  {
+   "entrada": "╬´\t\n■”a´╠\t<m9>b╬┴a∏\" \"«“╠ñ╠ õ ╬ñ b╣añ“b■­",
+   "paraMedir": "╬´ \n■´a´╠ \n<m9>b╬┴aõ\" \n\"«\"╠ñ╠ \nõ \n╬ñ \nb╣añ\"b■­\n",
+   "salidaMedir": "╬”\t\n■”a”╠\t<m9>b╬┴a∏“ “«“╠ñ╠ ∏ ╬ñ b╣añ“b■□",
+   "paraTXT": "´\t\r\n\"a´\t<m9>b┴a\" \"«\"ñ õ ñ bañ\"b­"
+  },
+  {
+   "entrada": "ñ´▪»╠♫b",
+   "paraMedir": "ñ´Ò»╠Øb\n",
+   "salidaMedir": "ñ”▪»╠♫b",
+   "paraTXT": "ñ´»"
+  },
+  {
+   "entrada": "­■´bõ■■╣« ”♫´♫",
+   "paraMedir": "­■´bõ■■╣« \n´Ø´Ø\n",
+   "salidaMedir": "□■”b∏■■╣« ”♫”♫",
+   "paraTXT": "­´bõ« \""
+  },
+  {
+   "entrada": "Ø<m9>■╣ñ ­\"╣”╠\t»»õ\t∏∏\"♫ ■´┴♫♫╣♫╣»∏╬´□Ø\n",
+   "paraMedir": "Ø<m9>■╣ñ \n­\"╣´╠ \n»»õ \nõõ\"Ø \n■´┴ØØ╣Ø╣»õ╬´­Ø\n",
+   "salidaMedir": "♫<m9>■╣ñ □“╣”╠\t»»∏\t∏∏“♫ ■”┴♫♫╣♫╣»∏╬”□♫\n",
+   "paraTXT": "Ø<m9>ñ ­\"\"\t»»õ\t\"´┴´Ø\r\n"
+  },
+  {
+   "entrada": "”",
+   "paraMedir": "´\n",
+   "salidaMedir": "”",
+   "paraTXT": "\""
+  },
+  {
+   "entrada": "«╬”a\t\n╣╣«╬\"ñ\n□aÒÒ∏\t┴╠»♫╬",
+   "paraMedir": "«╬´a \n╣╣«╬\"ñ\n­aÒÒõ \n┴╠»Ø╬\n",
+   "salidaMedir": "«╬”a\t\n╣╣«╬“ñ\n□a▪▪∏\t┴╠»♫╬",
+   "paraTXT": "«\"a\t\r\n«\"ñ\r\naÒÒ\t┴»"
+  },
+  {
+   "entrada": "´▪a∏∏╠«b<m9>╠Ò“∏\na▪ ■a▪■ñ\n»▪■õb╣ ­b\t╬",
+   "paraMedir": "´Òaõõ╠«b<m9>╠Ò\"õ\naÒ \n■aÒ■ñ\n»Ò■õb╣ \n­b \n╬\n",
+   "salidaMedir": "”▪a∏∏╠«b<m9>╠▪“∏\na▪ ■a▪■ñ\n»▪■∏b╣ □b\t╬",
+   "paraTXT": "´a«b<m9>Ò\"\r\na añ\r\n»õb ­b\t"
+  },
+  {
+   "entrada": "Ø”∏­∏♫“\t",
+   "paraMedir": "Ø´õ­õØ\" \n",
+   "salidaMedir": "♫”∏□∏♫“\t",
+   "paraTXT": "Ø\"­\t"
+  },
+  {
+   "entrada": " ´­╬»┴Ò╠■♫ \"Øb□ Ò´",
+   "paraMedir": "´­╬»┴Ò╠■Ø \n\"Øb­ \nÒ´\n",
+   "salidaMedir": " ”□╬»┴▪╠■♫ “♫b□ ▪”",
+   "paraTXT": " ´­»┴Ò\"Øb Ò´"
+  },
+  {
+   "entrada": "Ò□╬♫<m9>■´\n♫♫´Ø∏”­■Òõ□´­<m9>♫õ♫▪”ñØ ╠Ø\"╬\tñ",
+   "paraMedir": "Ò­╬Ø<m9>■´\nØØ´Øõ´­■Òõ­´­<m9>ØõØÒ´ñØ \n╠Ø\"╬ \nñ\n",
+   "salidaMedir": "▪□╬♫<m9>■”\n♫♫”♫∏”□■▪∏□”□<m9>♫∏♫▪”ñ♫ ╠♫“╬\tñ",
+   "paraTXT": "Òm9>´\r\n´Ø\"­Òõ´­<m9>ñØ Ø\"\tñ"
+  },
+  {
+   "entrada": "\nñõ",
+   "paraMedir": "ñõ\n",
+   "salidaMedir": "\nñ∏",
+   "paraTXT": "\r\nñõ"
+  },
+  {
+   "entrada": "<m9>\"»\"”╣Ø┴<m9>□╠",
+   "paraMedir": "<m9>\"»\"´╣Ø┴<m9>­╠\n",
+   "salidaMedir": "<m9>“»“”╣♫┴<m9>□╠",
+   "paraTXT": "<m9>\"»\"\"Ø┴<m9>"
+  },
+  {
+   "entrada": "<m9>«",
+   "paraMedir": "<m9>«\n",
+   "salidaMedir": "<m9>«",
+   "paraTXT": "<m9>«"
+  },
+  {
+   "entrada": "╬□“\n╠\"»Ø□“□ña\tÒ\n▪õõ♫╠Ø“\tõ╠╠",
+   "paraMedir": "╬­\"\n╠\"»Ø­\"­ña \nÒ\nÒõõØ╠Ø\" \nõ╠╠\n",
+   "salidaMedir": "╬□“\n╠“»♫□“□ña\t▪\n▪∏∏♫╠♫“\t∏╠╠",
+   "paraTXT": "\"\r\n\"»Ø\"ña\tÒ\r\nõõ\"\tõ"
+  },
+  {
+   "entrada": "“´\n∏ ",
+   "paraMedir": "\"´\nõ \n",
+   "salidaMedir": "“”\n∏ ",
+   "paraTXT": "\"´\r\n "
+  },
+  {
+   "entrada": "”Ø□╣╠«\t▪»«┴■“´Ò\n□∏a»“»♫╬<m9>\"\"Øõ\"­∏♫Ò□\n",
+   "paraMedir": "´Ø­╣╠« \nÒ»«┴■\"´Ò\n­õa»\"»Ø╬<m9>\"\"Øõ\"­õØÒ­\n",
+   "salidaMedir": "”♫□╣╠«\t▪»«┴■“”▪\n□∏a»“»♫╬<m9>““♫∏“□∏♫▪□\n",
+   "paraTXT": "\"Ø«\t»«┴\"´Ò\r\na»\"»m9>\"\"Øõ\"­\r\n"
+  },
+  {
+   "entrada": "Ò»□",
+   "paraMedir": "Ò»­\n",
+   "salidaMedir": "▪»□",
+   "paraTXT": "Ò»"
+  },
+  {
+   "entrada": "┴ ■»♫«┴Ø",
+   "paraMedir": "┴ \n■»Ø«┴Ø\n",
+   "salidaMedir": "┴ ■»♫«┴♫",
+   "paraTXT": "┴ »┴Ø"
+  },
+  {
+   "entrada": "□ñ\n<m9>■õ\n╠■■\" ÒØ■\t««<m9><m9> Òb´<m9> ",
+   "paraMedir": "­ñ\n<m9>■õ\n╠■■\" \nÒØ■ \n««<m9><m9> \nÒb´<m9> \n",
+   "salidaMedir": "□ñ\n<m9>■∏\n╠■■“ ▪♫■\t««<m9><m9> ▪b”<m9> ",
+   "paraTXT": "ñ\r\n<m9>õ\r\n\" ÒØ\t««<m9><m9> Òb´<m9> "
+  },
+  {
+   "entrada": "\"╣a“Ø«”õ\"bb┴» ´ñ┴╬»╠aØ­♫´♫a",
+   "paraMedir": "\"╣a\"Ø«´õ\"bb┴» \n´ñ┴╬»╠aØ­Ø´Øa\n",
+   "salidaMedir": "“╣a“♫«”∏“bb┴» ”ñ┴╬»╠a♫□♫”♫a",
+   "paraTXT": "\"a\"Ø«\"õ\"bb┴» ´ñ┴»aØ­"
+  },
+  {
+   "entrada": "a▪<m9>♫\tab╬▪Ò­╣",
+   "paraMedir": "aÒ<m9>Ø \nab╬ÒÒ­╣\n",
+   "salidaMedir": "a▪<m9>♫\tab╬▪▪□╣",
+   "paraTXT": "a<m9>abÒ­"
+  },
+  {
+   "entrada": "Ò╬∏∏",
+   "paraMedir": "Ò╬õõ\n",
+   "salidaMedir": "▪╬∏∏",
+   "paraTXT": "Ò"
+  },
+  {
+   "entrada": "a ““» ┴Ò∏",
+   "paraMedir": "a \n\"\"» \n┴Òõ\n",
+   "salidaMedir": "a ““» ┴▪∏",
+   "paraTXT": "a \"\"» ┴Ò"
+  },
+  {
+   "entrada": "□”╠a´\n´<m9>ñ»»Ø╣a­Øñ´b ╣´»\"╬ a\tñb\t \n´” ",
+   "paraMedir": "­´╠a´\n´<m9>ñ»»Ø╣a­Øñ´b \n╣´»\"╬ \na \nñb \n´´ \n",
+   "salidaMedir": "□”╠a”\n”<m9>ñ»»♫╣a□♫ñ”b ╣”»“╬ a\tñb\t \n”” ",
+   "paraTXT": "\"a´\r\n´<m9>ñ»»Øa­Øñ´b ´»\" a\tñb\t \r\n´\" "
+  },
+  {
+   "entrada": "´\tbñ\n«´b┴­\ta∏ ▪”<m9> ­Øa­┴a\n<m9>Ò╣\ta■a´",
+   "paraMedir": "´ \nbñ\n«´b┴­ \naõ \nÒ´<m9> \n­Øa­┴a\n<m9>Ò╣ \na■a´\n",
+   "salidaMedir": "”\tbñ\n«”b┴□\ta∏ ▪”<m9> □♫a□┴a\n<m9>▪╣\ta■a”",
+   "paraTXT": "´\tbñ\r\n«´b┴­\ta \"<m9> ­Øa­┴a\r\n<m9>Ò\taa´"
+  },
+  {
+   "entrada": "« \"“\t«´",
+   "paraMedir": "« \n\"\" \n«´\n",
+   "salidaMedir": "« ““\t«”",
+   "paraTXT": "« \"\"\t«´"
+  },
+  {
+   "entrada": "õØa´ \"┴´\t■□♫\tõ ╣\n■■\n<m9>Ò´▪□ õ«╠ñ­▪a╠∏╣»»",
+   "paraMedir": "õØa´ \n\"┴´ \n■­Ø \nõ \n╣\n■■\n<m9>Ò´Ò­ \nõ«╠ñ­Òa╠õ╣»»\n",
+   "salidaMedir": "∏♫a” “┴”\t■□♫\t∏ ╣\n■■\n<m9>▪”▪□ ∏«╠ñ□▪a╠∏╣»»",
+   "paraTXT": "õØa´ \"┴´\tõ \r\n\r\n<m9>Ò´ õ«ñ­a»»"
+  },
+  {
+   "entrada": "\n\t╬bØ",
+   "paraMedir": "╬bØ\n",
+   "salidaMedir": "\n\t╬b♫",
+   "paraTXT": "\r\n\tbØ"
+  },
+  {
+   "entrada": "╣Ò a»” \n┴»”■a´\t■\n┴«<m9>",
+   "paraMedir": "╣Ò \na»´ \n┴»´■a´ \n■\n┴«<m9>\n",
+   "salidaMedir": "╣▪ a»” \n┴»”■a”\t■\n┴«<m9>",
+   "paraTXT": "Ò a»\" \r\n┴»\"a´\t\r\n┴«<m9>"
+  },
+  {
+   "entrada": " ´a\t╬ ╠«□ ”∏Ò´♫\tØa ∏╣ Òñ ▪",
+   "paraMedir": "´a \n╬ \n╠«­ \n´õÒ´Ø \nØa \nõ╣ \nÒñ \nÒ\n",
+   "salidaMedir": " ”a\t╬ ╠«□ ”∏▪”♫\t♫a ∏╣ ▪ñ ▪",
+   "paraTXT": " ´a\t « \"Ò´Øa  Òñ "
+  },
+  {
+   "entrada": " Ò∏\t■»\t”□´“♫<m9>\"╬´­´ b╠∏▪» \"õ­Ò\n ØÒ”□b▪«",
+   "paraMedir": "Òõ \n■» \n´­´\"Ø<m9>\"╬´­´ \nb╠õÒ» \n\"õ­Ò\nØÒ´­bÒ«\n",
+   "salidaMedir": " ▪∏\t■»\t”□”“♫<m9>“╬”□” b╠∏▪» “∏□▪\n ♫▪”□b▪«",
+   "paraTXT": " Ò\t»\t\"´\"m9>\"´­´ b» \"õ­Ò\r\n ØÒ\"b«"
+  },
+  {
+   "entrada": "\"□♫““´”Ø”õaØaõ«♫ ╠´”b╬∏«­ ♫╣♫a\"­╣»",
+   "paraMedir": "\"­Ø\"\"´´Ø´õaØaõ«Ø \n╠´´b╬õ«­ \nØ╣Øa\"­╣»\n",
+   "salidaMedir": "“□♫““””♫”∏a♫a∏«♫ ╠””b╬∏«□ ♫╣♫a“□╣»",
+   "paraTXT": "\"\"´\"Ø\"õaØaõ«´\"b«­ a\"­»"
+  },
+  {
+   "entrada": "∏b□ õ”■\"╣ ñ",
+   "paraMedir": "õb­ \nõ´■\"╣ \nñ\n",
+   "salidaMedir": "∏b□ ∏”■“╣ ñ",
+   "paraTXT": "b õ\"\" ñ"
+  },
+  {
+   "entrada": "┴“■õ╬▪ ´■­╣´♫\"õ┴ ■┴╠Ø╠b♫╬<m9> ´",
+   "paraMedir": "┴\"■õ╬Ò \n´■­╣´Ø\"õ┴ \n■┴╠Ø╠bØ╬<m9> \n´\n",
+   "salidaMedir": "┴“■∏╬▪ ”■□╣”♫“∏┴ ■┴╠♫╠b♫╬<m9> ”",
+   "paraTXT": "┴\"õ ´­´õ┴ ┴Øbm9> ´"
+  },
+  {
+   "entrada": "\"╠<m9>\n«",
+   "paraMedir": "\"╠<m9>\n«\n",
+   "salidaMedir": "“╠<m9>\n«",
+   "paraTXT": "\"<m9>\r\n«"
+  },
+  {
+   "entrada": "♫»□”\t",
+   "paraMedir": "Ø»­´ \n",
+   "salidaMedir": "♫»□”\t",
+   "paraTXT": "\"\t"
+  },
+  {
+   "entrada": "Ø┴",
+   "paraMedir": "Ø┴\n",
+   "salidaMedir": "♫┴",
+   "paraTXT": "Ø┴"
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "´\"\n╠b ´”∏■\"ñ  ╠õ ┴∏┴»∏­­■",
+   "paraMedir": "´\"\n╠b \n´´õ■\"ñ \n╠õ \n┴õ┴»õ­­■\n",
+   "salidaMedir": "”“\n╠b ””∏■“ñ  ╠∏ ┴∏┴»∏□□■",
+   "paraTXT": "´\"\r\nb ´\"\"ñ  õ ┴┴»­­"
+  },
+  {
+   "entrada": " \n□\t«Òb<m9>\n ñ ∏▪\t”■­ Ø∏╬aa╬\t´□ñ♫■<m9>\t«╠┴Ø■",
+   "paraMedir": "­ \n«Òb<m9>\nñ \nõÒ \n´■­ \nØõ╬aa╬ \n´­ñØ■<m9> \n«╠┴Ø■\n",
+   "salidaMedir": " \n□\t«▪b<m9>\n ñ ∏▪\t”■□ ♫∏╬aa╬\t”□ñ♫■<m9>\t«╠┴♫■",
+   "paraTXT": " \r\n\t«Òb<m9>\r\n ñ \t\"­ Øaa\t´ñm9>\t«┴Ø"
+  },
+  {
+   "entrada": "­ñ\n“┴♫■“╬┴□\tØ♫□╣­\"õ▪▪\t■´\t´<m9>▪♫»\"",
+   "paraMedir": "­ñ\n\"┴Ø■\"╬┴­ \nØØ­╣­\"õÒÒ \n■´ \n´<m9>ÒØ»\"\n",
+   "salidaMedir": "□ñ\n“┴♫■“╬┴□\t♫♫□╣□“∏▪▪\t■”\t”<m9>▪♫»“",
+   "paraTXT": "­ñ\r\n\"┴┴\tØ\"õ\t´\t´<m9>\""
+  },
+  {
+   "entrada": "ÒbØ\naØ╠<m9>õbØa”ñ»",
+   "paraMedir": "ÒbØ\naØ╠<m9>õbØa´ñ»\n",
+   "salidaMedir": "▪b♫\na♫╠<m9>∏b♫a”ñ»",
+   "paraTXT": "ÒbØ\r\naØ<m9>õbØa\"ñ»"
+  },
+  {
+   "entrada": "∏”“­“■\t´Ò<m9>\n ♫­\nbñõñÒ“´”“Ø\"┴»╬“",
+   "paraMedir": "õ´\"­\"■ \n´Ò<m9>\nØ­\nbñõñÒ\"´´\"Ø\"┴»╬\"\n",
+   "salidaMedir": "∏”“□“■\t”▪<m9>\n ♫□\nbñ∏ñ▪“””“♫“┴»╬“",
+   "paraTXT": "\"\"­\"\t´Ò<m9>\r\n \r\nbñõñÒ\"´\"\"Ø\"┴»\""
+  },
+  {
+   "entrada": "∏╬«▪□\t╠■♫╬õ<m9>“ØÒ",
+   "paraMedir": "õ╬«Ò­ \n╠■Ø╬õ<m9>\"ØÒ\n",
+   "salidaMedir": "∏╬«▪□\t╠■♫╬∏<m9>“♫▪",
+   "paraTXT": "«\t<m9>\"ØÒ"
+  },
+  {
+   "entrada": "□ ♫ \n╬Ò»b╣Òñ\t■\tõ╬«õñõ““╬∏«♫\t­\"»■» «",
+   "paraMedir": "­ \nØ \n╬Ò»b╣Òñ \n■ \nõ╬«õñõ\"\"╬õ«Ø \n­\"»■» \n«\n",
+   "salidaMedir": "□ ♫ \n╬▪»b╣▪ñ\t■\t∏╬«∏ñ∏““╬∏«♫\t□“»■» «",
+   "paraTXT": " \r\nÒ»bÒñ\t\tõ«õñõ\"\"«­\"»» «"
+  },
+  {
+   "entrada": "”╣“b",
+   "paraMedir": "´╣\"b\n",
+   "salidaMedir": "”╣“b",
+   "paraTXT": "\"\"b"
+  },
+  {
+   "entrada": "Ò \"«\"□Ò« ”añ\t<m9> ╬a▪╬«■♫",
+   "paraMedir": "Ò \n\"«\"­Ò« \n´añ \n<m9> \n╬aÒ╬«■Ø\n",
+   "salidaMedir": "▪ “«“□▪« ”añ\t<m9> ╬a▪╬«■♫",
+   "paraTXT": "Ò \"«\"Ò« \"añ\t<m9> a«"
+  },
+  {
+   "entrada": "<m9>« ­­”╠┴»╬ ┴□■\"\"“b╠a »ñ»∏∏ ­«b\"╠∏»╠Ø",
+   "paraMedir": "<m9>« \n­­´╠┴»╬ \n┴­■\"\"\"b╠a \n»ñ»õõ \n­«b\"╠õ»╠Ø\n",
+   "salidaMedir": "<m9>« □□”╠┴»╬ ┴□■“““b╠a »ñ»∏∏ □«b“╠∏»╠♫",
+   "paraTXT": "<m9>« ­­\"┴» ┴\"\"\"ba »ñ» ­«b\"»Ø"
+  },
+  {
+   "entrada": " ∏<m9>b∏ñ ╬",
+   "paraMedir": "õ<m9>bõñ \n╬\n",
+   "salidaMedir": " ∏<m9>b∏ñ ╬",
+   "paraTXT": " <m9>bñ "
+  },
+  {
+   "entrada": "♫■╬ ­“”■Ø“»■",
+   "paraMedir": "Ø■╬ \n­\"´■Ø\"»■\n",
+   "salidaMedir": "♫■╬ □“”■♫“»■",
+   "paraTXT": "­\"\"Ø\"»"
+  },
+  {
+   "entrada": "Ø♫♫«\n┴□",
+   "paraMedir": "ØØØ«\n┴­\n",
+   "salidaMedir": "♫♫♫«\n┴□",
+   "paraTXT": "Ø«\r\n┴"
+  },
+  {
+   "entrada": "∏",
+   "paraMedir": "õ\n",
+   "salidaMedir": "∏",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "<m9>╬“”a╣ □∏´♫",
+   "paraMedir": "<m9>╬\"´a╣ \n­õ´Ø\n",
+   "salidaMedir": "<m9>╬“”a╣ □∏”♫",
+   "paraTXT": "<m9>\"\"a ´"
+  },
+  {
+   "entrada": "╣aññb□ñ■« ",
+   "paraMedir": "╣aññb­ñ■« \n",
+   "salidaMedir": "╣aññb□ñ■« ",
+   "paraTXT": "aññbñ« "
+  },
+  {
+   "entrada": "∏ñ\t▪a  ┴Ø■▪♫ □",
+   "paraMedir": "õñ \nÒa \n┴Ø■ÒØ \n­\n",
+   "salidaMedir": "∏ñ\t▪a  ┴♫■▪♫ □",
+   "paraTXT": "ñ\ta  ┴Ø"
+  },
+  {
+   "entrada": "“╣\t",
+   "paraMedir": "\"╣ \n",
+   "salidaMedir": "“╣\t",
+   "paraTXT": "\"\t"
+  },
+  {
+   "entrada": "╣ Ø\t“Ò\t»\tb\n\"ñ«∏\t∏ñ",
+   "paraMedir": "╣ \nØ \n\"Ò \n» \nb\n\"ñ«õ \nõñ\n",
+   "salidaMedir": "╣ ♫\t“▪\t»\tb\n“ñ«∏\t∏ñ",
+   "paraTXT": " Ø\t\"Ò\t»\tb\r\n\"ñ«\tñ"
+  },
+  {
+   "entrada": "▪\n■«“´­Ò»",
+   "paraMedir": "Ò\n■«\"´­Ò»\n",
+   "salidaMedir": "▪\n■«“”□▪»",
+   "paraTXT": "\r\n«\"´­Ò»"
+  },
+  {
+   "entrada": "”♫ñ▪<m9>╣ñ”╠",
+   "paraMedir": "´ØñÒ<m9>╣ñ´╠\n",
+   "salidaMedir": "”♫ñ▪<m9>╣ñ”╠",
+   "paraTXT": "\"<m9>ñ\""
+  },
+  {
+   "entrada": "♫ <m9>a<m9>┴b▪ ­“­“",
+   "paraMedir": "Ø \n<m9>a<m9>┴bÒ \n­\"­\"\n",
+   "salidaMedir": "♫ <m9>a<m9>┴b▪ □“□“",
+   "paraTXT": "<m9>a<m9>┴b ­\"­\""
+  },
+  {
+   "entrada": "┴□",
+   "paraMedir": "┴­\n",
+   "salidaMedir": "┴□",
+   "paraTXT": "┴"
+  },
+  {
+   "entrada": "b■Ò“´»”╬╣ <m9>\na\nØ╠«õ■ ┴a\t▪Ø□a Ò\nØ□\t",
+   "paraMedir": "b■Ò\"´»´╬╣ \n<m9>\na\nØ╠«õ■ \n┴a \nÒØ­a \nÒ\nØ­ \n",
+   "salidaMedir": "b■▪“”»”╬╣ <m9>\na\n♫╠«∏■ ┴a\t▪♫□a ▪\n♫□\t",
+   "paraTXT": "bÒ\"´»\" <m9>\r\na\r\nØ«õ ┴a\tØa Ò\r\nØ\t"
+  },
+  {
+   "entrada": "▪Ò­♫õ”╠╬a ´╣´ “",
+   "paraMedir": "ÒÒ­Øõ´╠╬a \n´╣´ \n\"\n",
+   "salidaMedir": "▪▪□♫∏”╠╬a ”╣” “",
+   "paraTXT": "Ò­\"a ´´ \""
+  },
+  {
+   "entrada": " ▪““♫\nbØ´\"­b­añ<m9>╬■▪«“ÒõØ",
+   "paraMedir": "Ò\"\"Ø\nbØ´\"­b­añ<m9>╬■Ò«\"ÒõØ\n",
+   "salidaMedir": " ▪““♫\nb♫”“□b□añ<m9>╬■▪«“▪∏♫",
+   "paraTXT": " \"\"\nbØ´\"­b­añ<m9>«\"ÒõØ"
+  },
+  {
+   "entrada": "´­“” b",
+   "paraMedir": "´­\"´ \nb\n",
+   "salidaMedir": "”□“” b",
+   "paraTXT": "´­\"\" b"
+  },
+  {
+   "entrada": "b”“a┴»■´Øñ╣┴a­■\t┴õ”\"”┴õ»\t∏”",
+   "paraMedir": "b´\"a┴»■´Øñ╣┴a­■ \n┴õ´\"´┴õ» \nõ´\n",
+   "salidaMedir": "b”“a┴»■”♫ñ╣┴a□■\t┴∏”“”┴∏»\t∏”",
+   "paraTXT": "b\"\"a┴»´Øñ┴a­\t┴õ\"\"\"┴õ»\t\""
+  },
+  {
+   "entrada": "a┴­ñ<m9>∏",
+   "paraMedir": "a┴­ñ<m9>õ\n",
+   "salidaMedir": "a┴□ñ<m9>∏",
+   "paraTXT": "a┴­ñ<m9>"
+  },
+  {
+   "entrada": "╠\n",
+   "paraMedir": "╠\n",
+   "salidaMedir": "╠\n",
+   "paraTXT": "\r\n"
+  },
+  {
+   "entrada": "<m9>\nb□”« <m9>╠b\t╠Ø□▪╠õØ♫╬",
+   "paraMedir": "<m9>\nb­´« \n<m9>╠b \n╠Ø­Ò╠õØØ╬\n",
+   "salidaMedir": "<m9>\nb□”« <m9>╠b\t╠♫□▪╠∏♫♫╬",
+   "paraTXT": "<m9>\r\nb\"« <m9>b\tØõØ"
+  },
+  {
+   "entrada": "b\"ñÒ\n«□ ■╬♫  \n∏┴“ \n«┴  □\t▪\"b” ∏■<m9>╬ñ∏­",
+   "paraMedir": "b\"ñÒ\n«­ \n■╬Ø \nõ┴\" \n«┴ \n­ \nÒ\"b´ \nõ■<m9>╬ñõ­\n",
+   "salidaMedir": "b“ñ▪\n«□ ■╬♫  \n∏┴“ \n«┴  □\t▪“b” ∏■<m9>╬ñ∏□",
+   "paraTXT": "b\"ñÒ\r\n«  \r\n┴\" \r\n«┴  \t\"b\" <m9>ñ­"
+  },
+  {
+   "entrada": "Ø«\n<m9><m9>┴­■»∏ña\n╠▪õ □■Òaaõ",
+   "paraMedir": "Ø«\n<m9><m9>┴­■»õña\n╠Òõ \n­■Òaaõ\n",
+   "salidaMedir": "♫«\n<m9><m9>┴□■»∏ña\n╠▪∏ □■▪aa∏",
+   "paraTXT": "Ø«\r\n<m9><m9>┴­»ña\r\nõ Òaaõ"
+  },
+  {
+   "entrada": "õ­╠b\n\"┴<m9>“ <m9>“Ò“■­´□\t╠ab□♫ ",
+   "paraMedir": "õ­╠b\n\"┴<m9>\" \n<m9>\"Ò\"■­´­ \n╠ab­Ø \n",
+   "salidaMedir": "∏□╠b\n“┴<m9>“ <m9>“▪“■□”□\t╠ab□♫ ",
+   "paraTXT": "õ­b\r\n\"┴<m9>\" <m9>\"Ò\"­´\tab"
+  },
+  {
+   "entrada": "■«Ò”  ”<m9>∏”\t<m9>»­ <m9>«",
+   "paraMedir": "■«Ò´ \n´<m9>õ´ \n<m9>»­ \n<m9>«\n",
+   "salidaMedir": "■«▪”  ”<m9>∏”\t<m9>»□ <m9>«",
+   "paraTXT": "«Ò\"  \"<m9>\"\t<m9>»­ <m9>«"
+  },
+  {
+   "entrada": "□\n □­\t\n╬“õõ■ab“□∏\t■<m9><m9>«",
+   "paraMedir": "­\n­­ \n╬\"õõ■ab\"­õ \n■<m9><m9>«\n",
+   "salidaMedir": "□\n □□\t\n╬“∏∏■ab“□∏\t■<m9><m9>«",
+   "paraTXT": "\r\n ­\t\r\n\"õõab\"\t<m9><m9>«"
+  },
+  {
+   "entrada": "Øñ∏<m9>▪╬\t┴□ ♫∏­\"",
+   "paraMedir": "Øñõ<m9>Ò╬ \n┴­ \nØõ­\"\n",
+   "salidaMedir": "♫ñ∏<m9>▪╬\t┴□ ♫∏□“",
+   "paraTXT": "Øñ<m9>\t┴ \""
+  },
+  {
+   "entrada": "“Ò╣«∏­╬»╣­»╠b╠“Ø",
+   "paraMedir": "\"Ò╣«õ­╬»╣­»╠b╠\"Ø\n",
+   "salidaMedir": "“▪╣«∏□╬»╣□»╠b╠“♫",
+   "paraTXT": "\"Ò«­»­»b\"Ø"
+  },
+  {
+   "entrada": "õbõ\"\" “õ▪ ╠┴▪∏┴­",
+   "paraMedir": "õbõ\"\" \n\"õÒ \n╠┴Òõ┴­\n",
+   "salidaMedir": "∏b∏““ “∏▪ ╠┴▪∏┴□",
+   "paraTXT": "õbõ\"\" \"õ ┴┴­"
+  },
+  {
+   "entrada": "Ø´ ╣",
+   "paraMedir": "Ø´ \n╣\n",
+   "salidaMedir": "♫” ╣",
+   "paraTXT": "Ø´ "
+  },
+  {
+   "entrada": "´",
+   "paraMedir": "´\n",
+   "salidaMedir": "”",
+   "paraTXT": "´"
+  },
+  {
+   "entrada": " ▪╬ñÒ╠\n´´\nõÒ»«”□♫▪<m9>□▪\t♫<m9>",
+   "paraMedir": "Ò╬ñÒ╠\n´´\nõÒ»«´­ØÒ<m9>­Ò \nØ<m9>\n",
+   "salidaMedir": " ▪╬ñ▪╠\n””\n∏▪»«”□♫▪<m9>□▪\t♫<m9>",
+   "paraTXT": " ñÒ\r\n´´\r\nõÒ»«\"m9>\tm9>"
+  },
+  {
+   "entrada": "╣b“▪b♫õñ╠ \n”",
+   "paraMedir": "╣b\"ÒbØõñ╠ \n´\n",
+   "salidaMedir": "╣b“▪b♫∏ñ╠ \n”",
+   "paraTXT": "b\"bñ \r\n\""
+  },
+  {
+   "entrada": "aõ■<m9>Ø\"□b╣▪",
+   "paraMedir": "aõ■<m9>Ø\"­b╣Ò\n",
+   "salidaMedir": "a∏■<m9>♫“□b╣▪",
+   "paraTXT": "aõ<m9>Ø\"b"
+  },
+  {
+   "entrada": "»",
+   "paraMedir": "»\n",
+   "salidaMedir": "»",
+   "paraTXT": "»"
+  },
+  {
+   "entrada": "a♫▪Ø”┴a♫╠õ­a╬┴▪õ<m9>”■Ø­\t╠ñ♫╠”Ø” ╠ b ╬õ■",
+   "paraMedir": "aØÒØ´┴aØ╠õ­a╬┴Òõ<m9>´■Ø­ \n╠ñØ╠´Ø´ \n╠ \nb \n╬õ■\n",
+   "salidaMedir": "a♫▪♫”┴a♫╠∏□a╬┴▪∏<m9>”■♫□\t╠ñ♫╠”♫” ╠ b ╬∏■",
+   "paraTXT": "a\"┴a­a┴õ<m9>\"Ø­\tñØ\"  b õ"
+  },
+  {
+   "entrada": "\"\"a\"♫■ ´╣<m9>ñ­\"",
+   "paraMedir": "\"\"a\"Ø■ \n´╣<m9>ñ­\"\n",
+   "salidaMedir": "““a“♫■ ”╣<m9>ñ□“",
+   "paraTXT": "\"\"a\"´<m9>ñ­\""
+  },
+  {
+   "entrada": "□▪╠Ò\nØ▪<m9>b\"▪«´Ø»\t∏õ<m9>Ò♫õ╬Ò<m9>╬a\n ╣õ",
+   "paraMedir": "­Ò╠Ò\nØÒ<m9>b\"Ò«´Ø» \nõõ<m9>ÒØõ╬Ò<m9>╬a\n╣õ\n",
+   "salidaMedir": "□▪╠▪\n♫▪<m9>b“▪«”♫»\t∏∏<m9>▪♫∏╬▪<m9>╬a\n ╣∏",
+   "paraTXT": "Ò\r\nØ<m9>b\"«´Ø»\tõ<m9>ÒÒ<m9>a\r\n õ"
+  },
+  {
+   "entrada": "­■┴\"\nñ\t□\t\t╠b▪ñ´´■♫",
+   "paraMedir": "­■┴\"\nñ \n­ \n╠bÒñ´´■Ø\n",
+   "salidaMedir": "□■┴“\nñ\t□\t\t╠b▪ñ””■♫",
+   "paraTXT": "­┴\"\r\nñ\t\t\tbñ´´"
+  },
+  {
+   "entrada": "­­´╠  ╠∏┴╬▪∏┴»╠ ∏\n╠\t",
+   "paraMedir": "­­´╠ \n╠õ┴╬Òõ┴»╠ \nõ\n╠ \n",
+   "salidaMedir": "□□”╠  ╠∏┴╬▪∏┴»╠ ∏\n╠\t",
+   "paraTXT": "­­´  ┴┴» \r\n\t"
+  },
+  {
+   "entrada": "∏ \ta”aañ♫\"□╠■Ø▪■ õ╣\"▪<m9>«╠b«■\n\" ╬\t»╬ñ“",
+   "paraMedir": "õ \na´aañØ\"­╠■ØÒ■ \nõ╣\"Ò<m9>«╠b«■\n\" \n╬ \n»╬ñ\"\n",
+   "salidaMedir": "∏ \ta”aañ♫“□╠■♫▪■ ∏╣“▪<m9>«╠b«■\n“ ╬\t»╬ñ“",
+   "paraTXT": " \ta\"aañØ õ\"<m9>«b«\r\n\" \t»ñ\""
+  },
+  {
+   "entrada": "■┴╣  ",
+   "paraMedir": "■┴╣ \n",
+   "salidaMedir": "■┴╣  ",
+   "paraTXT": "┴  "
+  },
+  {
+   "entrada": "»´╬ ”  ♫\n▪Ø\n╬╬\t▪■b ñb∏”Øõ╬╣■”´”Ò“",
+   "paraMedir": "»´╬ \n´ \nØ\nÒØ\n╬╬ \nÒ■b \nñbõ´Øõ╬╣■´´´Ò\"\n",
+   "salidaMedir": "»”╬ ”  ♫\n▪♫\n╬╬\t▪■b ñb∏”♫∏╬╣■”””▪“",
+   "paraTXT": "»´ \"  \nØ\r\n\tb ñb\"Øõ\"´\"Ò\""
+  },
+  {
+   "entrada": "a┴aÒ┴Ò╠┴\n",
+   "paraMedir": "a┴aÒ┴Ò╠┴\n",
+   "salidaMedir": "a┴a▪┴▪╠┴\n",
+   "paraTXT": "a┴aÒ┴Ò┴\r\n"
+  },
+  {
+   "entrada": "´õ∏╬\n▪õ∏ □╣▪╠b­b□<m9>»bõõ\n»”╣",
+   "paraMedir": "´õõ╬\nÒõõ \n­╣Ò╠b­b­<m9>»bõõ\n»´╣\n",
+   "salidaMedir": "”∏∏╬\n▪∏∏ □╣▪╠b□b□<m9>»b∏∏\n»”╣",
+   "paraTXT": "´õ\r\nõ b­b<m9>»bõõ\r\n»\""
+  },
+  {
+   "entrada": "\"Ò╬╠õ\n▪╬a■»",
+   "paraMedir": "\"Ò╬╠õ\nÒ╬a■»\n",
+   "salidaMedir": "“▪╬╠∏\n▪╬a■»",
+   "paraTXT": "\"Òõ\r\na»"
+  },
+  {
+   "entrada": "<m9><m9><m9>Ò╬Ò­\"\t∏­“»ñØ♫▪∏▪ ╬\n╬Ø”\n\t\t­\"\nõ▪­\n▪∏",
+   "paraMedir": "<m9><m9><m9>Ò╬Ò­\" \nõ­\"»ñØØÒõÒ \n╬\n╬Ø´\n­\"\nõÒ­\nÒõ\n",
+   "salidaMedir": "<m9><m9><m9>▪╬▪□“\t∏□“»ñ♫♫▪∏▪ ╬\n╬♫”\n\t\t□“\n∏▪□\n▪∏",
+   "paraTXT": "<m9><m9><m9>ÒÒ­\"\t­\"»ñØ\r\nØ\"\r\n\t\t­\"\r\nõ­\r\n"
+  },
+  {
+   "entrada": "ØØ\n­ ”“",
+   "paraMedir": "ØØ\n­ \n´\"\n",
+   "salidaMedir": "♫♫\n□ ”“",
+   "paraTXT": "ØØ\r\n­ \"\""
+  },
+  {
+   "entrada": "õ”■▪´■■õ▪■a»”╬“\n♫ ╣",
+   "paraMedir": "õ´■Ò´■■õÒ■a»´╬\"\nØ \n╣\n",
+   "salidaMedir": "∏”■▪”■■∏▪■a»”╬“\n♫ ╣",
+   "paraTXT": "õ\"´õa»\"\"\r\n"
+  },
+  {
+   "entrada": "õ♫ »b»Ò▪«´­b\t▪■““",
+   "paraMedir": "õØ \n»b»ÒÒ«´­b \nÒ■\"\"\n",
+   "salidaMedir": "∏♫ »b»▪▪«”□b\t▪■““",
+   "paraTXT": "õ»b»Ò«´­b\t\"\""
+  },
+  {
+   "entrada": "■■´\na´“┴»□õ□”□ ╣ Ò□ñ∏┴╬“Ø«♫╣",
+   "paraMedir": "■■´\na´\"┴»­õ­´­ \n╣ \nÒ­ñõ┴╬\"Ø«Ø╣\n",
+   "salidaMedir": "■■”\na”“┴»□∏□”□ ╣ ▪□ñ∏┴╬“♫«♫╣",
+   "paraTXT": "´\r\na´\"┴»õ\"  Òñ┴\"Ø«"
+  },
+  {
+   "entrada": "´▪╠▪a╣▪“▪õ╠  ┴»\n<m9>«",
+   "paraMedir": "´Ò╠Òa╣Ò\"Òõ╠ \n┴»\n<m9>«\n",
+   "salidaMedir": "”▪╠▪a╣▪“▪∏╠  ┴»\n<m9>«",
+   "paraTXT": "´a\"õ  ┴»\r\n<m9>«"
+  },
+  {
+   "entrada": "┴\tõ▪♫╠<m9>╠□­“õb\t»”“╠╣\t´╬\na´«",
+   "paraMedir": "┴ \nõÒØ╠<m9>╠­­\"õb \n»´\"╠╣ \n´╬\na´«\n",
+   "salidaMedir": "┴\t∏▪♫╠<m9>╠□□“∏b\t»”“╠╣\t”╬\na”«",
+   "paraTXT": "┴\tõm9>­\"õb\t»\"\"\t´\r\na´«"
+  },
+  {
+   "entrada": "▪<m9>“■■╠♫▪┴♫»­\"\"´┴□\"““",
+   "paraMedir": "Ò<m9>\"■■╠ØÒ┴Ø»­\"\"´┴­\"\"\"\n",
+   "salidaMedir": "▪<m9>“■■╠♫▪┴♫»□““”┴□“““",
+   "paraTXT": "<m9>\"­\"\"´┴\"\"\""
+  },
+  {
+   "entrada": "\"╠",
+   "paraMedir": "\"╠\n",
+   "salidaMedir": "“╠",
+   "paraTXT": "\""
+  },
+  {
+   "entrada": "∏╬",
+   "paraMedir": "õ╬\n",
+   "salidaMedir": "∏╬",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "« ­╣«∏´",
+   "paraMedir": "« \n­╣«õ´\n",
+   "salidaMedir": "« □╣«∏”",
+   "paraTXT": "« ­«´"
+  },
+  {
+   "entrada": "“□▪╬»õ╣õ╬\"╬ ∏««\" ╣♫\n «­\"╠aØ´Ò«■babÒ ╬♫",
+   "paraMedir": "\"­Ò╬»õ╣õ╬\"╬ \nõ««\" \n╣Ø\n«­\"╠aØ´Ò«■babÒ \n╬Ø\n",
+   "salidaMedir": "“□▪╬»∏╣∏╬“╬ ∏««“ ╣♫\n «□“╠a♫”▪«■bab▪ ╬♫",
+   "paraTXT": "\"»õõ\" ««\" \n «­\"aØ´Ò«babÒ "
+  },
+  {
+   "entrada": "´\t╠∏\"♫  ”­´╬╬∏▪»“”b▪╬\n´\t<m9>╬ »\n╠",
+   "paraMedir": "´ \n╠õ\"Ø \n´­´╬╬õÒ»\"´bÒ╬\n´ \n<m9>╬ \n»\n╠\n",
+   "salidaMedir": "”\t╠∏“♫  ”□”╬╬∏▪»“”b▪╬\n”\t<m9>╬ »\n╠",
+   "paraTXT": "´\t\" \"­´»\"\"b\r\n´\t<m9> »\r\n"
+  },
+  {
+   "entrada": "╬\tñ””\t\t<m9>”a♫´õ\t»“∏<m9>▪­┴«“╠\"a­«╠a□bÒõ∏ñ",
+   "paraMedir": "╬ \nñ´´ \n<m9>´aØ´õ \n»\"õ<m9>Ò­┴«\"╠\"a­«╠a­bÒõõñ\n",
+   "salidaMedir": "╬\tñ””\t\t<m9>”a♫”∏\t»“∏<m9>▪□┴«“╠“a□«╠a□b▪∏∏ñ",
+   "paraTXT": "\tñ\"\"\t\t<m9>\"aõ\t»\"<m9>­┴«\"\"a­«abÒõñ"
+  },
+  {
+   "entrada": "□╠õõ“«▪a»ñ\n”♫»╬┴ \"­\"∏\"♫♫ ”»□­",
+   "paraMedir": "­╠õõ\"«Òa»ñ\n´Ø»╬┴ \n\"­\"õ\"ØØ \n´»­­\n",
+   "salidaMedir": "□╠∏∏“«▪a»ñ\n”♫»╬┴ “□“∏“♫♫ ”»□□",
+   "paraTXT": "õõ\"«a»ñ\r\n\"┴ \"­\"\" \"»­"
+  },
+  {
+   "entrada": "\t´«╠«∏▪∏\tÒ┴“╬ »ñõõ<m9>♫■»<m9>­<m9>õ\"∏  Øõõ\t<m9>b■♫",
+   "paraMedir": "´«╠«õÒõ \nÒ┴\"╬ \n»ñõõ<m9>Ø■»<m9>­<m9>õ\"õ \nØõõ \n<m9>b■Ø\n",
+   "salidaMedir": "\t”«╠«∏▪∏\t▪┴“╬ »ñ∏∏<m9>♫■»<m9>□<m9>∏“∏  ♫∏∏\t<m9>b■♫",
+   "paraTXT": "\t´««\tÒ┴\" »ñõõ<m9><m9>­<m9>õ\"  Øõõ\t<m9>b"
+  },
+  {
+   "entrada": "b╬",
+   "paraMedir": "b╬\n",
+   "salidaMedir": "b╬",
+   "paraTXT": "b"
+  },
+  {
+   "entrada": "´õ<m9>\"a∏“\"┴Òb■ÒÒ■´Ò´",
+   "paraMedir": "´õ<m9>\"aõ\"\"┴Òb■ÒÒ■´Ò´\n",
+   "salidaMedir": "”∏<m9>“a∏““┴▪b■▪▪■”▪”",
+   "paraTXT": "´õ<m9>\"a\"\"┴ÒbÒÒ´Ò´"
+  },
+  {
+   "entrada": "┴”­┴\n\n”ÒØ∏▪“a",
+   "paraMedir": "┴´­┴\n´ÒØõÒ\"a\n",
+   "salidaMedir": "┴”□┴\n\n”▪♫∏▪“a",
+   "paraTXT": "┴\"­┴\r\n\r\n\"ÒØ\"a"
+  },
+  {
+   "entrada": "∏╣­\nõ\n □∏\n∏∏õ╠«\"<m9>õ╬╣b╣∏♫<m9>«",
+   "paraMedir": "õ╣­\nõ\n­õ\nõõõ╠«\"<m9>õ╬╣b╣õØ<m9>«\n",
+   "salidaMedir": "∏╣□\n∏\n □∏\n∏∏∏╠«“<m9>∏╬╣b╣∏♫<m9>«",
+   "paraTXT": "­\r\nõ\r\n \r\nõ«\"<m9>õbm9>«"
+  },
+  {
+   "entrada": "»“­´<m9>b",
+   "paraMedir": "»\"­´<m9>b\n",
+   "salidaMedir": "»“□”<m9>b",
+   "paraTXT": "»\"­´<m9>b"
+  },
+  {
+   "entrada": "\"╣õ♫«\t╬Ø╠´bÒ­╣□<m9>\n­õ\"□\"»□b∏\n╠□b”Ø”õ",
+   "paraMedir": "\"╣õØ« \n╬Ø╠´bÒ­╣­<m9>\n­õ\"­\"»­bõ\n╠­b´Ø´õ\n",
+   "salidaMedir": "“╣∏♫«\t╬♫╠”b▪□╣□<m9>\n□∏“□“»□b∏\n╠□b”♫”∏",
+   "paraTXT": "\"õ\tØ´bÒ­<m9>\r\n­õ\"\"»b\r\nb\"Ø\"õ"
+  },
+  {
+   "entrada": "♫ÒØ\nØ∏╬ «∏“»»«\nÒ\t\n\t╬Ø╬∏♫┴\nñ<m9>ñ",
+   "paraMedir": "ØÒØ\nØõ╬ \n«õ\"»»«\nÒ \n╬Ø╬õØ┴\nñ<m9>ñ\n",
+   "salidaMedir": "♫▪♫\n♫∏╬ «∏“»»«\n▪\t\n\t╬♫╬∏♫┴\nñ<m9>ñ",
+   "paraTXT": "Ø\r\nØ «\"»»«\r\nÒ\t\r\n\tØ\r\nñ<m9>ñ"
+  },
+  {
+   "entrada": "\"",
+   "paraMedir": "\"\n",
+   "salidaMedir": "“",
+   "paraTXT": "\""
+  },
+  {
+   "entrada": "õ∏■““▪▪□∏♫b╠Ò\n┴\"”´Øb<m9>Ò­Ø«a□╠\n b ",
+   "paraMedir": "õõ■\"\"ÒÒ­õØb╠Ò\n┴\"´´Øb<m9>Ò­Ø«a­╠\nb \n",
+   "salidaMedir": "∏∏■““▪▪□∏♫b╠▪\n┴“””♫b<m9>▪□♫«a□╠\n b ",
+   "paraTXT": "õ\"\"Ò\r\n┴\"\"´Øb<m9>Ò­Ø«a\r\n b "
+  },
+  {
+   "entrada": "a´õ╣♫a««ñ<m9>╣ ♫\n┴\"┴□∏\n",
+   "paraMedir": "a´õ╣Øa««ñ<m9>╣ \nØ\n┴\"┴­õ\n",
+   "salidaMedir": "a”∏╣♫a««ñ<m9>╣ ♫\n┴“┴□∏\n",
+   "paraTXT": "a´õ«ñ<m9> \n┴\"┴\r\n"
+  },
+  {
+   "entrada": "\"╬aa\"«╣▪□\n┴∏",
+   "paraMedir": "\"╬aa\"«╣Ò­\n┴õ\n",
+   "salidaMedir": "“╬aa“«╣▪□\n┴∏",
+   "paraTXT": "\"aa\"«\r\n┴"
+  },
+  {
+   "entrada": "»b",
+   "paraMedir": "»b\n",
+   "salidaMedir": "»b",
+   "paraTXT": "»b"
+  },
+  {
+   "entrada": "■ \nb»a<m9>»╬▪ñØ»´\t<m9>▪­<m9>a╣\n­",
+   "paraMedir": "■ \nb»a<m9>»╬ÒñØ»´ \n<m9>Ò­<m9>a╣\n­\n",
+   "salidaMedir": "■ \nb»a<m9>»╬▪ñ♫»”\t<m9>▪□<m9>a╣\n□",
+   "paraTXT": " \r\nb»a<m9>»ñØ»´\t<m9>­<m9>a\r\n­"
+  },
+  {
+   "entrada": "b»«╬Ò♫Øb",
+   "paraMedir": "b»«╬ÒØØb\n",
+   "salidaMedir": "b»«╬▪♫♫b",
+   "paraTXT": "b»«Òb"
+  },
+  {
+   "entrada": "♫«a□Ò\n ´\"ñ<m9>õ╬╬\t",
+   "paraMedir": "Ø«a­Ò\n´\"ñ<m9>õ╬╬ \n",
+   "salidaMedir": "♫«a□▪\n ”“ñ<m9>∏╬╬\t",
+   "paraTXT": "aÒ\r\n ´\"ñ<m9>õ\t"
+  },
+  {
+   "entrada": "“a╠▪┴ØÒ\"Ø\"╣ññ╣╠ ♫ ",
+   "paraMedir": "\"a╠Ò┴ØÒ\"Ø\"╣ññ╣╠ \nØ \n",
+   "salidaMedir": "“a╠▪┴♫▪“♫“╣ññ╣╠ ♫ ",
+   "paraTXT": "\"a┴ØÒ\"Ø\"ññ "
+  },
+  {
+   "entrada": " ╣bÒ\"╬ ",
+   "paraMedir": "╣bÒ\"╬ \n",
+   "salidaMedir": " ╣b▪“╬ ",
+   "paraTXT": " bÒ\" "
+  },
+  {
+   "entrada": "a▪“b┴«»»“´╬õñ╬«­♫Ø□\n▪­▪Øb▪",
+   "paraMedir": "aÒ\"b┴«»»\"´╬õñ╬«­ØØ­\nÒ­ÒØbÒ\n",
+   "salidaMedir": "a▪“b┴«»»“”╬∏ñ╬«□♫♫□\n▪□▪♫b▪",
+   "paraTXT": "a\"b┴«»»\"´õñ«­\r\n­Øb"
+  },
+  {
+   "entrada": "  \"aØ┴╬»■ bb♫∏\"\n”♫“▪",
+   "paraMedir": "\"aØ┴╬»■ \nbbØõ\"\n´Ø\"Ò\n",
+   "salidaMedir": "  “a♫┴╬»■ bb♫∏“\n”♫“▪",
+   "paraTXT": "  \"aØ┴» bb\r\n\""
+  },
+  {
+   "entrada": "  \t□»■■­╣õÒ”b",
+   "paraMedir": "­»■■­╣õÒ´b\n",
+   "salidaMedir": "  \t□»■■□╣∏▪”b",
+   "paraTXT": "  \t»­õÒ\"b"
+  },
+  {
+   "entrada": "“♫ñ■┴”“´■Ø╣▪»õ\n´«\"\n”╠ Ò”♫╬“♫∏ñ­╠■",
+   "paraMedir": "\"Øñ■┴´\"´■Ø╣Ò»õ\n´«\"\n´╠ \nÒ´Ø╬\"Øõñ­╠■\n",
+   "salidaMedir": "“♫ñ■┴”“”■♫╣▪»∏\n”«“\n”╠ ▪”♫╬“♫∏ñ□╠■",
+   "paraTXT": "\"┴\"\"´Ø»õ\r\n´«\"\r\n\" Ò\"­"
+  },
+  {
+   "entrada": "Ò<m9>Ø┴\"Ø ▪b­■∏»┴ñ■♫\"\n╬\"╬╣“┴",
+   "paraMedir": "Ò<m9>Ø┴\"Ø \nÒb­■õ»┴ñ■Ø\"\n╬\"╬╣\"┴\n",
+   "salidaMedir": "▪<m9>♫┴“♫ ▪b□■∏»┴ñ■♫“\n╬“╬╣“┴",
+   "paraTXT": "Ò<m9>Ø┴\"Ø b­»┴ñ\r\n\"\"┴"
+  },
+  {
+   "entrada": "∏´Ø□╠♫╬",
+   "paraMedir": "õ´Ø­╠Ø╬\n",
+   "salidaMedir": "∏”♫□╠♫╬",
+   "paraTXT": "´Ø"
+  },
+  {
+   "entrada": "┴´∏╠┴□\t<m9><m9>\"a\"<m9>»♫▪┴□╠´” □´Ò­<m9>«a«",
+   "paraMedir": "┴´õ╠┴­ \n<m9><m9>\"a\"<m9>»ØÒ┴­╠´´ \n­´Ò­<m9>«a«\n",
+   "salidaMedir": "┴”∏╠┴□\t<m9><m9>“a“<m9>»♫▪┴□╠”” □”▪□<m9>«a«",
+   "paraTXT": "┴´┴\t<m9><m9>\"a\"<m9>»´\" ´Ò­<m9>«a«"
+  },
+  {
+   "entrada": "a∏»╠∏╬┴Ø\tØ♫»\n╬\t«b ",
+   "paraMedir": "aõ»╠õ╬┴Ø \nØØ»\n╬ \n«b \n",
+   "salidaMedir": "a∏»╠∏╬┴♫\t♫♫»\n╬\t«b ",
+   "paraTXT": "a»┴Ø\tØ\r\n\t«b "
+  },
+  {
+   "entrada": " “ aØÒ╣\"∏╣Ò«∏┴õ∏■ \" \t»",
+   "paraMedir": "\" \naØÒ╣\"õ╣Ò«õ┴õõ■ \n\" \n»\n",
+   "salidaMedir": " “ a♫▪╣“∏╣▪«∏┴∏∏■ “ \t»",
+   "paraTXT": " \" aØÒ\"Ò«┴õ \" \t»"
+  },
+  {
+   "entrada": " «∏♫\"",
+   "paraMedir": "«õØ\"\n",
+   "salidaMedir": " «∏♫“",
+   "paraTXT": " «"
+  },
+  {
+   "entrada": "╬□■┴ñ“\"“ ╬",
+   "paraMedir": "╬­■┴ñ\"\"\" \n╬\n",
+   "salidaMedir": "╬□■┴ñ“““ ╬",
+   "paraTXT": "┴ñ\"\"\" "
+  },
+  {
+   "entrada": "\t”╬╠“\tØ╠“■õ» »»­ ñ♫♫□□b□\"╠”» Ø­\"▪",
+   "paraMedir": "´╬╠\" \nØ╠\"■õ» \n»»­ \nñØØ­­b­\"╠´» \nØ­\"Ò\n",
+   "salidaMedir": "\t”╬╠“\t♫╠“■∏» »»□ ñ♫♫□□b□“╠”» ♫□“▪",
+   "paraTXT": "\t\"\"\tØ\"õ» »»­ ñb\"\"» Ø­\""
+  },
+  {
+   "entrada": "b▪\t♫\"",
+   "paraMedir": "bÒ \nØ\"\n",
+   "salidaMedir": "b▪\t♫“",
+   "paraTXT": "b\t"
+  },
+  {
+   "entrada": "b “Ò”«■╣” □”» b Ò»a▪\t",
+   "paraMedir": "b \n\"Ò´«■╣´ \n­´» \nb \nÒ»aÒ \n",
+   "salidaMedir": "b “▪”«■╣” □”» b ▪»a▪\t",
+   "paraTXT": "b \"Ò\"«\" \"» b Ò»a\t"
+  },
+  {
+   "entrada": "a»“□»╠╬\t´aa«Ò´ñaÒÒ■□­õ┴ ╬­ñ­<m9>\"õ",
+   "paraMedir": "a»\"­»╠╬ \n´aa«Ò´ñaÒÒ■­­õ┴ \n╬­ñ­<m9>\"õ\n",
+   "salidaMedir": "a»“□»╠╬\t”aa«▪”ña▪▪■□□∏┴ ╬□ñ□<m9>“∏",
+   "paraTXT": "a»\"»\t´aa«Ò´ñaÒÒ­õ┴ ­ñ­<m9>\"õ"
+  },
+  {
+   "entrada": "□□ ”\"«\"\"╬«\t ♫♫▪´\"”",
+   "paraMedir": "­­ \n´\"«\"\"╬« \nØØÒ´\"´\n",
+   "salidaMedir": "□□ ”“«““╬«\t ♫♫▪”“”",
+   "paraTXT": " \"\"«\"\"«\t ´\"\""
+  },
+  {
+   "entrada": "╣a ■«\n«\"b\"\"♫╣Ø",
+   "paraMedir": "╣a \n■«\n«\"b\"\"Ø╣Ø\n",
+   "salidaMedir": "╣a ■«\n«“b““♫╣♫",
+   "paraTXT": "a «\r\n«\"b\"\""
+  },
+  {
+   "entrada": "“╠Òa ♫«´­╠",
+   "paraMedir": "\"╠Òa \nØ«´­╠\n",
+   "salidaMedir": "“╠▪a ♫«”□╠",
+   "paraTXT": "\"Òa ´­"
+  },
+  {
+   "entrada": "b\"\n ╣╣a╬Ø▪a aa<m9>«<m9>­ab«\" ∏»õ«",
+   "paraMedir": "b\"\n╣╣a╬ØÒa \naa<m9>«<m9>­ab«\" \nõ»õ«\n",
+   "salidaMedir": "b“\n ╣╣a╬♫▪a aa<m9>«<m9>□ab«“ ∏»∏«",
+   "paraTXT": "b\"\r\n aØa aa<m9>«<m9>­ab«\" »õ«"
+  },
+  {
+   "entrada": "´",
+   "paraMedir": "´\n",
+   "salidaMedir": "”",
+   "paraTXT": "´"
+  },
+  {
+   "entrada": "∏\t\n­ ­┴∏a«",
+   "paraMedir": "õ \n­ \n­┴õa«\n",
+   "salidaMedir": "∏\t\n□ □┴∏a«",
+   "paraTXT": "\t\r\n­ ­┴a«"
+  },
+  {
+   "entrada": "∏□ ╬ñ  Ø»\nbÒ □┴■▪■▪□┴┴∏­∏­Ø",
+   "paraMedir": "õ­ \n╬ñ \nØ»\nbÒ \n­┴■Ò■Ò­┴┴õ­õ­Ø\n",
+   "salidaMedir": "∏□ ╬ñ  ♫»\nb▪ □┴■▪■▪□┴┴∏□∏□♫",
+   "paraTXT": " ñ  Ø»\r\nbÒ ┴┴┴­­Ø"
+  },
+  {
+   "entrada": "\ta╬´\t\"õ▪\ta ´Ø╬╣▪┴♫",
+   "paraMedir": "a╬´ \n\"õÒ \na \n´Ø╬╣Ò┴Ø\n",
+   "salidaMedir": "\ta╬”\t“∏▪\ta ”♫╬╣▪┴♫",
+   "paraTXT": "\ta´\t\"õ\ta ´Ø┴"
+  },
+  {
+   "entrada": "□”▪Ò­╣┴╠“´­\"",
+   "paraMedir": "­´ÒÒ­╣┴╠\"´­\"\n",
+   "salidaMedir": "□”▪▪□╣┴╠“”□“",
+   "paraTXT": "\"Ò­┴\"´­\""
+  },
+  {
+   "entrada": "▪ñ",
+   "paraMedir": "Òñ\n",
+   "salidaMedir": "▪ñ",
+   "paraTXT": "ñ"
+  },
+  {
+   "entrada": "\tõ■ñÒ\"”♫\n",
+   "paraMedir": "õ■ñÒ\"´Ø\n",
+   "salidaMedir": "\t∏■ñ▪“”♫\n",
+   "paraTXT": "\tõñÒ\"\"\n"
+  },
+  {
+   "entrada": "╠a<m9>",
+   "paraMedir": "╠a<m9>\n",
+   "salidaMedir": "╠a<m9>",
+   "paraTXT": "a<m9>"
+  },
+  {
+   "entrada": "□ a\"\n□\t­´∏♫”\n╬a╬b∏Òõ┴´õ´┴ña ”■■\nñ\t",
+   "paraMedir": "­ \na\"\n­ \n­´õØ´\n╬a╬bõÒõ┴´õ´┴ña \n´■■\nñ \n",
+   "salidaMedir": "□ a“\n□\t□”∏♫”\n╬a╬b∏▪∏┴”∏”┴ña ”■■\nñ\t",
+   "paraTXT": " a\"\r\n\t­´\r\nabÒõ┴´õ´┴ña \"\r\nñ\t"
+  },
+  {
+   "entrada": "▪<m9>\"┴▪Ø",
+   "paraMedir": "Ò<m9>\"┴ÒØ\n",
+   "salidaMedir": "▪<m9>“┴▪♫",
+   "paraTXT": "<m9>\"┴Ø"
+  },
+  {
+   "entrada": "´╠╬╣ b▪b╬a\"▪\n",
+   "paraMedir": "´╠╬╣ \nbÒb╬a\"Ò\n",
+   "salidaMedir": "”╠╬╣ b▪b╬a“▪\n",
+   "paraTXT": "´ bba\"\r\n"
+  },
+  {
+   "entrada": "”õ» ÒbÒb« <m9> ´<m9> Øõ▪b <m9>╠«\n∏\t­╣∏",
+   "paraMedir": "´õ» \nÒbÒb« \n<m9> \n´<m9> \nØõÒb \n<m9>╠«\nõ \n­╣õ\n",
+   "salidaMedir": "”∏» ▪b▪b« <m9> ”<m9> ♫∏▪b <m9>╠«\n∏\t□╣∏",
+   "paraTXT": "\"õ» ÒbÒb« <m9> ´<m9> Øõb <m9>«\r\n\t­"
+  },
+  {
+   "entrada": "õ▪∏∏»”╣<m9>Ò╠\n □bØb»a▪õa­♫\t♫a»­┴ba□“ õ",
+   "paraMedir": "õÒõõ»´╣<m9>Ò╠\n­bØb»aÒõa­Ø \nØa»­┴ba­\" \nõ\n",
+   "salidaMedir": "∏▪∏∏»”╣<m9>▪╠\n □b♫b»a▪∏a□♫\t♫a»□┴ba□“ ∏",
+   "paraTXT": "õ»\"<m9>Ò\r\n bØb»aõa­­┴ba\" õ"
+  },
+  {
+   "entrada": "╣",
+   "paraMedir": "╣\n",
+   "salidaMedir": "╣",
+   "paraTXT": ""
+  },
+  {
+   "entrada": " \"«□»□Ø”õ ╠a∏▪<m9> ╣a«□“╬ « \t♫╬b\t■ a♫“´♫□\"",
+   "paraMedir": "\"«­»­Ø´õ \n╠aõÒ<m9> \n╣a«­\"╬ \n« \nØ╬b \n■ \naØ\"´Ø­\"\n",
+   "salidaMedir": " “«□»□♫”∏ ╠a∏▪<m9> ╣a«□“╬ « \t♫╬b\t■ a♫“”♫□“",
+   "paraTXT": " \"«»Ø\"õ a<m9> a«\" « \t\t a´"
+  },
+  {
+   "entrada": "Ø““□ÒØ  Ø\"∏■ñ\n╣□┴■´­»■\t♫b∏a",
+   "paraMedir": "Ø\"\"­ÒØ \nØ\"õ■ñ\n╣­┴■´­»■ \nØbõa\n",
+   "salidaMedir": "♫““□▪♫  ♫“∏■ñ\n╣□┴■”□»■\t♫b∏a",
+   "paraTXT": "Ø\"\"ÒØ  Ø\"ñ\r\n┴´­»\ta"
+  },
+  {
+   "entrada": "╣a ╠”Ø\"■╬╣« ∏<m9>■\"╬\"õ´<m9>”´┴«∏   ╠»\t■\"\n«▪",
+   "paraMedir": "╣a \n╠´Ø\"■╬╣« \nõ<m9>■\"╬\"õ´<m9>´´┴«õ \n╠» \n■\"\n«Ò\n",
+   "salidaMedir": "╣a ╠”♫“■╬╣« ∏<m9>■“╬“∏”<m9>””┴«∏   ╠»\t■“\n«▪",
+   "paraTXT": "a \"Ø\"« <m9>\"\"õ´<m9>\"´┴«   »\t\"\r\n«"
+  },
+  {
+   "entrada": "»»\nØñ♫«Ø",
+   "paraMedir": "»»\nØñØ«Ø\n",
+   "salidaMedir": "»»\n♫ñ♫«♫",
+   "paraTXT": "»»\r\nØñØ"
+  },
+  {
+   "entrada": "□ ñ■▪\"∏“♫ñ\n ♫ ▪Ò╣\t<m9>Ò┴\t“»∏“Ò Ø´ñ♫»\t",
+   "paraMedir": "­ \nñ■Ò\"õ\"Øñ\nØ \nÒÒ╣ \n<m9>Ò┴ \n\"»õ\"Ò \nØ´ñØ» \n",
+   "salidaMedir": "□ ñ■▪“∏“♫ñ\n ♫ ▪▪╣\t<m9>▪┴\t“»∏“▪ ♫”ñ♫»\t",
+   "paraTXT": " ñ\"\"\r\n Ò\t<m9>Ò┴\t\"»\"Ò Ø´ñ\t"
+  },
+  {
+   "entrada": "┴ ■“\t«Ò╠“ØÒ\na╠­ <m9>■»õÒ∏■■ ▪▪□∏♫ñ□a“ ",
+   "paraMedir": "┴ \n■\" \n«Ò╠\"ØÒ\na╠­ \n<m9>■»õÒõ■■ \nÒÒ­õØñ­a\" \n",
+   "salidaMedir": "┴ ■“\t«▪╠“♫▪\na╠□ <m9>■»∏▪∏■■ ▪▪□∏♫ñ□a“ ",
+   "paraTXT": "┴ \"\t«Ò\"ØÒ\r\na­ <m9>»õÒ a\" "
+  },
+  {
+   "entrada": "♫\"♫ ▪▪«♫╠♫<m9>“\t╣õ♫ ”Ø",
+   "paraMedir": "Ø\"Ø \nÒÒ«Ø╠Ø<m9>\" \n╣õØ \n´Ø\n",
+   "salidaMedir": "♫“♫ ▪▪«♫╠♫<m9>“\t╣∏♫ ”♫",
+   "paraTXT": "«<m9>\"\tõ\"Ø"
+  },
+  {
+   "entrada": "♫´\nb´a╬┴õ»□\tØ╬õ□«a┴ \n♫õab╬Ò▪»╠∏“",
+   "paraMedir": "Ø´\nb´a╬┴õ»­ \nØ╬õ­«a┴ \nØõab╬ÒÒ»╠õ\"\n",
+   "salidaMedir": "♫”\nb”a╬┴∏»□\t♫╬∏□«a┴ \n♫∏ab╬▪▪»╠∏“",
+   "paraTXT": "\r\nb´a┴õ»\tØõ«a┴ \r\nabÒ»\""
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "\"╣∏´\"Øb□\n\"\tÒ\"a\t«\" Ø\t♫♫«b” Ø Ò",
+   "paraMedir": "\"╣õ´\"Øb­\n\" \nÒ\"a \n«\" \nØ \nØØ«b´ \nØ \nÒ\n",
+   "salidaMedir": "“╣∏”“♫b□\n“\t▪“a\t«“ ♫\t♫♫«b” ♫ ▪",
+   "paraTXT": "\"´\"Øb\r\n\"\tÒ\"a\t«\" Ø\t«b\" Ø Ò"
+  },
+  {
+   "entrada": "♫\t a\"╠▪┴<m9><m9>»õõa╣\ta»» a\t«┴«",
+   "paraMedir": "Ø \na\"╠Ò┴<m9><m9>»õõa╣ \na»» \na \n«┴«\n",
+   "salidaMedir": "♫\t a“╠▪┴<m9><m9>»∏∏a╣\ta»» a\t«┴«",
+   "paraTXT": " a\"┴<m9><m9>»õõa\ta»» a\t«┴«"
+  },
+  {
+   "entrada": "♫ØÒ ╣<m9><m9>╠Ò□ ╠´∏ñ╬╣»\t♫\"<m9>­b\n╠∏\"õ▪Ø<m9>■õØ\"",
+   "paraMedir": "ØØÒ \n╣<m9><m9>╠Ò­ \n╠´õñ╬╣» \nØ\"<m9>­b\n╠õ\"õÒØ<m9>■õØ\"\n",
+   "salidaMedir": "♫♫▪ ╣<m9><m9>╠▪□ ╠”∏ñ╬╣»\t♫“<m9>□b\n╠∏“∏▪♫<m9>■∏♫“",
+   "paraTXT": "Ò <m9><m9>Ò ´ñ»\t<m9>­b\r\n\"õØ<m9>õØ\""
+  },
+  {
+   "entrada": "□Ò \n»\n",
+   "paraMedir": "­Ò \n»\n",
+   "salidaMedir": "□▪ \n»\n",
+   "paraTXT": "Ò \r\n»\r\n"
+  },
+  {
+   "entrada": "a­´ ∏ñ╬┴□\nb∏”«╣ \n­ \t”▪■ ∏╣",
+   "paraMedir": "a­´ \nõñ╬┴­\nbõ´«╣ \n­ \n´Ò■ \nõ╣\n",
+   "salidaMedir": "a□” ∏ñ╬┴□\nb∏”«╣ \n□ \t”▪■ ∏╣",
+   "paraTXT": "a­´ ñ┴\r\nb\"« \r\n­ \t\" "
+  },
+  {
+   "entrada": "<m9>´\"õ´╬ ■╬­õñ»┴\"a<m9> ╬╣´b­“õ╬\"",
+   "paraMedir": "<m9>´\"õ´╬ \n■╬­õñ»┴\"a<m9> \n╬╣´b­\"õ╬\"\n",
+   "salidaMedir": "<m9>”“∏”╬ ■╬□∏ñ»┴“a<m9> ╬╣”b□“∏╬“",
+   "paraTXT": "<m9>´\"õ´ ­õñ»┴\"a<m9> ´b­\"õ\""
+  },
+  {
+   "entrada": "■Ø∏»a”ØñÒ«■ ",
+   "paraMedir": "■Øõ»a´ØñÒ«■ \n",
+   "salidaMedir": "■♫∏»a”♫ñ▪«■ ",
+   "paraTXT": "Ø»a\"ØñÒ« "
+  },
+  {
+   "entrada": "♫■╠«õ╣´\nõ∏«┴ñõ\"┴┴”Òñ«",
+   "paraMedir": "Ø■╠«õ╣´\nõõ«┴ñõ\"┴┴´Òñ«\n",
+   "salidaMedir": "♫■╠«∏╣”\n∏∏«┴ñ∏“┴┴”▪ñ«",
+   "paraTXT": "õ´\r\nõ«┴ñõ\"┴┴\"Òñ«"
+  },
+  {
+   "entrada": "”b┴╬\n”õ╬a­a”´b“□b” □´a∏\n╬­Ø■┴­╠",
+   "paraMedir": "´b┴╬\n´õ╬a­a´´b\"­b´ \n­´aõ\n╬­Ø■┴­╠\n",
+   "salidaMedir": "”b┴╬\n”∏╬a□a””b“□b” □”a∏\n╬□♫■┴□╠",
+   "paraTXT": "\"b┴\r\n\"õa­a\"´b\"b\" ´a\r\n­Ø┴­"
+  },
+  {
+   "entrada": "“b<m9>´Øb\nõ╠aÒ╣\n∏­<m9>∏□<m9>b╠\"“╬­<m9>“\nbØ“”▪a□\n♫■b",
+   "paraMedir": "\"b<m9>´Øb\nõ╠aÒ╣\nõ­<m9>õ­<m9>b╠\"\"╬­<m9>\"\nbØ\"´Òa­\nØ■b\n",
+   "salidaMedir": "“b<m9>”♫b\n∏╠a▪╣\n∏□<m9>∏□<m9>b╠““╬□<m9>“\nb♫“”▪a□\n♫■b",
+   "paraTXT": "\"b<m9>´Øb\r\nõaÒ\r\n­<m9><m9>b\"\"­<m9>\"\r\nbØ\"\"a\r\n"
+  },
+  {
+   "entrada": "\tõ»╣■╣╠ \n´“Ø«\t ┴",
+   "paraMedir": "õ»╣■╣╠ \n´\"Ø« \n┴\n",
+   "salidaMedir": "\t∏»╣■╣╠ \n”“♫«\t ┴",
+   "paraTXT": "\tõ» \r\n´\"Ø«\t ┴"
+  },
+  {
+   "entrada": "╬Ø♫Ò»╬õ╠«┴□ ",
+   "paraMedir": "╬ØØÒ»╬õ╠«┴­ \n",
+   "salidaMedir": "╬♫♫▪»╬∏╠«┴□ ",
+   "paraTXT": "Ø»õ«┴ "
+  },
+  {
+   "entrada": "\"”õ♫╣õa«□ õ▪ñ╣╣╬Òa\n",
+   "paraMedir": "\"´õØ╣õa«­ \nõÒñ╣╣╬Òa\n",
+   "salidaMedir": "“”∏♫╣∏a«□ ∏▪ñ╣╣╬▪a\n",
+   "paraTXT": "\"\"õa« õñÒa\r\n"
+  },
+  {
+   "entrada": "õ»b▪ «╬\" ´╣",
+   "paraMedir": "õ»bÒ \n«╬\" \n´╣\n",
+   "salidaMedir": "∏»b▪ «╬“ ”╣",
+   "paraTXT": "õ»b «\" ´"
+  },
+  {
+   "entrada": "<m9>Òõ┴«■Ò <m9><m9>“Ò\"\nõñññ",
+   "paraMedir": "<m9>Òõ┴«■Ò \n<m9><m9>\"Ò\"\nõñññ\n",
+   "salidaMedir": "<m9>▪∏┴«■▪ <m9><m9>“▪“\n∏ñññ",
+   "paraTXT": "<m9>Òõ┴«Ò <m9><m9>\"Ò\"\r\nõñññ"
+  },
+  {
+   "entrada": "a ñ\n▪Òa■□<m9>■­õ■” ♫╬“ aa«»­­a«”«”Ò▪┴",
+   "paraMedir": "a \nñ\nÒÒa■­<m9>■­õ■´ \nØ╬\" \naa«»­­a«´«´ÒÒ┴\n",
+   "salidaMedir": "a ñ\n▪▪a■□<m9>■□∏■” ♫╬“ aa«»□□a«”«”▪▪┴",
+   "paraTXT": "a ñ\r\nÒa<m9>­õ\"  aa«»­­a«\"«\"Ò┴"
+  },
+  {
+   "entrada": "□\t■╣Òñ╬╣a ”a",
+   "paraMedir": "­ \n■╣Òñ╬╣a \n´a\n",
+   "salidaMedir": "□\t■╣▪ñ╬╣a ”a",
+   "paraTXT": "\tÒña \"a"
+  },
+  {
+   "entrada": "┴­\"­“ñ",
+   "paraMedir": "┴­\"­\"ñ\n",
+   "salidaMedir": "┴□“□“ñ",
+   "paraTXT": "┴­\"­\"ñ"
+  },
+  {
+   "entrada": "´aõ­«Òb\t",
+   "paraMedir": "´aõ­«Òb \n",
+   "salidaMedir": "”a∏□«▪b\t",
+   "paraTXT": "´aõ­«Òb\t"
+  },
+  {
+   "entrada": "┴♫´a«♫",
+   "paraMedir": "┴Ø´a«Ø\n",
+   "salidaMedir": "┴♫”a«♫",
+   "paraTXT": "┴a«"
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "a” <m9>┴╣",
+   "paraMedir": "a´ \n<m9>┴╣\n",
+   "salidaMedir": "a” <m9>┴╣",
+   "paraTXT": "a\" <m9>┴"
+  },
+  {
+   "entrada": "b┴»\nÒ♫╣╬«” b \n♫ ▪«Ø╠■╠╬▪",
+   "paraMedir": "b┴»\nÒØ╣╬«´ \nb \nØ \nÒ«Ø╠■╠╬Ò\n",
+   "salidaMedir": "b┴»\n▪♫╣╬«” b \n♫ ▪«♫╠■╠╬▪",
+   "paraTXT": "b┴»\r\nÒ\" b \r\n«Ø"
+  },
+  {
+   "entrada": "\n\"“ññ Ò\n■a╬\t┴ñ∏a",
+   "paraMedir": "\"\"ññ \nÒ\n■a╬ \n┴ñõa\n",
+   "salidaMedir": "\n““ññ ▪\n■a╬\t┴ñ∏a",
+   "paraTXT": "\r\n\"\"ññ Ò\r\na\t┴ña"
+  },
+  {
+   "entrada": "\"Ò┴ õ\"“■<m9>╠\"aÒ\"┴\nÒ",
+   "paraMedir": "\"Ò┴ \nõ\"\"■<m9>╠\"aÒ\"┴\nÒ\n",
+   "salidaMedir": "“▪┴ ∏““■<m9>╠“a▪“┴\n▪",
+   "paraTXT": "\"Ò┴ õ\"\"<m9>\"aÒ\"┴\r\nÒ"
+  },
+  {
+   "entrada": "´b\nõ”┴aØ╠ ´» ­õ■Ø<m9> “»╣“╬»╬♫­«╣ ",
+   "paraMedir": "´b\nõ´┴aØ╠ \n´» \n­õ■Ø<m9> \n\"»╣\"╬»╬Ø­«╣ \n",
+   "salidaMedir": "”b\n∏”┴a♫╠ ”» □∏■♫<m9> “»╣“╬»╬♫□«╣ ",
+   "paraTXT": "´b\r\nõ\"┴aØ ´» ­õØ<m9> \"»\"»« "
+  },
+  {
+   "entrada": "┴Ò»╣<m9>“ ■▪­",
+   "paraMedir": "┴Ò»╣<m9>\" \n■Ò­\n",
+   "salidaMedir": "┴▪»╣<m9>“ ■▪□",
+   "paraTXT": "┴Ò»<m9>\" ­"
+  },
+  {
+   "entrada": "”▪♫\nØØ«╬b\"□■\n┴Ò\n╣b┴□╬«∏”■∏□□ ┴´",
+   "paraMedir": "´ÒØ\nØØ«╬b\"­■\n┴Ò\n╣b┴­╬«õ´■õ­­ \n┴´\n",
+   "salidaMedir": "”▪♫\n♫♫«╬b“□■\n┴▪\n╣b┴□╬«∏”■∏□□ ┴”",
+   "paraTXT": "\"\nØØ«b\"\r\n┴Ò\r\nb┴«\" ┴´"
+  },
+  {
+   "entrada": "”\n“\"",
+   "paraMedir": "´\n\"\"\n",
+   "salidaMedir": "”\n““",
+   "paraTXT": "\"\r\n\"\""
+  },
+  {
+   "entrada": "Ø“┴ ­╣ñ╠ aØ ┴bØ╣╣õ«∏╬Ò□┴Ø”»",
+   "paraMedir": "Ø\"┴ \n­╣ñ╠ \naØ \n┴bØ╣╣õ«õ╬Ò­┴Ø´»\n",
+   "salidaMedir": "♫“┴ □╣ñ╠ a♫ ┴b♫╣╣∏«∏╬▪□┴♫”»",
+   "paraTXT": "Ø\"┴ ­ñ aØ ┴bØõ«Ò┴Ø\"»"
+  },
+  {
+   "entrada": "╣«▪▪bØ□Ø□┴»\n╠õ<m9>\n\t■∏╠\t┴╣■ñõ╣­ñ╬\t∏Ò▪ÒÒ“╬",
+   "paraMedir": "╣«ÒÒbØ­Ø­┴»\n╠õ<m9>\n■õ╠ \n┴╣■ñõ╣­ñ╬ \nõÒÒÒÒ\"╬\n",
+   "salidaMedir": "╣«▪▪b♫□♫□┴»\n╠∏<m9>\n\t■∏╠\t┴╣■ñ∏╣□ñ╬\t∏▪▪▪▪“╬",
+   "paraTXT": "«bØØ┴»\r\nõ<m9>\r\n\t\t┴ñõ­ñ\tÒÒÒ\""
+  },
+  {
+   "entrada": "Ò♫a□\nñÒ□b▪\"╠<m9>Ø´ñaØ\"\naØ ▪­´╠­╣“╬■a■",
+   "paraMedir": "ÒØa­\nñÒ­bÒ\"╠<m9>Ø´ñaØ\"\naØ \nÒ­´╠­╣\"╬■a■\n",
+   "salidaMedir": "▪♫a□\nñ▪□b▪“╠<m9>♫”ña♫“\na♫ ▪□”╠□╣“╬■a■",
+   "paraTXT": "Ò\nñÒb\"<m9>Ø´ñaØ\"\r\naØ ­´­\"a"
+  },
+  {
+   "entrada": "b■┴õ",
+   "paraMedir": "b■┴õ\n",
+   "salidaMedir": "b■┴∏",
+   "paraTXT": "b┴õ"
+  },
+  {
+   "entrada": "♫ a” ",
+   "paraMedir": "Ø \na´ \n",
+   "salidaMedir": "♫ a” ",
+   "paraTXT": "a\" "
+  },
+  {
+   "entrada": "“╣╬╠┴╬”aØ“\t▪\t a∏▪ñ\"Ø╬┴\"Ò∏a\n»♫“♫\t□ba■",
+   "paraMedir": "\"╣╬╠┴╬´aØ\" \nÒ \naõÒñ\"Ø╬┴\"Òõa\n»Ø\"Ø \n­ba■\n",
+   "salidaMedir": "“╣╬╠┴╬”a♫“\t▪\t a∏▪ñ“♫╬┴“▪∏a\n»♫“♫\t□ba■",
+   "paraTXT": "\"┴\"aØ\"\t\t añ\"Ø┴\"Òa\r\n»ba"
+  },
+  {
+   "entrada": "a´­╬□∏»\n<m9><m9>▪Ò╬aØØ♫■ □\n­Ò♫»´╬┴»╣Ø<m9><m9>\t╣┴♫∏",
+   "paraMedir": "a´­╬­õ»\n<m9><m9>ÒÒ╬aØØØ■ \n­\n­ÒØ»´╬┴»╣Ø<m9><m9> \n╣┴Øõ\n",
+   "salidaMedir": "a”□╬□∏»\n<m9><m9>▪▪╬a♫♫♫■ □\n□▪♫»”╬┴»╣♫<m9><m9>\t╣┴♫∏",
+   "paraTXT": "a´­»\r\n<m9><m9>ÒaØØ\r\n­Ò´┴»Ø<m9><m9>\t┴"
+  },
+  {
+   "entrada": "\"╣ÒØ\"­Ò\t■╬<m9>b ”»<m9>”»□",
+   "paraMedir": "\"╣ÒØ\"­Ò \n■╬<m9>b \n´»<m9>´»­\n",
+   "salidaMedir": "“╣▪♫“□▪\t■╬<m9>b ”»<m9>”»□",
+   "paraTXT": "\"ÒØ\"­Ò\t<m9>b \"»<m9>\"»"
+  },
+  {
+   "entrada": "´",
+   "paraMedir": "´\n",
+   "salidaMedir": "”",
+   "paraTXT": "´"
+  },
+  {
+   "entrada": "´♫\n∏□♫«<m9>­“´♫╠\t",
+   "paraMedir": "´Ø\nõ­Ø«<m9>­\"´Ø╠ \n",
+   "salidaMedir": "”♫\n∏□♫«<m9>□“”♫╠\t",
+   "paraTXT": "´\n<m9>­\"´"
+  },
+  {
+   "entrada": "Òõñ ∏Øa““╬∏­■b ╣╣ »“╠”□ñÒ Ø∏\n <m9>´♫\"╬ñaõ╣",
+   "paraMedir": "Òõñ \nõØa\"\"╬õ­■b \n╣╣ \n»\"╠´­ñÒ \nØõ\n<m9>´Ø\"╬ñaõ╣\n",
+   "salidaMedir": "▪∏ñ ∏♫a““╬∏□■b ╣╣ »“╠”□ñ▪ ♫∏\n <m9>”♫“╬ña∏╣",
+   "paraTXT": "Òõñ Øa\"\"­b  »\"\"ñÒ Ø\r\n <m9>´ñaõ"
+  },
+  {
+   "entrada": " ╣╬♫ñ“ ∏┴bÒ∏",
+   "paraMedir": "╣╬Øñ\" \nõ┴bÒõ\n",
+   "salidaMedir": " ╣╬♫ñ“ ∏┴b▪∏",
+   "paraTXT": " \" ┴bÒ"
+  },
+  {
+   "entrada": "□“\t\taÒ\n♫╬ñ» ╠õbñØØ♫■ñ­b«»«ñÒa■Ø\na□┴”Ò ",
+   "paraMedir": "­\" \naÒ\nØ╬ñ» \n╠õbñØØØ■ñ­b«»«ñÒa■Ø\na­┴´Ò \n",
+   "salidaMedir": "□“\t\ta▪\n♫╬ñ» ╠∏bñ♫♫♫■ñ□b«»«ñ▪a■♫\na□┴”▪ ",
+   "paraTXT": "\"\t\taÒ\r\n» õbñØØ­b«»«ñÒaØ\r\na┴\"Ò "
+  },
+  {
+   "entrada": "□»♫",
+   "paraMedir": "­»Ø\n",
+   "salidaMedir": "□»♫",
+   "paraTXT": "»"
+  },
+  {
+   "entrada": " ´▪\t",
+   "paraMedir": "´Ò \n",
+   "salidaMedir": " ”▪\t",
+   "paraTXT": " ´\t"
+  },
+  {
+   "entrada": "´♫»«╣∏ñ╬\tõ»Ò♫╠­╣ ”õ­╣´ \tõ",
+   "paraMedir": "´Ø»«╣õñ╬ \nõ»ÒØ╠­╣ \n´õ­╣´ \nõ\n",
+   "salidaMedir": "”♫»«╣∏ñ╬\t∏»▪♫╠□╣ ”∏□╣” \t∏",
+   "paraTXT": "´«ñ\tõ»Ò \"õ­´ \tõ"
+  },
+  {
+   "entrada": "■∏a“\t­»♫■“\n♫\n«┴╠ ­ õb´\t« ┴♫õ□╬╠Ø♫∏",
+   "paraMedir": "■õa\" \n­»Ø■\"\nØ\n«┴╠ \n­ \nõb´ \n« \n┴Øõ­╬╠ØØõ\n",
+   "salidaMedir": "■∏a“\t□»♫■“\n♫\n«┴╠ □ ∏b”\t« ┴♫∏□╬╠♫♫∏",
+   "paraTXT": "a\"\t­»\r\n\n«┴ ­ õb´\t« ┴Ø"
+  },
+  {
+   "entrada": "»♫╬╬╣»­»”õ□▪ \" \t╣\nññ",
+   "paraMedir": "»Ø╬╬╣»­»´õ­Ò \n\" \n╣\nññ\n",
+   "salidaMedir": "»♫╬╬╣»□»”∏□▪ “ \t╣\nññ",
+   "paraTXT": "»­»\"õ \" \t\r\nññ"
+  },
+  {
+   "entrada": "õ∏  \t\nñ­´”╣■” ╣┴õ«<m9>\"┴õ♫­´▪╠”",
+   "paraMedir": "õõ \nñ­´´╣■´ \n╣┴õ«<m9>\"┴õØ­´Ò╠´\n",
+   "salidaMedir": "∏∏  \t\nñ□””╣■” ╣┴∏«<m9>“┴∏♫□”▪╠”",
+   "paraTXT": "õ  \t\r\nñ­´\"\" ┴õ«<m9>\"┴õ´\""
+  },
+  {
+   "entrada": "∏╠bbÒ╣ \"Ò\t”\n\n╬■´«<m9>╠b╣♫♫Øb♫»a♫\n\t\"«♫┴♫<m9>Ò«",
+   "paraMedir": "õ╠bbÒ╣ \n\"Ò \n´\n╬■´«<m9>╠b╣ØØØbØ»aØ\n\"«Ø┴Ø<m9>Ò«\n",
+   "salidaMedir": "∏╠bb▪╣ “▪\t”\n\n╬■”«<m9>╠b╣♫♫♫b♫»a♫\n\t“«♫┴♫<m9>▪«",
+   "paraTXT": "bbÒ \"Ò\t\"\r\n\r\n´«<m9>bØba\n\t\"«m9>Ò«"
+  },
+  {
+   "entrada": "╠»╣∏♫♫┴ “\t\"▪”«╬»Ò<m9>",
+   "paraMedir": "╠»╣õØØ┴ \n\" \n\"Ò´«╬»Ò<m9>\n",
+   "salidaMedir": "╠»╣∏♫♫┴ “\t“▪”«╬»▪<m9>",
+   "paraTXT": "»┴ \"\t\"\"«»Ò<m9>"
+  },
+  {
+   "entrada": "Ò▪õ\t<m9>",
+   "paraMedir": "ÒÒõ \n<m9>\n",
+   "salidaMedir": "▪▪∏\t<m9>",
+   "paraTXT": "Òõ\t<m9>"
+  },
+  {
+   "entrada": "õ»╬□\"∏”╣\n■■\t ”­õ\n´□\tØ╬■´Ò <m9>□a»┴♫“«Ò”",
+   "paraMedir": "õ»╬­\"õ´╣\n■■ \n´­õ\n´­ \nØ╬■´Ò \n<m9>­a»┴Ø\"«Ò´\n",
+   "salidaMedir": "∏»╬□“∏”╣\n■■\t ”□∏\n”□\t♫╬■”▪ <m9>□a»┴♫“«▪”",
+   "paraTXT": "õ»\"\"\r\n\t \"­õ\r\n´\tØ´Ò <m9>a»┴«Ò\""
+  },
+  {
+   "entrada": "∏",
+   "paraMedir": "õ\n",
+   "salidaMedir": "∏",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "­♫♫ ´╠«▪╬»╬┴b╣õ□\n╬ñ□\na´\t<m9>Ø« \"□ b“□”<m9>\n ",
+   "paraMedir": "­ØØ \n´╠«Ò╬»╬┴b╣õ­\n╬ñ­\na´ \n<m9>Ø« \n\"­ \nb\"­´<m9>\n",
+   "salidaMedir": "□♫♫ ”╠«▪╬»╬┴b╣∏□\n╬ñ□\na”\t<m9>♫« “□ b“□”<m9>\n ",
+   "paraTXT": "­ ´«»┴bõ\r\nñ\r\na´\t<m9>Ø« \" b\"\"<m9>\r\n "
+  },
+  {
+   "entrada": " «\t”\t▪■□ñ∏□┴­■♫«∏╬ñ«",
+   "paraMedir": "« \n´ \nÒ■­ñõ­┴­■Ø«õ╬ñ«\n",
+   "salidaMedir": " «\t”\t▪■□ñ∏□┴□■♫«∏╬ñ«",
+   "paraTXT": " «\t\"\tñ┴­ñ«"
+  },
+  {
+   "entrada": "«╣■\"∏Ò┴ñ\" ”»",
+   "paraMedir": "«╣■\"õÒ┴ñ\" \n´»\n",
+   "salidaMedir": "«╣■“∏▪┴ñ“ ”»",
+   "paraTXT": "«\"Ò┴ñ\" \"»"
+  },
+  {
+   "entrada": "Ø ∏ ┴▪b­▪”□♫",
+   "paraMedir": "Ø \nõ \n┴Òb­Ò´­Ø\n",
+   "salidaMedir": "♫ ∏ ┴▪b□▪”□♫",
+   "paraTXT": "Ø  ┴b­\""
+  },
+  {
+   "entrada": "ÒØ“»□“♫<m9>┴ ╬\n<m9> ▪ ■\n╬b",
+   "paraMedir": "ÒØ\"»­\"Ø<m9>┴ \n╬\n<m9> \nÒ \n■\n╬b\n",
+   "salidaMedir": "▪♫“»□“♫<m9>┴ ╬\n<m9> ▪ ■\n╬b",
+   "paraTXT": "ÒØ\"»\"m9>┴ \r\n<m9>  \r\nb"
+  },
+  {
+   "entrada": "\"□Ø“♫\"",
+   "paraMedir": "\"­Ø\"Ø\"\n",
+   "salidaMedir": "“□♫“♫“",
+   "paraTXT": "\"Ø\""
+  },
+  {
+   "entrada": "b□­\t\n\t”┴Ò♫”a\n ”»a ■Øa┴\t┴□\t“õ□\nñ»",
+   "paraMedir": "b­­ \n´┴ÒØ´a\n´»a \n■Øa┴ \n┴­ \n\"õ­\nñ»\n",
+   "salidaMedir": "b□□\t\n\t”┴▪♫”a\n ”»a ■♫a┴\t┴□\t“∏□\nñ»",
+   "paraTXT": "b­\t\r\n\t\"┴Òa\r\n \"»a Øa┴\t┴\t\"õ\r\nñ»"
+  },
+  {
+   "entrada": "□┴╠»«",
+   "paraMedir": "­┴╠»«\n",
+   "salidaMedir": "□┴╠»«",
+   "paraTXT": "┴»«"
+  },
+  {
+   "entrada": "ñ▪\tØ╠┴ñ»♫ñ a□«ñ<m9>╬┴Ò­ ▪­╬Ø♫<m9>ñ\n\t<m9>",
+   "paraMedir": "ñÒ \nØ╠┴ñ»Øñ \na­«ñ<m9>╬┴Ò­ \nÒ­╬ØØ<m9>ñ\n<m9>\n",
+   "salidaMedir": "ñ▪\t♫╠┴ñ»♫ñ a□«ñ<m9>╬┴▪□ ▪□╬♫♫<m9>ñ\n\t<m9>",
+   "paraTXT": "ñ\tØ┴ñ» a«ñ<m9>┴Ò­ ­Øm9>ñ\r\n\t<m9>"
+  },
+  {
+   "entrada": "“\t«□□aÒb╠╬\"<m9>▪õ▪∏«a”\n┴ Ø<m9>«ñØñ╬»«­",
+   "paraMedir": "\" \n«­­aÒb╠╬\"<m9>ÒõÒõ«a´\n┴ \nØ<m9>«ñØñ╬»«­\n",
+   "salidaMedir": "“\t«□□a▪b╠╬“<m9>▪∏▪∏«a”\n┴ ♫<m9>«ñ♫ñ╬»«□",
+   "paraTXT": "\"\t«aÒb\"<m9>õ«a\"\r\n┴ Ø<m9>«ñØñ»«­"
+  },
+  {
+   "entrada": "\n´ \n□□b«∏ ””´",
+   "paraMedir": "´ \n­­b«õ \n´´´\n",
+   "salidaMedir": "\n” \n□□b«∏ ”””",
+   "paraTXT": "\r\n´ \r\nb« \"\"´"
+  },
+  {
+   "entrada": "b■╣♫∏b “┴ ■´ñ“õ",
+   "paraMedir": "b■╣Øõb \n\"┴ \n■´ñ\"õ\n",
+   "salidaMedir": "b■╣♫∏b “┴ ■”ñ“∏",
+   "paraTXT": "b \"┴ ´ñ\"õ"
+  },
+  {
+   "entrada": "╬\t<m9>õ□\t\"╣■╣­»´╠“­ \t\"”╣┴┴b“\t▪",
+   "paraMedir": "╬ \n<m9>õ­ \n\"╣■╣­»´╠\"­ \n\"´╣┴┴b\" \nÒ\n",
+   "salidaMedir": "╬\t<m9>∏□\t“╣■╣□»”╠“□ \t“”╣┴┴b“\t▪",
+   "paraTXT": "\t<m9>õ\t\"­»´\"­ \t\"\"┴┴b\"\t"
+  },
+  {
+   "entrada": "\tbñ\"∏╣□ ♫“\tØõ",
+   "paraMedir": "bñ\"õ╣­ \nØ\" \nØõ\n",
+   "salidaMedir": "\tbñ“∏╣□ ♫“\t♫∏",
+   "paraTXT": "\tbñ\" \tØõ"
+  },
+  {
+   "entrada": "»”╣ »»´□“”<m9>┴♫´<m9>╣Ò■a\n",
+   "paraMedir": "»´╣ \n»»´­\"´<m9>┴Ø´<m9>╣Ò■a\n",
+   "salidaMedir": "»”╣ »»”□“”<m9>┴♫”<m9>╣▪■a\n",
+   "paraTXT": "»\" »»´\"\"<m9>┴<m9>Òa\r\n"
+  },
+  {
+   "entrada": "\n",
+   "paraMedir": "",
+   "salidaMedir": "\n",
+   "paraTXT": "\r\n"
+  },
+  {
+   "entrada": "■´□■ñbØb∏­a╠  <m9>▪õ´bõõ\n■aab♫♫b♫\t ­Ø ",
+   "paraMedir": "■´­■ñbØbõ­a╠ \n<m9>Òõ´bõõ\n■aabØØbØ \n­Ø \n",
+   "salidaMedir": "■”□■ñb♫b∏□a╠  <m9>▪∏”b∏∏\n■aab♫♫b♫\t □♫ ",
+   "paraTXT": "´ñbØb­a  <m9>õ´bõõ\r\naabb ­Ø "
+  },
+  {
+   "entrada": "╬Ø““▪”<m9>“\nØ╣╬Ò□ba╠«┴♫∏ñ♫<m9>  ∏▪ñ­╬",
+   "paraMedir": "╬Ø\"\"Ò´<m9>\"\nØ╣╬Ò­ba╠«┴ØõñØ<m9> \nõÒñ­╬\n",
+   "salidaMedir": "╬♫““▪”<m9>“\n♫╣╬▪□ba╠«┴♫∏ñ♫<m9>  ∏▪ñ□╬",
+   "paraTXT": "Ø\"\"\"<m9>\"\r\nØÒba«┴m9>  ñ­"
+  },
+  {
+   "entrada": "”╣╠∏■ØÒØñõ«♫­»­╬\t□a■a»╬Ò■♫■♫\"<m9>╣╬♫<m9>«",
+   "paraMedir": "´╣╠õ■ØÒØñõ«Ø­»­╬ \n­a■a»╬Ò■Ø■Ø\"<m9>╣╬Ø<m9>«\n",
+   "salidaMedir": "”╣╠∏■♫▪♫ñ∏«♫□»□╬\t□a■a»╬▪■♫■♫“<m9>╣╬♫<m9>«",
+   "paraTXT": "\"ØÒØñõ«»­\taa»Ò\"<m9>m9>«"
+  },
+  {
+   "entrada": "a╣□Ò”õ´■□┴\"»",
+   "paraMedir": "a╣­Ò´õ´■­┴\"»\n",
+   "salidaMedir": "a╣□▪”∏”■□┴“»",
+   "paraTXT": "aÒ\"õ´┴\"»"
+  },
+  {
+   "entrada": "\n«­­\t\"´∏□╠┴ab╠",
+   "paraMedir": "«­­ \n\"´õ­╠┴ab╠\n",
+   "salidaMedir": "\n«□□\t“”∏□╠┴ab╠",
+   "paraTXT": "\r\n«­­\t\"´┴ab"
+  },
+  {
+   "entrada": "∏Ø\"\n■\n▪´´□\n╣╬´╬■ Øa■▪Ø\n<m9>\"\n┴Øa´∏»a ╣",
+   "paraMedir": "õØ\"\n■\nÒ´´­\n╣╬´╬■ \nØa■ÒØ\n<m9>\"\n┴Øa´õ»a \n╣\n",
+   "salidaMedir": "∏♫“\n■\n▪””□\n╣╬”╬■ ♫a■▪♫\n<m9>“\n┴♫a”∏»a ╣",
+   "paraTXT": "Ø\"\r\n\r\n´´\r\n´ ØaØ\r\n<m9>\"\r\n┴Øa´»a "
+  },
+  {
+   "entrada": "” ∏╣╬”“a\"aõñ∏“♫Ò╬\" □ “´»Ø´∏a«”┴ ┴´­\"╣",
+   "paraMedir": "´ \nõ╣╬´\"a\"aõñõ\"ØÒ╬\" \n­ \n\"´»Ø´õa«´┴ \n┴´­\"╣\n",
+   "salidaMedir": "” ∏╣╬”“a“a∏ñ∏“♫▪╬“ □ “”»♫”∏a«”┴ ┴”□“╣",
+   "paraTXT": "\" \"\"a\"aõñ\"\"  \"´»Ø´a«\"┴ ┴´­\""
+  },
+  {
+   "entrada": "╣”╠╬┴ <m9>□\"ÒØ” ┴b”\"╠∏",
+   "paraMedir": "╣´╠╬┴ \n<m9>­\"ÒØ´ \n┴b´\"╠õ\n",
+   "salidaMedir": "╣”╠╬┴ <m9>□“▪♫” ┴b”“╠∏",
+   "paraTXT": "\"┴ <m9>\"ÒØ\" ┴b\"\""
+  },
+  {
+   "entrada": "╣a",
+   "paraMedir": "╣a\n",
+   "salidaMedir": "╣a",
+   "paraTXT": "a"
+  },
+  {
+   "entrada": "a­ñÒ»b□\tb▪♫<m9>a",
+   "paraMedir": "a­ñÒ»b­ \nbÒØ<m9>a\n",
+   "salidaMedir": "a□ñ▪»b□\tb▪♫<m9>a",
+   "paraTXT": "a­ñÒ»b\tbm9>a"
+  },
+  {
+   "entrada": " ■´▪ \"╠\"▪<m9>╬□□▪»­■» ╠■Ò▪■\nb­ \t",
+   "paraMedir": "■´Ò \n\"╠\"Ò<m9>╬­­Ò»­■» \n╠■ÒÒ■\nb­ \n",
+   "salidaMedir": " ■”▪ “╠“▪<m9>╬□□▪»□■» ╠■▪▪■\nb□ \t",
+   "paraTXT": " ´ \"\"<m9>»­» Ò\r\nb­ \t"
+  },
+  {
+   "entrada": "┴╬ ▪■┴\t\tØ∏«╠´∏”Òaõ\n\"┴­Òõ”­",
+   "paraMedir": "┴╬ \nÒ■┴ \nØõ«╠´õ´Òaõ\n\"┴­Òõ´­\n",
+   "salidaMedir": "┴╬ ▪■┴\t\t♫∏«╠”∏”▪a∏\n“┴□▪∏”□",
+   "paraTXT": "┴ ┴\t\tØ«´\"Òaõ\r\n\"┴­Òõ\"­"
+  },
+  {
+   "entrada": "»\n╬\"\n«<m9>Ò∏",
+   "paraMedir": "»\n╬\"\n«<m9>Òõ\n",
+   "salidaMedir": "»\n╬“\n«<m9>▪∏",
+   "paraTXT": "»\r\n\"\r\n«<m9>Ò"
+  },
+  {
+   "entrada": "Ò╬┴ ∏♫▪╣<m9>“b╠",
+   "paraMedir": "Ò╬┴ \nõØÒ╣<m9>\"b╠\n",
+   "salidaMedir": "▪╬┴ ∏♫▪╣<m9>“b╠",
+   "paraTXT": "Ò┴ m9>\"b"
+  },
+  {
+   "entrada": "ÒØÒ■“<m9>\n┴ □╬­\t╬­“╬╬b □╣»»»∏b´ õ",
+   "paraMedir": "ÒØÒ■\"<m9>\n┴ \n­╬­ \n╬­\"╬╬b \n­╣»»»õb´ \nõ\n",
+   "salidaMedir": "▪♫▪■“<m9>\n┴ □╬□\t╬□“╬╬b □╣»»»∏b” ∏",
+   "paraTXT": "ÒØÒ\"<m9>\r\n┴ ­\t­\"b »»»b´ õ"
+  },
+  {
+   "entrada": "«­Ø\"»╣♫\"ñ",
+   "paraMedir": "«­Ø\"»╣Ø\"ñ\n",
+   "salidaMedir": "«□♫“»╣♫“ñ",
+   "paraTXT": "«­Ø\"»ñ"
+  },
+  {
+   "entrada": "“»­ ♫∏ ´╣",
+   "paraMedir": "\"»­ \nØõ \n´╣\n",
+   "salidaMedir": "“»□ ♫∏ ”╣",
+   "paraTXT": "\"»­ ´"
+  },
+  {
+   "entrada": " «a´»╣\t▪<m9>ØØÒ╠“Ø”♫” ╠╣▪\t♫ñ\tab\t«",
+   "paraMedir": "«a´»╣ \nÒ<m9>ØØÒ╠\"Ø´Ø´ \n╠╣Ò \nØñ \nab \n«\n",
+   "salidaMedir": " «a”»╣\t▪<m9>♫♫▪╠“♫”♫” ╠╣▪\t♫ñ\tab\t«",
+   "paraTXT": " «a´»\t<m9>ØØÒ\"Ø\" \t\tab\t«"
+  },
+  {
+   "entrada": "╠ñ”ñ«♫»“□Ò▪ ñ´╣\n┴\tõ”´ Ø",
+   "paraMedir": "╠ñ´ñ«Ø»\"­ÒÒ \nñ´╣\n┴ \nõ´´ \nØ\n",
+   "salidaMedir": "╠ñ”ñ«♫»“□▪▪ ñ”╣\n┴\t∏”” ♫",
+   "paraTXT": "ñ\"ñ«\"Ò ñ´\r\n┴\tõ\"´ Ø"
+  },
+  {
+   "entrada": "▪■ ∏ \t<m9><m9>∏",
+   "paraMedir": "Ò■ \nõ \n<m9><m9>õ\n",
+   "salidaMedir": "▪■ ∏ \t<m9><m9>∏",
+   "paraTXT": "  \t<m9><m9>"
+  },
+  {
+   "entrada": "Ò╠╠▪“∏“õ",
+   "paraMedir": "Ò╠╠Ò\"õ\"õ\n",
+   "salidaMedir": "▪╠╠▪“∏“∏",
+   "paraTXT": "Ò\"\"õ"
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "b╠□\n”\nb“<m9> a╣»<m9>­­õ” □╬”♫■╠b■",
+   "paraMedir": "b╠­\n´\nb\"<m9> \na╣»<m9>­­õ´ \n­╬´Ø■╠b■\n",
+   "salidaMedir": "b╠□\n”\nb“<m9> a╣»<m9>□□∏” □╬”♫■╠b■",
+   "paraTXT": "b\r\n\"\r\nb\"<m9> a»<m9>­­õ\" \""
+  },
+  {
+   "entrada": "▪“­\n\t´∏\"┴\t",
+   "paraMedir": "Ò\"­\n´õ\"┴ \n",
+   "salidaMedir": "▪“□\n\t”∏“┴\t",
+   "paraTXT": "\"­\r\n\t´\"┴\t"
+  },
+  {
+   "entrada": "ñ ╣■ <m9>♫",
+   "paraMedir": "ñ \n╣■ \n<m9>Ø\n",
+   "salidaMedir": "ñ ╣■ <m9>♫",
+   "paraTXT": "ñ  <m9>"
+  },
+  {
+   "entrada": "\n<m9>´a",
+   "paraMedir": "<m9>´a\n",
+   "salidaMedir": "\n<m9>”a",
+   "paraTXT": "\r\n<m9>´a"
+  },
+  {
+   "entrada": "´\"a■\tñ<m9> ­ñ­a\nÒ╣“”╬┴╠┴a╬■",
+   "paraMedir": "´\"a■ \nñ<m9> \n­ñ­a\nÒ╣\"´╬┴╠┴a╬■\n",
+   "salidaMedir": "”“a■\tñ<m9> □ñ□a\n▪╣“”╬┴╠┴a╬■",
+   "paraTXT": "´\"a\tñ<m9> ­ñ­a\r\nÒ\"\"┴┴a"
+  },
+  {
+   "entrada": "┴­­õ┴╬õ­<m9>╣■∏´»\t´õ∏▪´▪╬╠ a┴\t■ ┴\"a“­<m9>╬",
+   "paraMedir": "┴­­õ┴╬õ­<m9>╣■õ´» \n´õõÒ´Ò╬╠ \na┴ \n■ \n┴\"a\"­<m9>╬\n",
+   "salidaMedir": "┴□□∏┴╬∏□<m9>╣■∏”»\t”∏∏▪”▪╬╠ a┴\t■ ┴“a“□<m9>╬",
+   "paraTXT": "┴­­õ┴õ­<m9>´»\t´õ´ a┴\t ┴\"a\"­<m9>"
+  },
+  {
+   "entrada": "´∏«",
+   "paraMedir": "´õ«\n",
+   "salidaMedir": "”∏«",
+   "paraTXT": "´«"
+  },
+  {
+   "entrada": "\tñ∏Ø«\n□a■╬b«╠a\n´□«\"Ò´Ò »\t■«ñ",
+   "paraMedir": "ñõØ«\n­a■╬b«╠a\n´­«\"Ò´Ò \n» \n■«ñ\n",
+   "salidaMedir": "\tñ∏♫«\n□a■╬b«╠a\n”□«“▪”▪ »\t■«ñ",
+   "paraTXT": "\tñØ«\r\nab«a\r\n´«\"Ò´Ò »\t«ñ"
+  },
+  {
+   "entrada": " ♫□­\"\"­a∏∏╠a■”Òõ",
+   "paraMedir": "Ø­­\"\"­aõõ╠a■´Òõ\n",
+   "salidaMedir": " ♫□□““□a∏∏╠a■”▪∏",
+   "paraTXT": " \"\"­aa\"Òõ"
+  },
+  {
+   "entrada": "□»\t«",
+   "paraMedir": "­» \n«\n",
+   "salidaMedir": "□»\t«",
+   "paraTXT": "»\t«"
+  },
+  {
+   "entrada": "<m9>╬\t ",
+   "paraMedir": "<m9>╬ \n",
+   "salidaMedir": "<m9>╬\t ",
+   "paraTXT": "<m9>\t "
+  },
+  {
+   "entrada": "╠┴õ╣ \n<m9>\"▪╣Ø \"■▪■´\n´╬»┴ñ♫Ò»ñ \"\ta”­ ",
+   "paraMedir": "╠┴õ╣ \n<m9>\"Ò╣Ø \n\"■Ò■´\n´╬»┴ñØÒ»ñ \n\" \na´­ \n",
+   "salidaMedir": "╠┴∏╣ \n<m9>“▪╣♫ “■▪■”\n”╬»┴ñ♫▪»ñ “\ta”□ ",
+   "paraTXT": "┴õ \r\n<m9>\"Ø \"´\r\n´»┴ñ»ñ \"\ta\"­ "
+  },
+  {
+   "entrada": "╬<m9>­┴□\"Ò\t■╬\"´´♫┴╠ \n\n■∏a■ ▪´",
+   "paraMedir": "╬<m9>­┴­\"Ò \n■╬\"´´Ø┴╠ \n■õa■ \nÒ´\n",
+   "salidaMedir": "╬<m9>□┴□“▪\t■╬“””♫┴╠ \n\n■∏a■ ▪”",
+   "paraTXT": "<m9>­┴\"Ò\t\"´´ \r\n\r\na ´"
+  },
+  {
+   "entrada": "´",
+   "paraMedir": "´\n",
+   "salidaMedir": "”",
+   "paraTXT": "´"
+  },
+  {
+   "entrada": "╣ñ╬ñ\"▪□Òñ",
+   "paraMedir": "╣ñ╬ñ\"Ò­Òñ\n",
+   "salidaMedir": "╣ñ╬ñ“▪□▪ñ",
+   "paraTXT": "ññ\"Òñ"
+  },
+  {
+   "entrada": "b­\t<m9>\"Ò<m9>♫■\"Ò\t╬┴Ø”»┴ ",
+   "paraMedir": "b­ \n<m9>\"Ò<m9>Ø■\"Ò \n╬┴Ø´»┴ \n",
+   "salidaMedir": "b□\t<m9>“▪<m9>♫■“▪\t╬┴♫”»┴ ",
+   "paraTXT": "b­\t<m9>\"Ò<m9>Ò\t┴Ø\"»┴ "
+  },
+  {
+   "entrada": "▪╣ õ┴”b╣\t<m9>“╠\n╬”┴♫\"♫ ”´<m9>╠»ñ\n\tØ ­▪\"<m9>",
+   "paraMedir": "Ò╣ \nõ┴´b╣ \n<m9>\"╠\n╬´┴Ø\"Ø \n´´<m9>╠»ñ\nØ \n­Ò\"<m9>\n",
+   "salidaMedir": "▪╣ ∏┴”b╣\t<m9>“╠\n╬”┴♫“♫ ””<m9>╠»ñ\n\t♫ □▪“<m9>",
+   "paraTXT": " õ┴\"b\t<m9>\"\r\n\"┴\"´<m9>»ñ\r\n\tØ ­\"<m9>"
+  },
+  {
+   "entrada": "´a”­╠­“\t\n╬«Ø\nØ\"\na▪┴□∏Ø”♫■▪╠´ <m9>╠b­┴",
+   "paraMedir": "´a´­╠­\" \n╬«Ø\nØ\"\naÒ┴­õØ´Ø■Ò╠´ \n<m9>╠b­┴\n",
+   "salidaMedir": "”a”□╠□“\t\n╬«♫\n♫“\na▪┴□∏♫”♫■▪╠” <m9>╠b□┴",
+   "paraTXT": "´a\"­­\"\t\r\n«Ø\r\nØ\"\r\na┴Ø\" <m9>b­┴"
+  },
+  {
+   "entrada": "╠ba«õ­aõab””õ“\nõ╠∏»▪",
+   "paraMedir": "╠ba«õ­aõab´´õ\"\nõ╠õ»Ò\n",
+   "salidaMedir": "╠ba«∏□a∏ab””∏“\n∏╠∏»▪",
+   "paraTXT": "ba«õ­aõab\"\"õ\"\r\nõ»"
+  },
+  {
+   "entrada": "□╣ ∏ñ╬■”\nñ□»╠\"Òõ­a Ø­\n┴╠┴ñ\"õ▪╣ b\"",
+   "paraMedir": "­╣ \nõñ╬■´\nñ­»╠\"Òõ­a \nØ­\n┴╠┴ñ\"õÒ╣ \nb\"\n",
+   "salidaMedir": "□╣ ∏ñ╬■”\nñ□»╠“▪∏□a ♫□\n┴╠┴ñ“∏▪╣ b“",
+   "paraTXT": " ñ\"\r\nñ»\"Òõ­a Ø­\r\n┴┴ñ\"õ b\""
+  },
+  {
+   "entrada": "<m9>«´ñ­ ”­∏∏╬╠­╬<m9>õõ╬\t♫Ø ╣­∏b╬\nØñ□\t»□ Ø<m9>",
+   "paraMedir": "<m9>«´ñ­ \n´­õõ╬╠­╬<m9>õõ╬ \nØØ \n╣­õb╬\nØñ­ \n»­ \nØ<m9>\n",
+   "salidaMedir": "<m9>«”ñ□ ”□∏∏╬╠□╬<m9>∏∏╬\t♫♫ ╣□∏b╬\n♫ñ□\t»□ ♫<m9>",
+   "paraTXT": "<m9>«´ñ­ \"­­<m9>õõ\t ­b\r\nØñ\t» Ø<m9>"
+  },
+  {
+   "entrada": "\t▪♫□∏\"",
+   "paraMedir": "ÒØ­õ\"\n",
+   "salidaMedir": "\t▪♫□∏“",
+   "paraTXT": "\t"
+  },
+  {
+   "entrada": "♫“╣╬ ”▪╬□´ “\t□",
+   "paraMedir": "Ø\"╣╬ \n´Ò╬­´ \n\" \n­\n",
+   "salidaMedir": "♫“╣╬ ”▪╬□” “\t□",
+   "paraTXT": " \"´ \"\t"
+  },
+  {
+   "entrada": "b╠╠\t´«Ò”b ♫ñ\"╬\n□▪”",
+   "paraMedir": "b╠╠ \n´«Ò´b \nØñ\"╬\n­Ò´\n",
+   "salidaMedir": "b╠╠\t”«▪”b ♫ñ“╬\n□▪”",
+   "paraTXT": "b\t´«Ò\"b \"\r\n\""
+  },
+  {
+   "entrada": "“õÒ♫”­“▪bÒ\n▪■■<m9>┴­\n«“   ■▪a□<m9>∏╠▪ñ«■",
+   "paraMedir": "\"õÒØ´­\"ÒbÒ\nÒ■■<m9>┴­\n«\" \n■Òa­<m9>õ╠Òñ«■\n",
+   "salidaMedir": "“∏▪♫”□“▪b▪\n▪■■<m9>┴□\n«“   ■▪a□<m9>∏╠▪ñ«■",
+   "paraTXT": "\"õÒ­\"bÒ\r\n<m9>┴­\r\n«\"   a<m9>ñ«"
+  },
+  {
+   "entrada": "´«õ\t õa╠­´”■■Ø╣\n▪□\nÒ“b«´╬“a▪▪╠b",
+   "paraMedir": "´«õ \nõa╠­´´■■Ø╣\nÒ­\nÒ\"b«´╬\"aÒÒ╠b\n",
+   "salidaMedir": "”«∏\t ∏a╠□””■■♫╣\n▪□\n▪“b«”╬“a▪▪╠b",
+   "paraTXT": "´«õ\t õa­´\"Ø\r\n\r\nÒ\"b«´\"ab"
+  },
+  {
+   "entrada": "« Ò“ñ╬╠╠∏<m9>b­ñ╬",
+   "paraMedir": "« \nÒ\"ñ╬╠╠õ<m9>b­ñ╬\n",
+   "salidaMedir": "« ▪“ñ╬╠╠∏<m9>b□ñ╬",
+   "paraTXT": "« Ò\"ñ<m9>b­ñ"
+  },
+  {
+   "entrada": "”“\n▪\nb” ╣\n╠■╠■\n▪┴╠ ab♫╠Ø´\n♫╣\n´",
+   "paraMedir": "´\"\nÒ\nb´ \n╣\n╠■╠■\nÒ┴╠ \nabØ╠Ø´\nØ╣\n´\n",
+   "salidaMedir": "”“\n▪\nb” ╣\n╠■╠■\n▪┴╠ ab♫╠♫”\n♫╣\n”",
+   "paraTXT": "\"\"\r\n\r\nb\" \r\n\r\n┴ ab´\r\n\n´"
+  },
+  {
+   "entrada": "╣<m9>╣”Ø´«baõb■\n■«╣",
+   "paraMedir": "╣<m9>╣´Ø´«baõb■\n■«╣\n",
+   "salidaMedir": "╣<m9>╣”♫”«ba∏b■\n■«╣",
+   "paraTXT": "<m9>\"Ø´«baõb\r\n«"
+  },
+  {
+   "entrada": " a“”┴╠´a∏■╣ÒÒ",
+   "paraMedir": "a\"´┴╠´aõ■╣ÒÒ\n",
+   "salidaMedir": " a“”┴╠”a∏■╣▪▪",
+   "paraTXT": " a\"\"┴´aÒÒ"
+  },
+  {
+   "entrada": "╬“aØ­╠õ »",
+   "paraMedir": "╬\"aØ­╠õ \n»\n",
+   "salidaMedir": "╬“a♫□╠∏ »",
+   "paraTXT": "\"aØ­õ »"
+  },
+  {
+   "entrada": "»b»╬­Ò<m9>«­ ♫♫╣♫Ò»\n´õña╣<m9>\t╠”a\n a«",
+   "paraMedir": "»b»╬­Ò<m9>«­ \nØØ╣ØÒ»\n´õña╣<m9> \n╠´a\na«\n",
+   "salidaMedir": "»b»╬□▪<m9>«□ ♫♫╣♫▪»\n”∏ña╣<m9>\t╠”a\n a«",
+   "paraTXT": "»b»­Ò<m9>«­ »\r\n´õña<m9>\t\"a\r\n a«"
+  },
+  {
+   "entrada": "",
+   "paraMedir": "",
+   "salidaMedir": "",
+   "paraTXT": ""
+  },
+  {
+   "entrada": "õ",
+   "paraMedir": "õ\n",
+   "salidaMedir": "∏",
+   "paraTXT": "õ"
+  },
+  {
+   "entrada": "╠õ╬«\t´┴  ´Ò\n▪­ÒØ■╬▪\na∏\" ■∏Ò╬■",
+   "paraMedir": "╠õ╬« \n´┴ \n´Ò\nÒ­ÒØ■╬Ò\naõ\" \n■õÒ╬■\n",
+   "salidaMedir": "╠∏╬«\t”┴  ”▪\n▪□▪♫■╬▪\na∏“ ■∏▪╬■",
+   "paraTXT": "õ«\t´┴  ´Ò\r\n­ÒØ\r\na\" Ò"
+  },
+  {
+   "entrada": "╬∏\t\"Òññ<m9>»▪ba´□",
+   "paraMedir": "╬õ \n\"Òññ<m9>»Òba´­\n",
+   "salidaMedir": "╬∏\t“▪ññ<m9>»▪ba”□",
+   "paraTXT": "\t\"Òññ<m9>»ba´"
+  },
+  {
+   "entrada": "õ\n<m9>«\n<m9>╠«Ø\t´╬”a«□",
+   "paraMedir": "õ\n<m9>«\n<m9>╠«Ø \n´╬´a«­\n",
+   "salidaMedir": "∏\n<m9>«\n<m9>╠«♫\t”╬”a«□",
+   "paraTXT": "õ\r\n<m9>«\r\n<m9>«Ø\t´\"a«"
+  },
+  {
+   "entrada": "\t»□a<m9>□╣",
+   "paraMedir": "»­a<m9>­╣\n",
+   "salidaMedir": "\t»□a<m9>□╣",
+   "paraTXT": "\t»a<m9>"
+  },
+  {
+   "entrada": " ╣­» ╬",
+   "paraMedir": "╣­» \n╬\n",
+   "salidaMedir": " ╣□» ╬",
+   "paraTXT": " ­» "
+  },
+  {
+   "entrada": "□<m9>□",
+   "paraMedir": "­<m9>­\n",
+   "salidaMedir": "□<m9>□",
+   "paraTXT": "<m9>"
+  },
+  {
+   "entrada": "a´´«♫ <m9>∏”□´",
+   "paraMedir": "a´´«Ø \n<m9>õ´­´\n",
+   "salidaMedir": "a””«♫ <m9>∏”□”",
+   "paraTXT": "a´´«<m9>\"´"
+  }
+ ]
+}

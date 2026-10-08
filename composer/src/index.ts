@@ -2,7 +2,7 @@ import Fastify from 'fastify';
 
 import { componer } from './componer.js';
 import { config } from './config.js';
-import { medir } from './medir.js';
+import { medir, medirAncho } from './medir.js';
 
 const app = Fastify({
   logger: { level: process.env.LOG_LEVEL ?? 'info' },
@@ -44,6 +44,24 @@ app.post<{ Body: { texto?: unknown } }>('/medir', async (req, res) => {
   }
 });
 
+/** Medir en ancho (Ctrl+A en el editor): cuánto mide cada tramo de línea. */
+app.post<{ Body: { texto?: unknown } }>('/medir-ancho', async (req, res) => {
+  const texto = req.body?.texto;
+  if (typeof texto !== 'string' || texto.length === 0) {
+    return res.code(400).send({ error: 'Falta el texto a medir.' });
+  }
+  try {
+    return await medirAncho(texto);
+  } catch (e) {
+    const err = e as Error & { codigo?: string };
+    if (err.codigo === 'MOTOR_COLGADO') {
+      return res.code(504).send({ error: err.message, codigo: err.codigo });
+    }
+    req.log.error({ err }, 'medir-ancho');
+    return res.code(500).send({ error: 'No se pudo medir el texto en ancho.' });
+  }
+});
+
 /**
  * Fotocomponer: dejar el material listo para InDesign.
  *
@@ -71,6 +89,14 @@ app.post<{ Body: { texto?: unknown; guia?: unknown; seccion?: unknown } }>(
       const err = e as Error & { codigo?: string };
       if (err.codigo === 'MOTOR_COLGADO') {
         return res.code(504).send({ error: err.message, codigo: err.codigo });
+      }
+      if (err.codigo === 'ERRORES_SR2XP') {
+        // El texto tiene errores de composición: es un problema de la nota, no
+        // del servicio. 422 para que el editor lo muestre como tal.
+        return res.code(422).send({
+          error: err.message, codigo: err.codigo,
+          errores: (err as Error & { errores?: unknown }).errores,
+        });
       }
       req.log.error({ err }, 'componer');
       return res.code(500).send({ error: err.message });

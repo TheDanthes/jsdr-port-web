@@ -62,7 +62,12 @@ export async function medir(texto: string): Promise<Medida> {
     const entrada = join(ruta, 'nota.medir');
     await writeFile(entrada, aCp850(texto));
 
-    const corrida = await ejecutar('medir', ['-f', entrada], ruta);
+    // `-f -a`, igual que `medir.opcion.alto` del servidor de jSDR
+    // (services/conf.properties). `-f` deja el texto formateado en el .frm;
+    // `-a` "inhibe el partido de columnas largas y estrechas y su colocación
+    // paralela" (medir.c). `medir.sh`, el que usa el ingestor de cables, va sin
+    // `-a`; el editor —que es lo que reemplaza este servicio— siempre lo pasó.
+    const corrida = await ejecutar('medir', ['-f', '-a', entrada], ruta);
 
     if (corrida.colgado) {
       // Pasa de verdad: ver config.topeMotorMs y pruebas/cuelga/.
@@ -91,6 +96,52 @@ export async function medir(texto: string): Promise<Medida> {
       salidaCruda: sinRuta(salida).trim(),
       ms: corrida.ms,
     };
+  } finally {
+    await borrar();
+  }
+}
+
+export interface MedidaAncho {
+  /** Número de palabra (como lo cuenta el motor) y lo que mide desde ahí. */
+  medidas: { palabra: number; valor: string }[];
+  errores: Aviso[];
+  ms: number;
+}
+
+/**
+ * Medir en ancho: lo que el redactor pide con Ctrl+A.
+ *
+ * `medir -b`, igual que `medir.opcion.ancho` del servidor viejo. El motor deja
+ * en la salida una línea por tramo, `...(n)...=valor`, y el cliente Swing
+ * mostraba "Desde la palabra n: valor" (ProgramaMedir.procesarMedidasAncho).
+ *
+ * No hay casos de producción guardados para esta opción: el banco no la cubre.
+ */
+export async function medirAncho(texto: string): Promise<MedidaAncho> {
+  const { ruta, borrar } = await carpetaDeTrabajo();
+  try {
+    const entrada = join(ruta, 'nota.medir');
+    await writeFile(entrada, aCp850(texto));
+
+    const corrida = await ejecutar('medir', ['-b', entrada], ruta);
+    if (corrida.colgado) {
+      throw Object.assign(
+        new Error('El motor no terminó dentro del tiempo permitido y se lo cortó.'),
+        { codigo: 'MOTOR_COLGADO' },
+      );
+    }
+
+    const medidas = desdeCp850(corrida.salida)
+      .split('\n')
+      .map((l) => l.replace(/\r$/, ''))
+      .filter((l) => l.includes('(') && l.includes(')') && l.includes('='))
+      .map((l) => ({
+        palabra: Number(l.slice(l.indexOf('(') + 1, l.indexOf(')'))),
+        valor: l.slice(l.indexOf('=') + 1),
+      }))
+      .filter((m) => Number.isFinite(m.palabra));
+
+    return { medidas, errores: parsear(desdeCp850(corrida.errores)), ms: corrida.ms };
   } finally {
     await borrar();
   }

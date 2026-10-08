@@ -32,11 +32,14 @@ jobs:
         with:
           node-version: 22
 
-      - name: API — tipos
+      - name: API — tipos y pruebas
         working-directory: api
         run: |
           npm ci
           npx tsc --noEmit
+          # El port de FiltradorNoticia contra el Java original (419 casos):
+          # si deja de dar idéntico, el editor mediría distinto que el viejo.
+          npm test
 
       - name: Web — tipos y build
         working-directory: web

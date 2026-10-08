@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { autenticar, cargarSesion } from '../datos/sesion.js';
 import { emitirToken, tokenDeCabecera, verificarToken } from '../sesion/token.js';
+import { config } from '../config.js';
 
 interface CuerpoLogin {
   username?: string;
@@ -60,7 +61,9 @@ export async function rutasSesion(app: FastifyInstance) {
     const sesion = await cargarSesion(usuario.username);
     req.log.info({ username: usuario.username }, 'login');
 
-    return { token, vence, ...sesion };
+    // `edicion`: si esta instalación permite editar (JSDR_EDICION). La web
+    // muestra u oculta el editor según esto.
+    return { token, vence, ...sesion, edicion: config.edicion };
   });
 
   /** Estado de la sesión actual. La web la llama al abrir, para no pedir login de nuevo. */
@@ -71,6 +74,6 @@ export async function rutasSesion(app: FastifyInstance) {
     const sesion = await cargarSesion(carga.u);
     if (!sesion) return rep.code(401).send({ error: 'el usuario ya no está habilitado' });
 
-    return { vence: new Date(carga.exp * 1000).toISOString(), ...sesion };
+    return { vence: new Date(carga.exp * 1000).toISOString(), ...sesion, edicion: config.edicion };
   });
 }

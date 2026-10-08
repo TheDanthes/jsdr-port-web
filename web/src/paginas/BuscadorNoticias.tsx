@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api, descargar } from '../api/cliente';
+import { useSesion } from '../sesion';
+import { useEditor } from '../editor/EditorContexto';
 import { ESTADOS, NIVELES, type Noticia, type Pagina, type Seccion, type Usuario } from '../api/tipos';
 import {
   AvisoError, Cargando, EstadoNoticia, MarcasVersion, Paginado, Resaltado,
@@ -56,6 +58,8 @@ export function BuscadorNoticias() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [exportando, setExportando] = useState(false);
+  const edicion = useSesion().sesion?.edicion === true;
+  const ed = useEditor();
 
   useEffect(() => {
     Promise.all([api.secciones(), api.usuarios()])
@@ -141,6 +145,15 @@ export function BuscadorNoticias() {
       <header>
         <h2>Buscador de noticias</h2>
         <div className="acciones">
+          {edicion && (
+            <button
+              className="primario"
+              onClick={() => { void ed.nueva(); navegar('/editor'); }}
+              title="Nueva noticia (Alt+N desde el editor)"
+            >
+              Nueva noticia
+            </button>
+          )}
           <button onClick={exportar} disabled={exportando || !pagina?.total}>
             {exportando ? 'Exportando…' : 'Exportar CSV'}
           </button>

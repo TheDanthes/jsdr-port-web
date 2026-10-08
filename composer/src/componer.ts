@@ -11,6 +11,8 @@ export interface Composicion {
   carpeta: string;
   bytes: number;
   ms: number;
+  /** Lo que sr2xp avisó por stderr. No impide componer (ver más abajo). */
+  avisos: { linea: number; mensaje: string }[];
 }
 
 /**
@@ -112,6 +114,31 @@ export async function componer(
       });
     }
 
+    // ProgramaFotocomponer da por fallida la composición si sr2xp escribe algo
+    // en su salida ESTÁNDAR, y se replica. Pero sr2xp avisa sus errores
+    // —`archivo(línea): Error: ...`— por la salida de ERRORES, que el Java
+    // nunca leía: en producción una nota con un formato mal escrito se
+    // fotocompone igual y nadie se entera. Verificado con el binario de
+    // producción. No se bloquea (sería cambiar el comportamiento), pero los
+    // avisos vuelven en la respuesta para que el editor los muestre.
+    const lineas = (b: Buffer) =>
+      desdeCp850(b).split('\n').map((l) => l.replace(/\r$/, '')).filter((l) => l.trim() !== '');
+    const aAviso = (l: string) => {
+      const a = l.indexOf('('), b = l.indexOf(')');
+      return {
+        linea: a >= 0 && b > a ? Number(l.slice(a + 1, b)) || 0 : 0,
+        mensaje: l.slice(l.lastIndexOf(':') + 1).trim(),
+      };
+    };
+    const enSalida = lineas(corrida.salida);
+    if (enSalida.length > 0) {
+      throw Object.assign(new Error('Error en la ejecución del programa: sr2xp'), {
+        codigo: 'ERRORES_SR2XP',
+        errores: enSalida.map(aAviso),
+      });
+    }
+    const avisos = lineas(corrida.errores).map(aAviso);
+
     let xtg: Buffer;
     try {
       xtg = await readFile(join(ruta, 'nota.xtg'));
@@ -139,7 +166,7 @@ export async function componer(
     await chmod(parcial, 0o666); // como el `chmod 0666, $filesal` del original
     await rename(parcial, final);
 
-    return { archivo: final, carpeta, bytes: paraIndesign.length, ms: Date.now() - empezo };
+    return { archivo: final, carpeta, bytes: paraIndesign.length, ms: Date.now() - empezo, avisos };
   } finally {
     await borrar();
   }

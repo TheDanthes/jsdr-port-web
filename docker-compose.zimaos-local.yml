@@ -106,6 +106,17 @@ services:
       JSDR_SECRETO_SESION: cambiar-esta-cadena-por-una-propia-larga
       # Horas que dura una sesión. Una jornada de redacción entra holgada.
       JSDR_HORAS_SESION: 12
+
+      # --- Fase 3: el editor ------------------------------------------------
+      # Habilita crear, guardar y fotocomponer. Escribe en la base de
+      # DATABASE_URL, que en este equipo es la COPIA restaurada: el cliente
+      # Swing sigue trabajando sobre producción sin enterarse. Con "no", la
+      # web vuelve a ser de sólo lectura.
+      JSDR_EDICION: "si"
+      # Dónde está el motor tipográfico (stack jsdr-composer). Container
+      # Manager no tiene DNS entre contenedores: la IP del equipo y el puerto.
+      # Si el equipo cambia de IP, cambiarla también acá.
+      JSDR_COMPOSER_URL: http://192.168.3.100:3098
     volumes:
       - /DATA/AppData/jsdr/salida-indesign:/salida-indesign
     ports:

@@ -50,13 +50,17 @@ misma carpeta, mismo formato, InDesign CS5.
 |---|---|
 | 0 — Relevamiento y rescate | ✅ Completa |
 | 1 — API + web de sólo lectura | ✅ **Completa** — login, dos buscadores, detalle con versiones y exports |
-| 2 — Servicio composer | ⏳ Desbloqueada |
-| 3 — Editor web | ⏳ |
+| 2 — Servicio composer | ✅ **Completa** — motor de 2005 en contenedor, 534/534 idénticas a producción |
+| 3 — Editor web | 🚧 **Primera entrega** — crear, editar, medir (en vivo y con F3), guardar, cerrar y fotocomponer, con los mismos atajos del Swing |
 | 4 — Flujo, permisos y ABMs | ⏳ |
 | 5 — Corte | ⏳ |
 
 **Regla de la Fase 1: todo es SELECT.** Ni un INSERT, UPDATE o DELETE contra la base. Así la
 web nueva convive con el cliente Swing sin ninguna posibilidad de pisarse.
+
+**El editor (Fase 3) escribe, pero sólo si se lo pide:** `JSDR_EDICION=si`, y sólo contra la
+COPIA. Usa un pool de conexiones aparte; el resto de la API sigue abriendo las suyas
+read-only. Sin esa variable, las rutas del editor responden 403 y todo es como en la Fase 1.
 
 ---
 
@@ -111,12 +115,16 @@ db/
   restaurar-copia.sh        Restaura el dump en el Postgres local
 dumps/                      Dumps de producción. NO van al repo (.gitignore).
 
-api/                        Fastify + TypeScript, sólo lectura. Ver api/README.md
-  verificar.sh              32 comprobaciones de humo
+api/                        Fastify + TypeScript. Ver api/README.md
+  verificar.sh              35 comprobaciones de humo de la lectura
+  verificar-editor.sh       11 del editor (crea una nota de prueba y la descarta)
+  src/dominio/caracteres.*  Port de FiltradorNoticia + pruebas doradas contra el Java
+  src/dominio/reglas.ts     Port de MotorReglas (mismos chequeos y mensajes)
+  src/datos/edicion.ts      Crear, abrir, guardar, autoguardar, cerrar, fotocomponer
 web/                        React + Vite + TypeScript. Ver web/README.md
+  src/editor/               El editor: CodeMirror 6 con los atajos del Swing
+composer/                   Motor tipográfico (medir, sr2xp, xtg2ind.pl) por HTTP
 ```
-
-Lo que viene: `composer/`.
 
 ## Un solo contenedor
 

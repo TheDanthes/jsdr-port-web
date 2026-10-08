@@ -54,4 +54,30 @@ export const config = {
 
   /** Orígenes permitidos por CORS en desarrollo (Vite). */
   origenesDev: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+
+  /**
+   * Edición (Fase 3): crear, guardar y fotocomponer escriben en la base.
+   *
+   * APAGADA por defecto. Hay que encenderla a propósito con JSDR_EDICION=si,
+   * y sólo donde DATABASE_URL apunte a la COPIA: el cliente Swing sigue
+   * escribiendo en producción y las dos no se pueden mezclar. Apagada, todo
+   * sigue siendo de sólo lectura como en la Fase 1 y las rutas del editor
+   * responden 403.
+   */
+  edicion: ['si', 'sí', 'true', '1'].includes((process.env.JSDR_EDICION ?? '').toLowerCase()),
+
+  /**
+   * Dónde está el composer (motor tipográfico). En Container Manager no hay
+   * DNS entre contenedores: va la IP del equipo y el puerto publicado.
+   */
+  composerUrl: (process.env.JSDR_COMPOSER_URL ?? 'http://127.0.0.1:3098').replace(/\/+$/, ''),
+
+  /**
+   * Autoguardado: cada cuántos cambios de edición se guarda la versión
+   * temporal. `autosave.minimo.numero.cambios.edicion=40` del cliente Swing.
+   */
+  autosaveCambios: 40,
+
+  /** Zona horaria para "hoy" y "mañana" (fechas de publicación). */
+  zonaHoraria: process.env.TZ || 'America/Argentina/Buenos_Aires',
 } as const;
