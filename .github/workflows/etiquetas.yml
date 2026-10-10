@@ -1,0 +1,28 @@
+# Etiqueta en git cada versión del CHANGELOG (v0.4.4, ...) y las sube.
+#
+# Se corre a mano: pestaña Actions → "Etiquetar versiones" → Run workflow.
+# Conviene correrlo después de publicar cada versión nueva. No toca las
+# etiquetas que ya existen, así que se puede correr las veces que haga falta.
+name: Etiquetar versiones
+
+on:
+  workflow_dispatch:
+
+jobs:
+  etiquetar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write          # para subir las etiquetas
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0       # todo el historial y las etiquetas que ya hay
+
+      - name: Etiquetar
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash scripts/etiquetas.sh
+
+      - name: Resultado
+        run: git tag -n1 --sort=version:refname

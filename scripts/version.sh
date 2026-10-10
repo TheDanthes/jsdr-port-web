@@ -12,8 +12,9 @@
 # El composer lleva su propia versión: sólo cambia cuando cambia el motor
 # (composer/package.json, a mano).
 #
-# Después: anotar la versión en CHANGELOG.md, commit, y la etiqueta:
-#   git tag -a v0.4.5 -m "0.4.5 — ..." && git push origin main --tags
+# Después: anotar la versión en CHANGELOG.md ("## 0.4.5 — fecha · título"),
+# commit y push, y correr el workflow "Etiquetar versiones" (Actions) para
+# la etiqueta v0.4.5 en git.
 #-----------------------------------------------------------------------------
 set -euo pipefail
 raiz="$(cd "$(dirname "$0")/.." && pwd)"

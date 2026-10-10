@@ -16,9 +16,12 @@ La API y la web van juntas, en la misma imagen (`ghcr.io/thedanthes/jsdr-api`), 
 la misma versión. El composer (`jsdr-composer`) lleva la suya, porque sólo cambia cuando
 cambia el motor: hoy es la **0.2.3**.
 
-Cada versión tiene su etiqueta en git (`v0.4.4`) y su imagen (`jsdr-api:0.4.4`), así se
-puede volver a una anterior desde Container Manager. Para una versión nueva:
-`scripts/version.sh X.Y.Z`, anotarla acá, commit y `git tag -a vX.Y.Z`.
+Cada versión tiene su imagen (`jsdr-api:0.4.4`), así se puede volver a una anterior desde
+Container Manager, y su etiqueta en git (`v0.4.4`), que pone el workflow **Etiquetar
+versiones** (pestaña Actions → Run workflow; `scripts/etiquetas.sh`).
+
+Para una versión nueva: `scripts/version.sh X.Y.Z`, anotarla acá (`## X.Y.Z — fecha ·
+título`), commit y push; después correr "Etiquetar versiones".
 
 ---
 
