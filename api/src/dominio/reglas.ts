@@ -289,3 +289,39 @@ export function guiaAutogenerada(id: number): string {
   const s = String(id);
   return s.length >= 4 ? s.slice(-4) : s.padStart(4, '0');
 }
+
+// --- Administración → Permisos/Sección ---------------------------------------------
+
+export const MENSAJES_PERMISOS_SECCION = {
+  nivel: 'El usuario no tiene el nivel JEFE o SECRETARIO',
+  permiso: 'El usuario no tiene permisos de ASIGNAR_PERMISOS',
+  seccionDefault: 'El usuario no tiene asignada una sección por defecto',
+  secciones: 'El usuario no tiene secciones asignadas',
+} as const;
+
+export interface AsignadorPermisos {
+  nivel: number;
+  permisos: string[];
+  /** Sus secciones (usuarios_secciones), con cuál es la de por defecto. */
+  secciones: { id: number; seccion_default: boolean | null }[];
+}
+
+/**
+ * MotorReglas.puedeAsignarPermisosSeccion + AdministradorUsuariosBean
+ * .iniciarAdministradorPermisosSeccion: quién puede asignar permisos y en qué
+ * secciones. Un jefe (20), sólo en su sección por defecto; un secretario
+ * (30), en todas las suyas. Devuelve los ids de sección, o el mensaje del
+ * Swing si no puede.
+ */
+export function seccionesParaAsignarPermisos(u: AsignadorPermisos): { secciones: number[] } | { error: string } {
+  if (u.nivel < 20) return { error: MENSAJES_PERMISOS_SECCION.nivel };
+  if (!u.permisos.includes('ASIGNAR_PERMISOS')) return { error: MENSAJES_PERMISOS_SECCION.permiso };
+  if (u.nivel === 20) {
+    const def = u.secciones.find((s) => s.seccion_default === true);
+    if (!def) return { error: MENSAJES_PERMISOS_SECCION.seccionDefault };
+    return { secciones: [def.id] };
+  }
+  if (u.nivel === 30 && u.secciones.length === 0) return { error: MENSAJES_PERMISOS_SECCION.secciones };
+  // Un nivel que no es 20 ni 30 (no existe en la base) no tiene secciones, como en el Swing.
+  return { secciones: u.nivel === 30 ? u.secciones.map((s) => s.id) : [] };
+}

@@ -57,3 +57,15 @@ test('confidencialidad y restaurar', () => {
   puedeRestaurarVersion(2, 3);
   falla(() => puedeRestaurarVersion(1, 3), MENSAJES.existeVersionPosterior);
 });
+
+test('permisos por sección: jefe en su sección por defecto, secretario en las suyas', async () => {
+  const { seccionesParaAsignarPermisos: puede, MENSAJES_PERMISOS_SECCION: M } = await import('./reglas.js');
+  const secciones = [{ id: 1, seccion_default: false }, { id: 5, seccion_default: true }, { id: 9, seccion_default: null }];
+  assert.deepEqual(puede({ nivel: 10, permisos: ['ASIGNAR_PERMISOS'], secciones }), { error: M.nivel });
+  assert.deepEqual(puede({ nivel: 20, permisos: [], secciones }), { error: M.permiso });
+  assert.deepEqual(puede({ nivel: 20, permisos: ['ASIGNAR_PERMISOS'], secciones }), { secciones: [5] });
+  assert.deepEqual(puede({ nivel: 20, permisos: ['ASIGNAR_PERMISOS'], secciones: [{ id: 1, seccion_default: false }] }),
+    { error: M.seccionDefault });
+  assert.deepEqual(puede({ nivel: 30, permisos: ['ASIGNAR_PERMISOS'], secciones }), { secciones: [1, 5, 9] });
+  assert.deepEqual(puede({ nivel: 30, permisos: ['ASIGNAR_PERMISOS'], secciones: [] }), { error: M.secciones });
+});

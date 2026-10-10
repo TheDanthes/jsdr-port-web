@@ -1,6 +1,6 @@
 import type {
   AccionCierre, Agencia, AperturaEditor, Bloqueo, Cable, Comando, DatosEditor, ErrorOrtografico, MedicionNoticia,
-  MedidaCampo, MonitorUsuarios, Noticia, Pagina, PaginaPalabras, ParaRecuperar, Permiso, Reserva, ResultadoLista, Seccion, Sesion,
+  InicioPermisosSeccion, MedidaCampo, MonitorUsuarios, Noticia, UsuarioDeSeccion, Pagina, PaginaPalabras, ParaRecuperar, Permiso, Reserva, ResultadoLista, Seccion, Sesion,
   Usuario, Version,
 } from './tipos';
 
@@ -133,6 +133,16 @@ export const api = {
   latidoSesion: () => pedir<void>('/api/sesion/latido', { method: 'POST' }),
 
   monitorUsuarios: () => pedir<MonitorUsuarios>('/api/monitor/usuarios'),
+
+  // -- Administración → Permisos/Sección ------------------------------------------
+  permisosSeccion: {
+    iniciar: () => pedir<InicioPermisosSeccion>('/api/permisos-seccion'),
+    usuarios: (seccion: number) => pedir<UsuarioDeSeccion[]>(`/api/permisos-seccion/${seccion}/usuarios`),
+    actualizar: (seccion: number, usuario: number, permisos: number[]) =>
+      pedir<{ permisos: number[]; agregados: number; quitados: number }>(
+        `/api/permisos-seccion/${seccion}/usuarios/${usuario}`,
+        { method: 'PUT', body: JSON.stringify({ permisos }) }),
+  },
 
   // -- catálogos ------------------------------------------------------------
   secciones: () => pedir<Seccion[]>('/api/secciones'),

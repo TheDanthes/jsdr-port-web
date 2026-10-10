@@ -38,7 +38,8 @@ export const OPCIONES_ADMINISTRACION: Opcion[] = [
   },
   {
     nombre: 'Permisos/Sección',
-    descripcion: 'Qué puede hacer cada usuario en cada sección.',
+    descripcion: 'Qué puede hacer cada usuario en cada sección (redactar, fotocomponer).',
+    ruta: '/administracion/permisos-seccion',
     puede: (s) => tiene(s, 'ASIGNAR_PERMISOS') && nivel(s) >= 20,
   },
   {

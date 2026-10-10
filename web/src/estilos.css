@@ -741,3 +741,29 @@ button.peligro:hover:not(:disabled) { background: var(--peligro-fondo); }
 
 /* Diálogo: aclaración en gris debajo del mensaje */
 .dialogo-nota { color: var(--texto-2); font-size: 13px; }
+
+/* Permisos/Sección */
+.permisos-seccion .separador, .permisos-editor .separador {
+  margin: 0; padding: 12px 14px 6px; font-size: 12px; font-weight: 600;
+  color: var(--texto-2); text-transform: uppercase; letter-spacing: .04em;
+}
+.permisos-editor .separador { padding: 4px 0 0; }
+.permisos-filtro { display: flex; align-items: center; gap: 10px; padding: 0 14px 6px; flex-wrap: wrap; }
+.permisos-filtro select { width: auto; min-width: 180px; }
+.permisos-tabla td { vertical-align: top; }
+.permisos-tabla td.default { color: var(--acento); text-align: center; width: 32px; }
+.permisos-tabla th:last-child { text-align: center; width: 32px; }
+.permisos-tabla tr.deshabilitado td { color: var(--texto-3); }
+.permisos-tabla tr:focus-visible { outline: 2px solid var(--acento); outline-offset: -2px; }
+.etiqueta.permiso { margin: 0 4px 2px 0; display: inline-block; }
+.permisos-pie { padding: 10px 14px 14px; margin: 0; }
+.permisos-editor { max-width: 480px; }
+.permisos-datos { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; font-size: 13px; }
+.permisos-datos dt { color: var(--texto-2); text-align: right; }
+.permisos-datos dd { margin: 0; }
+.permisos-lista { list-style: none; margin: 0; padding: 0; border: 1px solid var(--borde-suave); border-radius: var(--radio); }
+.permisos-lista li + li { border-top: 1px solid var(--borde-suave); }
+.permisos-lista label { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; cursor: pointer; }
+.permisos-lista label:hover { background: var(--panel-2); }
+.permisos-lista input { margin-top: 2px; width: auto; }
+.permisos-lista span { display: flex; flex-direction: column; gap: 1px; }

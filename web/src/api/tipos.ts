@@ -261,6 +261,28 @@ export const ESTADOS = [
   'EN_PRODUCCION',
 ] as const;
 
+/** Administración → Permisos/Sección: un permiso que se asigna por sección (general = false). */
+export interface PermisoSeccion { id: number; nombre: string; descripcion: string | null }
+
+export interface InicioPermisosSeccion {
+  /** Las secciones que el usuario puede administrar (jefe: la suya por defecto; secretario: todas las suyas). */
+  secciones: { id: number; nombre: string | null; codigo: string | null }[];
+  permisos: PermisoSeccion[];
+}
+
+export interface UsuarioDeSeccion {
+  id: number;
+  username: string;
+  nombre_apellido: string | null;
+  dni: string | null;
+  nivel: number | null;
+  habilitado: boolean | null;
+  /** Esta sección es su sección por defecto. */
+  es_default: boolean;
+  /** Ids de los permisos que tiene en esta sección. */
+  permisos: number[];
+}
+
 /** Una noticia abierta en el editor, vista desde el monitor. */
 export type NoticiaEnMonitor =
   | {
