@@ -186,6 +186,19 @@ export const api = {
   destrabar: (id: number, modo: 'guardar' | 'descartar') =>
     pedir<{ resultado: 'guardada' | 'borrada' | 'version_descartada' | 'destrabada' }>(
       `/api/noticias/${id}/destrabar`, { method: 'POST', body: JSON.stringify({ modo }) }),
+  // -- flujo de la redacción (Fase 4) ----------------------------------------
+  pasarDeNivel: (id: number, nivel: number) =>
+    pedir<{ guia: string | null; estado: string; nivel: number; nivel_nombre: string; autorizada: boolean; visible: boolean }>(
+      `/api/noticias/${id}/nivel`, { method: 'POST', body: JSON.stringify({ nivel }) }),
+  eliminar: (id: number) =>
+    pedir<{ guia: string | null; version_activa: number | null }>(`/api/noticias/${id}/eliminar`, { method: 'POST' }),
+  restaurar: (id: number, numero: number) =>
+    pedir<{ guia: string | null; version_activa: number }>(
+      `/api/noticias/${id}/versiones/${numero}/restaurar`, { method: 'POST' }),
+  cambiarConfidencialidad: (id: number) =>
+    pedir<{ guia: string | null; confidencial: boolean; visible: boolean }>(
+      `/api/noticias/${id}/confidencialidad`, { method: 'POST' }),
+
   fotocomponer: (id: number) =>
     pedir<{ archivo: string; carpeta: string; bytes: number; avisos: { linea: number; mensaje: string }[] }>(
       `/api/noticias/${id}/fotocomponer`, { method: 'POST' }),

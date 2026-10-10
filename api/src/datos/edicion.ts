@@ -148,7 +148,7 @@ interface FilaVersion {
   medida_titular_cm: number | null; medida_titular_lineas: number | null;
 }
 
-interface NoticiaCargada {
+export interface NoticiaCargada {
   id: number;
   guia: string | null;
   numero_version_activa: number;
@@ -162,7 +162,7 @@ interface NoticiaCargada {
  * Lee la noticia con todas sus versiones no eliminadas y bloquea su fila de
  * `noticias` hasta el final de la transacción.
  */
-async function cargar(c: pg.PoolClient, id: number): Promise<NoticiaCargada | null> {
+export async function cargar(c: pg.PoolClient, id: number): Promise<NoticiaCargada | null> {
   const cab = await c.query<{
     id: number; guia: string | null;
     numero_version_activa: number; numero_proxima_version: number | null;
@@ -222,7 +222,7 @@ function titularMigrado(v: FilaVersion): { texto: string; medida: MedidaSimple }
   };
 }
 
-const aReglas = (n: NoticiaCargada): NoticiaReglas => ({
+export const aReglas = (n: NoticiaCargada): NoticiaReglas => ({
   estado: n.activa.estado,
   nivel: n.activa.nivel ?? 0,
   redactor: n.activa.redactor,

@@ -4,6 +4,7 @@ import { filtrarParaTXT } from '../dominio/caracteres.js';
 import { consultarUno } from '../db.js';
 import { config } from '../config.js';
 import { revisar } from '../datos/ortografia.js';
+import { cambiarConfidencialidad, eliminar, pasarDeNivel, restaurar } from '../datos/flujo.js';
 import {
   autoguardar, bloqueo, cerrar, comandosPara, destrabar, fotocomponer, guardar, iniciarCreacion,
   iniciarEdicion, latido, medirAncho, medirCampo, medirNoticia, paraRecuperar,
@@ -118,6 +119,39 @@ export async function rutasEditor(app: FastifyInstance) {
       return fotocomponer(id, req.sesion);
     },
   );
+
+  // --- flujo de la redacción (Fase 4): lo que el Swing hacía desde el buscador ---
+
+  /** Pasar de nivel (y autorizar, si está EN_EJECUCION). */
+  app.post<{ Params: { id: string }; Body: { nivel?: unknown } | null }>(
+    '/noticias/:id/nivel', { preHandler: exigirEdicion },
+    async (req, rep) => {
+      const id = entero(req.params.id);
+      if (!id) return rep.code(400).send({ error: 'id inválido' });
+      return pasarDeNivel(id, Number(req.body?.nivel), req.sesion);
+    },
+  );
+
+  app.post<{ Params: { id: string } }>('/noticias/:id/eliminar', { preHandler: exigirEdicion }, async (req, rep) => {
+    const id = entero(req.params.id);
+    if (!id) return rep.code(400).send({ error: 'id inválido' });
+    return eliminar(id, req.sesion);
+  });
+
+  app.post<{ Params: { id: string; numero: string } }>(
+    '/noticias/:id/versiones/:numero/restaurar', { preHandler: exigirEdicion },
+    async (req, rep) => {
+      const id = entero(req.params.id), numero = entero(req.params.numero);
+      if (!id || !numero) return rep.code(400).send({ error: 'id o versión inválidos' });
+      return restaurar(id, numero, req.sesion);
+    },
+  );
+
+  app.post<{ Params: { id: string } }>('/noticias/:id/confidencialidad', { preHandler: exigirEdicion }, async (req, rep) => {
+    const id = entero(req.params.id);
+    if (!id) return rep.code(400).send({ error: 'id inválido' });
+    return cambiarConfidencialidad(id, req.sesion);
+  });
 
   app.get<{ Querystring: { seccion?: string } }>('/editor/comandos', async (req, rep) => {
     const seccion = entero(req.query.seccion ?? '');

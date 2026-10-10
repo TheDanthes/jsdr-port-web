@@ -17,6 +17,17 @@ export const MENSAJES = {
   confidencial: 'La noticia es CONFIDENCIAL',
   fechaAnterior: 'La noticia tiene fecha anterior a hoy',
   cerrada: 'La noticia está cerrada',
+  nivelDistinto: 'El usuario tiene un nivel distinto al de la noticia',
+  noEnEjecucion: 'La noticia no está en estado Estado.EN_EJECUCION',
+  enEjecucion: 'La noticia está en estado Estado.EN_EJECUCION',
+  pasarNivelConfidencial: 'No se puede pasar la noticia a un nivel inferior al nivel de quien la colocó confidencial',
+  existeVersionPosterior: 'No se puede restaurar la versión porque se ha creado una versión posterior',
+  // services/mensajes_error.properties — AdministradorNoticiasBean
+  igualNivel: 'Seleccione un nivel distinto al de la noticia',
+  pasarNivelEliminada: 'No se puede pasar de nivel porque la noticia ya fue eliminada',
+  eliminarEliminada: 'No se puede eliminar la noticia porque ya fue eliminada.',
+  confidencialEliminada: 'No se puede cambiar la confidencialidad de la noticia porque fue eliminada',
+  restaurarPermiso: 'No tiene permiso para restaurar la versión eliminada',
   // No existía en el Swing (ver puedeDestrabarNoticia).
   destrabarNivel: 'Sólo el redactor o un usuario de nivel superior pueden destrabar la noticia',
   // common/mensajes_error.properties — Noticia.isValid()
@@ -99,6 +110,20 @@ function checkNivelIgualSuperior(n: NoticiaReglas, u: UsuarioReglas) {
   }
 }
 
+function checkNivelIgual(n: NoticiaReglas, u: UsuarioReglas) {
+  if (u.nivel !== n.nivel) throw new ReglaRota(MENSAJES.nivelDistinto);
+}
+
+/** El nivel de quien pasó la noticia a confidencial (ver checkConfidencial). */
+function nivelPasoAConfidencial(n: NoticiaReglas): number {
+  let nivel = 0;
+  for (const v of [...n.versiones].sort((a, b) => b.numero - a.numero)) {
+    if (!v.confidencial) break;
+    nivel = v.nivel_redactor ?? 0;
+  }
+  return nivel;
+}
+
 function checkUsuarioIgual(n: NoticiaReglas, u: UsuarioReglas) {
   if (n.redactor !== u.username) throw new ReglaRota(MENSAJES.usuarioNoRedactor);
 }
@@ -167,6 +192,61 @@ export function puedeFotocomponerNoticia(n: NoticiaReglas, u: UsuarioReglas) {
   checkFechaAnterior(n);
   if (n.estado === 'EN_EJECUCION') checkUsuarioIgual(n, u);
   checkConfidencial(n, u);
+}
+
+/** MotorReglas.puedeAutorizarNoticia: la autoriza su redactor, en su nivel, estando EN_EJECUCION. */
+export function puedeAutorizarNoticia(n: NoticiaReglas, u: UsuarioReglas) {
+  checkNivelIgual(n, u);
+  checkPermisoRedaccion(n, u);
+  if (n.estado !== 'EN_EJECUCION') throw new ReglaRota(MENSAJES.noEnEjecucion);
+  checkUsuarioIgual(n, u);
+}
+
+/** MotorReglas.puedePasarDeNivelNoticia (se evalúa después de autorizarla, si correspondía). */
+export function puedePasarDeNivelNoticia(n: NoticiaReglas, u: UsuarioReglas, nuevoNivel: number) {
+  checkEstadoEnEdicion(n);
+  checkNivelIgual(n, u);
+  checkPermisoRedaccion(n, u);
+  if (n.estado === 'EN_EJECUCION') throw new ReglaRota(MENSAJES.enEjecucion);
+  if ((n.estado === 'AUTORIZADA' || n.estado === 'FOTOCOMPUESTA') && n.nivel === 10) {
+    checkUsuarioIgual(n, u);
+  }
+  checkConfidencial(n, u);
+  if (n.confidencial && nuevoNivel < nivelPasoAConfidencial(n)) {
+    throw new ReglaRota(MENSAJES.pasarNivelConfidencial);
+  }
+}
+
+/** MotorReglas.puedeEliminarNoticia: sólo su redactor, en su nivel, estando EN_EJECUCION. */
+export function puedeEliminarNoticia(n: NoticiaReglas, u: UsuarioReglas) {
+  checkPermisoRedaccion(n, u);
+  checkEstadoEnEdicion(n);
+  checkNivelIgual(n, u);
+  checkUsuarioIgual(n, u);
+  if (n.estado !== 'EN_EJECUCION') throw new ReglaRota(MENSAJES.noEnEjecucion);
+}
+
+/** MotorReglas.puedeCambiarConfidencialidadNoticia. */
+export function puedeCambiarConfidencialidadNoticia(n: NoticiaReglas, u: UsuarioReglas) {
+  checkEstadoEnEdicion(n);
+  checkNivelIgual(n, u);
+  checkPermisoRedaccion(n, u);
+  if (n.estado === 'EN_EJECUCION') checkUsuarioIgual(n, u);
+  checkNoticiaCerrada(n);
+  checkConfidencial(n, u);
+}
+
+/** MotorReglas.puedeVerNoticia: sólo la confidencialidad. */
+export function puedeVerNoticia(n: NoticiaReglas, u: UsuarioReglas): boolean {
+  try { checkConfidencial(n, u); return true; } catch { return false; }
+}
+
+/**
+ * MotorReglas.puedeRestaurarVersion: sólo la última versión creada (si
+ * después se creó otra, ya no).
+ */
+export function puedeRestaurarVersion(numeroVersion: number, numeroProximaVersion: number) {
+  if (numeroVersion + 1 !== numeroProximaVersion) throw new ReglaRota(MENSAJES.existeVersionPosterior);
 }
 
 /**

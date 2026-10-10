@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { api, descargar } from '../api/cliente';
 import { useSesion } from '../sesion';
 import { useEditor } from '../editor/EditorContexto';
-import type { Bloqueo, Medida, Noticia, Version } from '../api/tipos';
+import { NIVELES, type Bloqueo, type Medida, type Noticia, type Version } from '../api/tipos';
 import {
   AvisoError, Cargando, Dato, EstadoNoticia, MarcasVersion, Vacio,
   fecha, textoMedida,
@@ -40,7 +40,11 @@ export function DetalleNoticia() {
   const [bloqueo, setBloqueo] = useState<Bloqueo | null>(null);
   /** Mirando lo autoguardado ("Recuperado") en vez de una versión. */
   const [viendoRecuperado, setViendoRecuperado] = useState(false);
-  const edicion = useSesion().sesion?.edicion === true;
+  const sesion = useSesion().sesion;
+  const edicion = sesion?.edicion === true;
+  // NivelesFactory.getNivelSuperior(nivel del usuario): lo que el combo del Swing traía elegido.
+  const nivelUsuario = sesion?.usuario.nivel ?? 10;
+  const [nivelAPasar, setNivelAPasar] = useState(nivelUsuario >= 30 ? 30 : nivelUsuario + 10);
   const ed = useEditor();
 
   useEffect(() => {
@@ -177,6 +181,88 @@ export function DetalleNoticia() {
     }
   }
 
+  // --- el flujo de la redacción: lo que el Swing hacía desde la barra del buscador ---
+
+  const confirmar = async (mensaje: string, porDefecto: 'si' | 'no' = 'no') =>
+    (await ed.preguntar({
+      titulo: 'Buscador de Noticias', mensaje,
+      botones: [
+        { etiqueta: 'Si', valor: 'si', principal: porDefecto === 'si' },
+        { etiqueta: 'No', valor: 'no', principal: porDefecto === 'no' },
+      ],
+      cancelar: 'no',
+    })).boton === 'si';
+
+  const informar = (mensaje: string) => ed.preguntar({
+    titulo: 'Buscador de Noticias', mensaje,
+    botones: [{ etiqueta: 'Aceptar', valor: 'ok', principal: true }], cancelar: 'ok',
+  });
+
+  const guiaDe = (g: string | null) => g ?? noticia!.guia ?? String(noticia!.id);
+
+  /** BuscadorNoticiasJPanel.pasarANivel: si está EN_EJECUCION, primero la autoriza. */
+  async function pasarDeNivel() {
+    if (!(await confirmar('¿Quiere pasar de nivel la noticia?', 'si'))) return;
+    setErrorAccion(null);
+    setAviso(null);
+    try {
+      const r = await api.pasarDeNivel(noticia!.id, nivelAPasar);
+      setAviso(`La noticia [Noticia: ${guiaDe(r.guia)}] pasó al nivel ${r.nivel_nombre}`
+        + (r.autorizada ? ' (quedó AUTORIZADA)' : ''));
+      setRecargar((n) => n + 1);
+    } catch (e) {
+      setErrorAccion(`${e instanceof Error ? e.message : 'Se ha producido un error al pasar la noticia de nivel'} [Noticia: ${guiaDe(null)}]`);
+    }
+  }
+
+  /** BuscadorNoticiasJPanel.cambiarConfidencialidad. */
+  async function cambiarConfidencialidad() {
+    const activaV = noticia!.versiones!.find((x) => x.numero === noticia!.numero_version_activa);
+    // En la web una confidencial la ve sólo su redactor (decisión de la redacción):
+    // si no es suya, quien la marca deja de verla. Se avisa antes.
+    const laPierde = activaV && !activaV.confidencial && activaV.redactor !== sesion?.usuario.username;
+    if (!(await confirmar('¿Quiere cambiar la confidencialidad de la noticia?' + (laPierde
+      ? ` Confidencial, la va a ver sólo su redactor (${activaV!.redactor}): usted deja de verla.`
+      : '')))) return;
+    setErrorAccion(null);
+    setAviso(null);
+    try {
+      const r = await api.cambiarConfidencialidad(noticia!.id);
+      const texto = `La noticia se cambió a ${r.confidencial ? '' : 'NO '}CONFIDENCIAL`;
+      if (!r.visible) {
+        // Como en el Swing: si después del cambio el usuario ya no puede verla, sale de la lista.
+        await informar(`${texto}. Ya no la puede ver.`);
+        navegar('/noticias');
+        return;
+      }
+      setAviso(texto);
+      setRecargar((n) => n + 1);
+    } catch (e) {
+      setErrorAccion(e instanceof Error ? e.message : 'Se ha producido un error al cambiar la confidencialidad de la noticia');
+    }
+  }
+
+  /** BuscadorNoticiasJPanel.eliminarNoticia: elimina la versión activa. */
+  async function eliminar() {
+    if (!(await confirmar('¿Quiere eliminar la noticia?'))) return;
+    setErrorAccion(null);
+    setAviso(null);
+    try {
+      const r = await api.eliminar(noticia!.id);
+      const texto = `La noticia fue eliminada, ${r.version_activa
+        ? `versión activa: ${r.version_activa}` : 'la noticia no tiene versión activa'}`;
+      if (!r.version_activa) {
+        await informar(`${texto}. Se puede recuperar desde "Eliminadas".`);
+        navegar('/noticias');
+        return;
+      }
+      setAviso(texto);
+      setRecargar((n) => n + 1);
+    } catch (e) {
+      setErrorAccion(e instanceof Error ? e.message : 'Se ha producido un error al eliminar la noticia');
+    }
+  }
+
   async function exportarTexto() {
     try {
       await descargar(
@@ -268,10 +354,27 @@ export function DetalleNoticia() {
               {edicion && esActiva && b?.puede === 'destrabar' && (
                 <button className="primario" onClick={() => void destrabar()}>Destrabar</button>
               )}
-              {edicion && esActiva && !b && (
+              {edicion && esActiva && !b && !v.eliminada && (
                 <>
                   <button className="primario" onClick={() => void editar()}>Editar</button>
                   <button onClick={() => void fotocomponer()}>Fotocomponer</button>
+                  <span className="pasar-nivel">
+                    <select
+                      value={nivelAPasar} aria-label="Nivel al que se pasa"
+                      onChange={(e) => setNivelAPasar(Number(e.target.value))}
+                    >
+                      {Object.entries(NIVELES).map(([n, nombre]) => <option key={n} value={n}>{nombre}</option>)}
+                    </select>
+                    <button onClick={() => void pasarDeNivel()} title="Pasar de nivel (si está en ejecución, la autoriza)">
+                      Pasar de nivel
+                    </button>
+                  </span>
+                  <button onClick={() => void cambiarConfidencialidad()} title="Cambiar confidencialidad">
+                    {v.confidencial ? 'Hacer pública' : 'Confidencial'}
+                  </button>
+                  <button className="peligro" onClick={() => void eliminar()} title="Eliminar la versión activa">
+                    Eliminar
+                  </button>
                 </>
               )}
               <button onClick={exportarTexto}>Exportar texto</button>

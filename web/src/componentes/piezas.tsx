@@ -158,3 +158,17 @@ export function MarcasVersion({ v }: { v: Version }) {
     </>
   );
 }
+
+/**
+ * Las notas nuevas (las del editor web y las del Swing desde que existe el
+ * campo "titular") no tienen título aparte: se muestra la primera línea del
+ * titular, sin comandos ni códigos de control.
+ */
+export function lineaTitular(t: string | null): string | null {
+  if (!t) return null;
+  const linea = t.replace(/<[^>]*>/g, '').split(/[\n╠╬╣┴]/)
+    .map((l) => l.replace(/[∏■□▪♫“”«»]/g, ' ').replace(/\s+/g, ' ').trim())
+    .find(Boolean);
+  return linea ?? null;
+}
+

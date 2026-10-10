@@ -707,3 +707,10 @@ button.plano.peligro { color: var(--peligro); }
   .dicc { grid-template-columns: 1fr; }
   .dicc-agregar { border-left: 0; border-top: 1px solid var(--borde-suave); }
 }
+
+/* Ficha: pasar de nivel (combo + botón, como en la barra del Swing) */
+.pasar-nivel { display: inline-flex; gap: 0; }
+.pasar-nivel select { width: auto; border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0; }
+.pasar-nivel button { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+button.peligro { color: var(--peligro); border-color: color-mix(in srgb, var(--peligro) 40%, var(--borde)); }
+button.peligro:hover:not(:disabled) { background: var(--peligro-fondo); }

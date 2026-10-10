@@ -7,7 +7,7 @@ import {
   ESTADOS, NIVELES, type Noticia, type Pagina, type ParaRecuperar, type Seccion, type Usuario,
 } from '../api/tipos';
 import {
-  AvisoError, Cargando, EstadoNoticia, MarcasVersion, Paginado, Resaltado,
+  AvisoError, Cargando, EstadoNoticia, MarcasVersion, Paginado, Resaltado, lineaTitular,
   ThOrden, Vacio, fecha, textoMedida,
 } from '../componentes/piezas';
 
@@ -29,19 +29,6 @@ const VACIO: Formulario = {
 function resumen(x: ParaRecuperar) {
   const t = (x.titular || x.titulo || x.cuerpo || '').replace(/[\s∏■□▪♫┴╠╬╣]+/g, ' ').replace(/<[^>]*>/g, '').trim();
   return t ? (t.length > 90 ? `${t.slice(0, 90)}…` : t) : '(vacía)';
-}
-
-/**
- * Las notas nuevas (las del editor web y las del Swing desde que existe el
- * campo "titular") no tienen título aparte: se muestra la primera línea del
- * titular, sin comandos ni códigos de control.
- */
-function lineaTitular(t: string | null): string | null {
-  if (!t) return null;
-  const linea = t.replace(/<[^>]*>/g, '').split(/[\n╠╬╣┴]/)
-    .map((l) => l.replace(/[∏■□▪♫“”«»]/g, ' ').replace(/\s+/g, ' ').trim())
-    .find(Boolean);
-  return linea ?? null;
 }
 
 const multi = (p: URLSearchParams, k: string) => {
