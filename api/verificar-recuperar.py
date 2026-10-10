@@ -13,6 +13,7 @@ Usa los usuarios de los datos de prueba (mgomez nivel 10, jperez nivel 20, los
 dos con permiso de redacción en POLITICA). Deja una noticia de prueba guardada
 (guía "recup-NNNN"); la de jperez la borra.
 """
+import atexit
 import json
 import os
 import sys
@@ -24,6 +25,11 @@ B = 'http://' + os.environ.get('API', '127.0.0.1:3099')
 VIDA = int(os.environ.get('VIDA', '8'))
 CLAVE = os.environ.get('CLAVE', '1234')
 ok = fallas = 0
+# Una sola sesión por usuario: si alguno ya está conectado en otro equipo, la
+# API pregunta (409). Con FORZAR=si se cierra esa sesión. Al terminar, sale.
+FZ = {'forzar': True} if os.environ.get('FORZAR', '').lower() in ('si', 'sí', '1') else {}
+_sesiones = []
+atexit.register(lambda: [pedir('DELETE', '/sesion', t) for t in _sesiones])
 
 
 def pedir(metodo, ruta, token=None, cuerpo=None):
@@ -44,7 +50,11 @@ def pedir(metodo, ruta, token=None, cuerpo=None):
 
 
 def entrar(u):
-    c, r = pedir('POST', '/sesion', cuerpo={'username': u, 'password': CLAVE})
+    c, r = pedir('POST', '/sesion', cuerpo={'username': u, 'password': CLAVE, **FZ})
+    if c == 409:
+        print(f'  {u} ya está logueado en otro equipo ({r.get("ip")}): cerrá esa sesión o corré con FORZAR=si')
+    if c == 200:
+        _sesiones.append(r['token'])
     if c != 200:
         sys.exit(f'No se pudo entrar como {u}: {c} {r}')
     return r['token']

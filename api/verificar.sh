@@ -12,22 +12,30 @@ B="${API:-localhost:3099}"
 ok=0; fail=0
 
 # --- entrar ------------------------------------------------------------------
+# Una sola sesión por usuario: si alguno ya está conectado en otro equipo, la
+# API pregunta (409). Con FORZAR=si la suite cierra esa sesión y sigue.
+FZ=""; [ "${FORZAR:-}" = "si" ] && FZ=',"forzar":true'
 entrar() {
   curl -sS -m 10 -X POST "$B/api/sesion" \
     -H 'content-type: application/json' \
-    -d "{\"username\":\"$1\",\"password\":\"$2\"}" \
+    -d "{\"username\":\"$1\",\"password\":\"$2\"$FZ}" \
   | python3 -c "import sys,json
-try: print(json.load(sys.stdin).get('token',''))
+try:
+  d=json.load(sys.stdin); print(d.get('token',''))
+  if not d.get('token'): print('  ', '$1:', d.get('error'), d.get('ip') or '', file=sys.stderr)
 except Exception: print('')"
 }
+salir() { for t in "$@"; do curl -sS -m 5 -o /dev/null -X DELETE "$B/api/sesion" -H "authorization: Bearer $t"; done; }
 
 T_M=$(entrar mgomez 1234)
 T_J=$(entrar jperez 1234)
 
 if [ -z "$T_M" ] || [ -z "$T_J" ]; then
   echo "No se pudo entrar con los usuarios de prueba. ¿Está cargado datos-prueba.sql?"
+  echo "(Si dice que ya está logueado: cerrá esa sesión o corré con FORZAR=si.)"
   exit 1
 fi
+trap 'salir "$T_M" "$T_J"' EXIT
 
 # t <nombre> <token> <ruta> <python>
 t() {

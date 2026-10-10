@@ -1,4 +1,4 @@
-import { createHmac, timingSafeEqual } from 'node:crypto';
+import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 import { config } from '../config.js';
 
 /**
@@ -17,6 +17,12 @@ export interface Carga {
   u: string;
   /** vencimiento, en segundos desde epoch */
   exp: number;
+  /**
+   * Al azar: dos logins del mismo usuario en el mismo segundo tienen que dar
+   * tokens distintos, porque "Salir" o entrar desde otro equipo cierran uno
+   * solo. (Los tokens viejos no lo traen y siguen valiendo.)
+   */
+  n?: string;
 }
 
 const b64url = (b: Buffer) => b.toString('base64url');
@@ -27,7 +33,7 @@ function firmar(datos: string): Buffer {
 
 export function emitirToken(username: string): { token: string; vence: string } {
   const exp = Math.floor(Date.now() / 1000) + config.horasSesion * 3600;
-  const carga: Carga = { u: username, exp };
+  const carga: Carga = { u: username, exp, n: randomBytes(6).toString('base64url') };
   const cuerpo = b64url(Buffer.from(JSON.stringify(carga), 'utf8'));
   return {
     token: `${cuerpo}.${b64url(firmar(cuerpo))}`,

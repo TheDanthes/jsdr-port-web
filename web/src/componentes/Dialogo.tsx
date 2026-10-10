@@ -13,6 +13,8 @@ export interface PedidoDialogo {
   mensaje?: string;
   /** Lista de detalles (por ejemplo, los errores de validación). */
   detalles?: string[];
+  /** Una aclaración debajo del mensaje, en gris (no es un error). */
+  nota?: string;
   botones: Boton[];
   /** Si viene, el diálogo pide un texto. */
   entrada?: { valor: string; filtro?: RegExp; largoMaximo?: number; ayuda?: string };
@@ -57,6 +59,7 @@ export function Dialogo({
         <header><h2 id="dialogo-titulo">{pedido.titulo}</h2></header>
         <div className="dialogo-cuerpo">
           {pedido.mensaje && <p>{pedido.mensaje}</p>}
+          {pedido.nota && <p className="dialogo-nota">{pedido.nota}</p>}
           {pedido.detalles && pedido.detalles.length > 0 && (
             <ul className="dialogo-detalles">
               {pedido.detalles.map((d, i) => <li key={i}>{d}</li>)}

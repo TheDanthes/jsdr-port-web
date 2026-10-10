@@ -738,3 +738,6 @@ button.peligro:hover:not(:disabled) { background: var(--peligro-fondo); }
   position: absolute; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap;
 }
+
+/* Diálogo: aclaración en gris debajo del mensaje */
+.dialogo-nota { color: var(--texto-2); font-size: 13px; }

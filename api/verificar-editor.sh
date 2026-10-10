@@ -18,10 +18,15 @@ ok=0; fail=0
 
 j() { python3 -c "import sys,json;d=json.load(sys.stdin);print($1)"; }
 
-T=$(curl -sS -m 10 -X POST "$B/api/sesion" -H 'content-type: application/json' \
-      -d "{\"username\":\"$U\",\"password\":\"$P\"}" | j "d.get('token','')" 2>/dev/null)
-[ -z "$T" ] && { echo "No se pudo entrar como $U"; exit 1; }
+# Una sola sesión por usuario: si ya está conectado en otro equipo, la API
+# pregunta (409). Con FORZAR=si la suite cierra esa sesión y sigue.
+FZ=""; [ "${FORZAR:-}" = "si" ] && FZ=',"forzar":true'
+R0=$(curl -sS -m 10 -X POST "$B/api/sesion" -H 'content-type: application/json' \
+      -d "{\"username\":\"$U\",\"password\":\"$P\"$FZ}")
+T=$(echo "$R0" | j "d.get('token','')" 2>/dev/null)
+[ -z "$T" ] && { echo "No se pudo entrar como $U: $R0"; echo "(Si ya está logueado: cerrá esa sesión o corré con FORZAR=si.)"; exit 1; }
 H="authorization: Bearer $T"; J='content-type: application/json'
+trap 'curl -sS -m 5 -o /dev/null -X DELETE "$B/api/sesion" -H "$H"' EXIT
 
 si() { if [ "$2" = "PASS" ]; then ok=$((ok+1)); printf "  ok    %s\n" "$1"; else fail=$((fail+1)); printf "  FALLA %s -> %s\n" "$1" "$2"; fi; }
 

@@ -2,12 +2,15 @@ import type { FastifyInstance } from 'fastify';
 import { autenticar, cargarSesion } from '../datos/sesion.js';
 import { emitirToken, tokenDeCabecera, verificarToken } from '../sesion/token.js';
 import { config } from '../config.js';
-import { anotar, entrar, olvidar } from '../datos/conectados.js';
-import { ipDe } from '../sesion/guardia.js';
+import { entrar, olvidar, sesionViva } from '../datos/conectados.js';
+import { soltar } from '../datos/aperturas.js';
+import { ipDe, sesionDelPedido } from '../sesion/guardia.js';
 
 interface CuerpoLogin {
   username?: string;
   password?: string;
+  /** "Sí, seguir aquí": cerrar la sesión que el usuario tiene abierta en otro equipo. */
+  forzar?: unknown;
 }
 
 /**
@@ -59,10 +62,26 @@ export async function rutasSesion(app: FastifyInstance) {
     }
 
     intentos.delete(username);
+
+    // Una sola sesión por usuario (ServicioSeguridadBean.login): si ya tiene
+    // una viva en otro equipo, se pregunta antes de cerrarla. Recién se dice
+    // después de validar la contraseña: el que no la sabe no se entera de
+    // quién está conectado.
+    const otra = sesionViva(usuario.username);
+    if (otra && req.body?.forzar !== true) {
+      return rep.code(409).send({
+        error: 'Ya te encontrás logueado. ¿Deseás seguir aquí?',
+        motivo: 'ya_logueado', ip: otra.ip, desde: otra.inicio,
+      });
+    }
+
     const { token, vence } = emitirToken(usuario.username);
     const sesion = await cargarSesion(usuario.username);
-    req.log.info({ username: usuario.username, ip: ipDe(req) }, 'login');
-    entrar(token, usuario.username, ipDe(req), Math.floor(Date.parse(vence) / 1000));
+    const reemplazo = entrar(token, usuario.username, ipDe(req), Math.floor(Date.parse(vence) / 1000));
+    // Las ventanas del editor de la sesión anterior ya no valen: sus noticias
+    // quedan para recuperar desde el último autoguardado.
+    if (reemplazo) soltar(usuario.username);
+    req.log.info({ username: usuario.username, ip: ipDe(req), reemplazo, anterior: otra?.ip }, 'login');
 
     // `edicion`: si esta instalación permite editar (JSDR_EDICION). La web
     // muestra u oculta el editor según esto.
@@ -71,21 +90,14 @@ export async function rutasSesion(app: FastifyInstance) {
 
   /** Estado de la sesión actual. La web la llama al abrir, para no pedir login de nuevo. */
   app.get('/sesion', async (req, rep) => {
-    const token = tokenDeCabecera(req.headers.authorization);
-    const carga = verificarToken(token);
-    if (!carga) return rep.code(401).send({ error: 'sesión inválida o vencida' });
-
-    const sesion = await cargarSesion(carga.u);
-    if (!sesion) return rep.code(401).send({ error: 'el usuario ya no está habilitado' });
-
-    anotar(token!, carga.u, ipDe(req), carga.exp);
-    return { vence: new Date(carga.exp * 1000).toISOString(), ...sesion, edicion: config.edicion };
+    const r = await sesionDelPedido(req);
+    if (!r.ok) return rep.code(401).send(r.cuerpo);
+    return { vence: new Date(r.carga.exp * 1000).toISOString(), ...r.sesion, edicion: config.edicion };
   });
 
   /**
-   * Salir. El token no se puede revocar (no hay estado de sesiones en la
-   * base), pero la sesión deja de figurar en el monitor, como el logout del
-   * Swing. La web además se olvida del token.
+   * Salir (logout del Swing): la sesión deja de figurar en el monitor y el
+   * token deja de valer en el servidor. La web además se olvida del token.
    */
   app.delete('/sesion', async (req, rep) => {
     const token = tokenDeCabecera(req.headers.authorization);

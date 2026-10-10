@@ -129,8 +129,10 @@ api/                        Fastify + TypeScript. Ver api/README.md
   verificar-diccionario.py  13 de Administración → Diccionario (no deja rastros)
   verificar-flujo.py        22 del flujo: pasar de nivel, autorizar, eliminar, restaurar,
                             confidencialidad (sólo base de desarrollo: crea noticias)
-  verificar-monitor.py      18 del Monitor de Usuarios (sólo mira; EDITAR=si y VIDA=8
-                            suman la noticia abierta y el paso a rojo)
+  verificar-monitor.py      30 del Monitor de Usuarios y la sesión única (EDITAR=si y
+                            VIDA=8 suman la noticia abierta, recuperarla y el paso a rojo)
+                            Todas salen al terminar. Si el usuario ya está conectado en
+                            otro equipo se detienen; FORZAR=si cierra esa sesión.
   src/dominio/caracteres.*  Port de FiltradorNoticia + pruebas doradas contra el Java
   src/dominio/reglas.ts     Port de MotorReglas (mismos chequeos y mensajes)
   src/datos/edicion.ts      Crear, abrir, guardar, autoguardar, cerrar, fotocomponer,

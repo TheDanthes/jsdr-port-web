@@ -28,6 +28,8 @@ export class ErrorApi extends Error {
     readonly codigo: number, mensaje: string, readonly errores: string[] = [],
     /** Distingue casos con el mismo código (p. ej. 409 "abierta en otra ventana"). */
     readonly motivo: string | null = null,
+    /** La respuesta entera, para los casos que traen datos aparte del mensaje. */
+    readonly cuerpo: Record<string, unknown> | null = null,
   ) {
     super(mensaje);
   }
@@ -35,8 +37,11 @@ export class ErrorApi extends Error {
   get esSesion() { return this.codigo === 401; }
 }
 
-/** Se dispara cuando la API rechaza la sesión: la app vuelve al login. */
-type Escucha = () => void;
+/**
+ * Se dispara cuando la API rechaza la sesión: la app vuelve al login. Recibe
+ * el error, para avisar por qué (p. ej. "entraste desde otro equipo").
+ */
+type Escucha = (e: ErrorApi) => void;
 const escuchas = new Set<Escucha>();
 export const alPerderSesion = (f: Escucha) => {
   escuchas.add(f);
@@ -58,9 +63,10 @@ async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promise<T> {
     let mensaje = `Error ${r.status}`;
     let errores: string[] = [];
     let motivo: string | null = null;
+    let cuerpo: Record<string, unknown> | null = null;
     try {
-      const cuerpo = await r.json();
-      if (cuerpo?.error) mensaje = cuerpo.error;
+      cuerpo = await r.json();
+      if (typeof cuerpo?.error === 'string') mensaje = cuerpo.error;
       if (typeof cuerpo?.motivo === 'string') motivo = cuerpo.motivo;
       if (Array.isArray(cuerpo?.errores)) {
         errores = cuerpo.errores.map((e: unknown) =>
@@ -68,11 +74,12 @@ async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promise<T> {
       }
     } catch { /* la respuesta no era JSON */ }
 
+    const error = new ErrorApi(r.status, mensaje, errores, motivo, cuerpo);
     if (r.status === 401) {
       guardarToken(null);
-      escuchas.forEach((f) => f());
+      escuchas.forEach((f) => f(error));
     }
-    throw new ErrorApi(r.status, mensaje, errores, motivo);
+    throw error;
   }
 
   return r.status === 204 ? (undefined as T) : r.json();
@@ -91,10 +98,14 @@ export function query(p: Record<string, string | number | boolean | undefined | 
 
 export const api = {
   // -- sesión ---------------------------------------------------------------
-  async login(username: string, password: string): Promise<Sesion> {
+  /**
+   * Entrar. Si el usuario ya tiene una sesión abierta en otro equipo, la API
+   * responde 409 `ya_logueado` (con `ip` y `desde`); con `forzar` la cierra.
+   */
+  async login(username: string, password: string, forzar = false): Promise<Sesion> {
     const s = await pedir<Sesion>('/api/sesion', {
       method: 'POST',
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password, ...(forzar ? { forzar: true } : {}) }),
     });
     if (s.token) guardarToken(s.token);
     return s;
@@ -245,9 +256,15 @@ export async function descargar(ruta: string, nombrePorDefecto: string, cuerpo?:
 
   if (!r.ok) {
     let mensaje = `Error ${r.status}`;
-    try { mensaje = (await r.json())?.error ?? mensaje; } catch { /* no era JSON */ }
-    if (r.status === 401) { guardarToken(null); escuchas.forEach((f) => f()); }
-    throw new ErrorApi(r.status, mensaje);
+    let motivo: string | null = null;
+    try {
+      const c = await r.json();
+      mensaje = c?.error ?? mensaje;
+      if (typeof c?.motivo === 'string') motivo = c.motivo;
+    } catch { /* no era JSON */ }
+    const error = new ErrorApi(r.status, mensaje, [], motivo);
+    if (r.status === 401) { guardarToken(null); escuchas.forEach((f) => f(error)); }
+    throw error;
   }
 
   // El nombre lo propone la API en content-disposition.

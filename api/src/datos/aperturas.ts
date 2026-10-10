@@ -87,6 +87,15 @@ export function cerrar(id: number) {
   ultimosAutoguardados.delete(id);
 }
 
+/**
+ * El usuario entró desde otro equipo y eligió "seguir aquí": las ventanas de
+ * la sesión anterior ya no valen. Sus noticias pasan en el acto a "para
+ * recuperar" (se conserva la hora del último autoguardado).
+ */
+export function soltar(usuario: string) {
+  for (const [id, a] of abiertas) if (a.usuario === usuario) abiertas.delete(id);
+}
+
 /** ¿Hay una ventana viva con esta noticia abierta? */
 export function viva(id: number): boolean {
   const a = abiertas.get(id);

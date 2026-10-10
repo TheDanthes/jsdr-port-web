@@ -10,6 +10,7 @@ Usa los usuarios de los datos de prueba (db/datos-prueba.sql): mgomez
 redacción en POLITICA. Crea noticias de prueba con guía "flujo…"; es para la
 base de desarrollo, no para la copia del ZimaOS.
 """
+import atexit
 import json
 import os
 import sys
@@ -18,6 +19,11 @@ import urllib.request
 
 B = 'http://' + os.environ.get('API', '127.0.0.1:3099')
 ok = fallas = 0
+# Una sola sesión por usuario: si alguno ya está conectado en otro equipo, la
+# API pregunta (409). Con FORZAR=si se cierra esa sesión. Al terminar, sale.
+FZ = {'forzar': True} if os.environ.get('FORZAR', '').lower() in ('si', 'sí', '1') else {}
+_sesiones = []
+atexit.register(lambda: [pedir('DELETE', '/sesion', t) for t in _sesiones])
 
 
 def pedir(metodo, ruta, token=None, cuerpo=None):
@@ -38,7 +44,11 @@ def pedir(metodo, ruta, token=None, cuerpo=None):
 
 
 def entrar(u):
-    c, r = pedir('POST', '/sesion', cuerpo={'username': u, 'password': '1234'})
+    c, r = pedir('POST', '/sesion', cuerpo={'username': u, 'password': '1234', **FZ})
+    if c == 409:
+        print(f'  {u} ya está logueado en otro equipo ({r.get("ip")}): cerrá esa sesión o corré con FORZAR=si')
+    if c == 200:
+        _sesiones.append(r['token'])
     if c != 200:
         sys.exit(f'No se pudo entrar como {u}')
     return r['token']

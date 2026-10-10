@@ -8,6 +8,7 @@ USUARIO tiene que tener el permiso ADMINISTRAR_DICCIONARIO. Agrega, corrige y
 borra palabras inventadas ("Zzjsdrprueba..."): al terminar no deja nada.
 Opcional: SIN_PERMISO=otro_usuario para comprobar que a él se le niega.
 """
+import atexit
 import json
 import os
 import sys
@@ -19,6 +20,11 @@ B = 'http://' + os.environ.get('API', '127.0.0.1:3099')
 U, P = os.environ.get('USUARIO', 'mgomez'), os.environ.get('CLAVE', '1234')
 OTRO = os.environ.get('SIN_PERMISO', 'jperez')
 ok = fallas = 0
+# Una sola sesión por usuario: si alguno ya está conectado en otro equipo, la
+# API pregunta (409). Con FORZAR=si se cierra esa sesión. Al terminar, sale.
+FZ = {'forzar': True} if os.environ.get('FORZAR', '').lower() in ('si', 'sí', '1') else {}
+_sesiones = []
+atexit.register(lambda: [pedir('DELETE', '/sesion', t) for t in _sesiones])
 
 
 def pedir(metodo, ruta, token=None, cuerpo=None):
@@ -39,7 +45,11 @@ def pedir(metodo, ruta, token=None, cuerpo=None):
 
 
 def entrar(u, p):
-    c, r = pedir('POST', '/sesion', cuerpo={'username': u, 'password': p})
+    c, r = pedir('POST', '/sesion', cuerpo={'username': u, 'password': p, **FZ})
+    if c == 409:
+        print(f'  {u} ya está logueado en otro equipo ({r.get("ip")}): cerrá esa sesión o corré con FORZAR=si')
+    if c == 200:
+        _sesiones.append(r['token'])
     return r.get('token') if c == 200 else None
 
 

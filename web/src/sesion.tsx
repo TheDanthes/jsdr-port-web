@@ -1,13 +1,16 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { alPerderSesion, api, leerToken } from './api/cliente';
+import { alPerderSesion, api, ErrorApi, leerToken } from './api/cliente';
 import type { Sesion } from './api/tipos';
 
 interface Contexto {
   sesion: Sesion | null;
   cargando: boolean;
-  entrar: (usuario: string, clave: string) => Promise<void>;
+  /** Con `forzar`, cierra la sesión que el usuario tenga abierta en otro equipo. */
+  entrar: (usuario: string, clave: string, forzar?: boolean) => Promise<void>;
   salir: () => void;
+  /** Por qué se volvió al login sin que el usuario saliera (p. ej. entró desde otro equipo). */
+  aviso: string | null;
 }
 
 const Ctx = createContext<Contexto | null>(null);
@@ -18,6 +21,7 @@ const LATIDO_MS = 60_000;
 export function ProveedorSesion({ children }: { children: ReactNode }) {
   const [sesion, setSesion] = useState<Sesion | null>(null);
   const [cargando, setCargando] = useState(true);
+  const [aviso, setAviso] = useState<string | null>(null);
 
   // Al abrir, si hay token guardado se revalida contra la API: así un usuario
   // deshabilitado o un token vencido no entran aunque el navegador lo recuerde.
@@ -26,13 +30,21 @@ export function ProveedorSesion({ children }: { children: ReactNode }) {
     if (!leerToken()) { setCargando(false); return; }
     api.sesion()
       .then((s) => { if (vivo) setSesion(s); })
-      .catch(() => { if (vivo) setSesion(null); })
+      .catch((e) => {
+        if (!vivo) return;
+        setSesion(null);
+        if (e instanceof ErrorApi && e.motivo === 'sesion_reemplazada') setAviso(e.message);
+      })
       .finally(() => { if (vivo) setCargando(false); });
     return () => { vivo = false; };
   }, []);
 
   // Cualquier 401 posterior devuelve al login sin pantallas rotas de por medio.
-  useEffect(() => alPerderSesion(() => setSesion(null)), []);
+  // Si fue porque el usuario entró desde otro equipo, el login lo dice.
+  useEffect(() => alPerderSesion((e) => {
+    setSesion(null);
+    setAviso(e.motivo === 'sesion_reemplazada' ? e.message : null);
+  }), []);
 
   // "Sigo acá" una vez por minuto, aunque no se toque nada: es lo que el
   // Monitor de Usuarios pinta en verde (notifyAlive del Swing). De paso, a un
@@ -44,15 +56,17 @@ export function ProveedorSesion({ children }: { children: ReactNode }) {
     return () => window.clearInterval(t);
   }, [conSesion]);
 
-  const entrar = useCallback(async (usuario: string, clave: string) => {
-    setSesion(await api.login(usuario, clave));
+  const entrar = useCallback(async (usuario: string, clave: string, forzar = false) => {
+    const s = await api.login(usuario, clave, forzar);
+    setAviso(null);
+    setSesion(s);
   }, []);
 
-  const salir = useCallback(() => { api.salir(); setSesion(null); }, []);
+  const salir = useCallback(() => { api.salir(); setAviso(null); setSesion(null); }, []);
 
   const valor = useMemo(
-    () => ({ sesion, cargando, entrar, salir }),
-    [sesion, cargando, entrar, salir],
+    () => ({ sesion, cargando, entrar, salir, aviso }),
+    [sesion, cargando, entrar, salir, aviso],
   );
 
   return <Ctx.Provider value={valor}>{children}</Ctx.Provider>;
