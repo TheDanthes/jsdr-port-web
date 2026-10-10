@@ -25,6 +25,21 @@ título`), commit y push; después correr "Etiquetar versiones".
 
 ---
 
+## 0.4.5 — 2026-10-10 · Usuarios
+
+- Administración → **Usuarios**, como el Swing: buscar (usuario, nombre, nivel), agregar,
+  modificar (nombre, DNI, nivel, habilitado, permisos generales, secciones y la de por
+  defecto) y eliminar, con sus validaciones y mensajes. Un usuario con noticias no se
+  elimina: se deshabilita.
+- **Blanquear contraseña**: queda en **123456** y la pantalla lo muestra bien grande, para
+  saber qué pasarle al usuario. Lo mismo al crear uno.
+- **Cambiar contraseña** (botón "Contraseña" en la barra), con las reglas del Swing: de 6
+  a 10 caracteres, repetida igual, distinta de la por defecto.
+- Quien entra con la contraseña por defecto (nuevo o blanqueado) **tiene que cambiarla**
+  antes de hacer nada, como en el Swing; si se la blanquean estando conectado, en su
+  próxima acción.
+- Nadie se puede deshabilitar ni eliminar a sí mismo.
+
 ## 0.4.4 — 2026-10-10 · Permisos/Sección
 
 - Administración → **Permisos/Sección** ("Asignación de Permisos en Sección"), como el

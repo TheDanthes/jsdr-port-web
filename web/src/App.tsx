@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink, Navigate, Route, Routes } from 'react-router-dom';
 import { useSesion } from './sesion';
 import { Login } from './paginas/Login';
@@ -10,6 +11,8 @@ import { Administracion, OPCIONES_ADMINISTRACION, veAdministracion } from './pag
 import { Diccionario } from './paginas/Diccionario';
 import { MonitorUsuarios } from './paginas/MonitorUsuarios';
 import { PermisosSeccion } from './paginas/PermisosSeccion';
+import { Usuarios } from './paginas/Usuarios';
+import { DialogoCambioClave, PantallaCambioClave } from './componentes/CambioClave';
 import { ProveedorEditor, useEditor } from './editor/EditorContexto';
 import { NIVELES } from './api/tipos';
 import { VERSION } from './version';
@@ -24,7 +27,9 @@ export function App() {
   // abiertas mientras se usa el buscador.
   return (
     <ProveedorEditor>
-      <Marco />
+      {/* Con la contraseña por defecto (nuevo o blanqueado) no se hace nada
+          más que cambiarla, como en el Swing. Lo abierto en el editor queda. */}
+      {sesion.usuario.debe_cambiar_password ? <PantallaCambioClave /> : <Marco />}
     </ProveedorEditor>
   );
 }
@@ -40,6 +45,8 @@ function Marco() {
   const puedeDiccionario = puede('Diccionario');
   const puedeMonitor = puede('Monitor de Usuarios');
   const puedePermisos = puede('Permisos/Sección');
+  const puedeUsuarios = puede('Usuarios');
+  const [cambiarClave, setCambiarClave] = useState(false);
 
   async function salirConCuidado() {
     if (abiertas > 0) {
@@ -93,6 +100,7 @@ function Marco() {
               {u.nivel !== null && ` · ${NIVELES[u.nivel] ?? `nivel ${u.nivel}`}`}
             </small>
           </div>
+          <button className="plano" onClick={() => setCambiarClave(true)} title="Cambiar mi contraseña">Contraseña</button>
           <button className="plano" onClick={() => void salirConCuidado()}>Salir</button>
         </div>
       </header>
@@ -108,9 +116,12 @@ function Marco() {
           {puedeDiccionario && <Route path="/administracion/diccionario" element={<Diccionario />} />}
           {puedeMonitor && <Route path="/administracion/monitor" element={<MonitorUsuarios />} />}
           {puedePermisos && <Route path="/administracion/permisos-seccion" element={<PermisosSeccion />} />}
+          {puedeUsuarios && <Route path="/administracion/usuarios" element={<Usuarios />} />}
           <Route path="*" element={<Navigate to="/noticias" replace />} />
         </Routes>
       </main>
+
+      {cambiarClave && <DialogoCambioClave alCerrar={() => setCambiarClave(false)} />}
 
       {/* Discreta: sólo para saber qué versión está corriendo. */}
       <footer className="pie-version">Versión: {VERSION}</footer>

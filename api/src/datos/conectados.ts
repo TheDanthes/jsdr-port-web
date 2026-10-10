@@ -132,6 +132,11 @@ export function entrar(token: string, username: string, ip: string, expSeg: numb
   return habiaViva;
 }
 
+/** Se eliminó el usuario: sus sesiones (colgadas) dejan de valer. */
+export function olvidarUsuario(username: string) {
+  for (const [k, c] of conexiones) if (c.username === username) revocar(k, { motivo: 'salio', ip: null });
+}
+
 /** "Salir" (logout del Swing): la sesión deja de figurar y el token deja de valer. */
 export function olvidar(token: string) {
   revocar(clave(token), { motivo: 'salio', ip: null });

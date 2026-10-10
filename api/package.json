@@ -1,6 +1,6 @@
 {
   "name": "jsdr-api",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "private": true,
   "description": "API sobre la base de jSDR: lectura (Fase 1) y editor (Fase 3)",
   "type": "module",

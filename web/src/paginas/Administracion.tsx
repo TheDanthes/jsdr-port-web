@@ -33,7 +33,8 @@ export const OPCIONES_ADMINISTRACION: Opcion[] = [
   },
   {
     nombre: 'Usuarios',
-    descripcion: 'Alta, baja y modificación de usuarios.',
+    descripcion: 'Alta, baja y modificación de usuarios; blanquear contraseñas.',
+    ruta: '/administracion/usuarios',
     puede: (s) => tiene(s, 'ADMINISTRAR_USUARIOS'),
   },
   {

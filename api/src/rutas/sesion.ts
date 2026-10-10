@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { autenticar, cargarSesion } from '../datos/sesion.js';
 import { emitirToken, tokenDeCabecera, verificarToken } from '../sesion/token.js';
 import { config } from '../config.js';
+import { transaccion } from '../db.js';
 import { entrar, olvidar, sesionViva } from '../datos/conectados.js';
 import { soltar } from '../datos/aperturas.js';
 import { ipDe, sesionDelPedido } from '../sesion/guardia.js';
@@ -35,6 +36,14 @@ function anotarFallo(username: string) {
   const vigente = e && e.hasta > Date.now() ? e : { fallos: 0, hasta: 0 };
   intentos.set(username, { fallos: vigente.fallos + 1, hasta: Date.now() + ESPERA_MS });
 }
+
+/** Los mensajes del Swing (servicioseguridad.cambiopassword.*), sin sus erratas. */
+export const MENSAJES_CLAVE = {
+  actualIncorrecta: 'La contraseña actual es incorrecta',
+  noCoinciden: 'La contraseña nueva y su repetición no coinciden',
+  longitud: 'La longitud de la contraseña es incorrecta: tiene que tener entre 6 y 10 caracteres',
+  igualDefecto: 'La contraseña nueva no puede ser igual a la contraseña por defecto',
+} as const;
 
 export async function rutasSesion(app: FastifyInstance) {
   /** Login. Devuelve el token y todo lo que la web necesita para arrancar. */
@@ -93,6 +102,40 @@ export async function rutasSesion(app: FastifyInstance) {
     const r = await sesionDelPedido(req);
     if (!r.ok) return rep.code(401).send(r.cuerpo);
     return { vence: new Date(r.carga.exp * 1000).toISOString(), ...r.sesion, edicion: config.edicion };
+  });
+
+  /**
+   * Cambio de contraseña (ServicioSeguridadBean.cambiarPassword), con las
+   * reglas y los mensajes del Swing, en el mismo orden. Va fuera de la
+   * guardia porque es lo único que puede hacer quien entró con la contraseña
+   * por defecto; en ese caso no se pide la actual: es la por defecto, y quizás
+   * se la blanquearon mientras estaba conectado y no la sabe.
+   */
+  app.put<{ Body: { actual?: unknown; nueva?: unknown; repeticion?: unknown } | null }>('/sesion/clave', async (req, rep) => {
+    const r = await sesionDelPedido(req);
+    if (!r.ok) return rep.code(401).send(r.cuerpo);
+    if (!config.edicion) {
+      return rep.code(403).send({ error: 'La edición está deshabilitada en esta instalación (sólo lectura).' });
+    }
+    const u = r.sesion.usuario;
+    const texto = (v: unknown) => (typeof v === 'string' ? v : '');
+    const actual = texto(req.body?.actual), nueva = texto(req.body?.nueva), repeticion = texto(req.body?.repeticion);
+
+    if (!u.debe_cambiar_password) {
+      const espera = bloqueado(u.username);
+      if (espera) return rep.code(429).send({ error: `demasiados intentos fallidos, probá en ${espera} segundos` });
+      if (!(await autenticar(u.username, actual))) {
+        anotarFallo(u.username);
+        return rep.code(400).send({ error: MENSAJES_CLAVE.actualIncorrecta });
+      }
+    }
+    if (nueva !== repeticion) return rep.code(400).send({ error: MENSAJES_CLAVE.noCoinciden });
+    if (nueva.length < 6 || nueva.length > 10) return rep.code(400).send({ error: MENSAJES_CLAVE.longitud });
+    if (nueva.trim() === config.claveDefecto) return rep.code(400).send({ error: MENSAJES_CLAVE.igualDefecto });
+
+    await transaccion((c) => c.query(`UPDATE usuarios SET password = $1 WHERE id = $2`, [nueva, u.id]));
+    req.log.info({ username: u.username, obligatorio: u.debe_cambiar_password }, 'cambio de contraseña');
+    return { ok: true, mensaje: 'Se cambió la contraseña exitosamente' };
   });
 
   /**

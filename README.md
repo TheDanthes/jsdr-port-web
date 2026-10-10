@@ -46,7 +46,7 @@ misma carpeta, mismo formato, InDesign CS5.
 
 ## Estado
 
-**Versión 0.4.4** — el historial completo y cómo se numera está en
+**Versión 0.4.5** — el historial completo y cómo se numera está en
 [CHANGELOG.md](CHANGELOG.md): `0.FASE.ENTREGA` hasta que la web reemplace al Swing, y
 **2.0.0** el día que los periodistas carguen noticias en producción. La versión se ve en el
 login, al pie de cada pantalla y en `/salud`; cada una tiene su imagen (`jsdr-api:0.4.4`)
@@ -58,7 +58,7 @@ y su etiqueta en git (workflow "Etiquetar versiones"). Para una nueva: `scripts/
 | 1 — API + web de sólo lectura | ✅ **Completa** — login, dos buscadores, detalle con versiones y exports |
 | 2 — Servicio composer | ✅ **Completa** — motor de 2005 en contenedor, 534/534 idénticas a producción |
 | 3 — Editor web | 🚧 **Segunda entrega** — crear, editar, medir (en vivo y con F3), guardar, cerrar y fotocomponer, con los mismos atajos del Swing; autoguardado cada minuto, recuperar y destrabar notas que quedaron abiertas, ortografía (diccionario de la redacción + corrector de Chrome) |
-| 4 — Flujo, permisos y ABMs | 🚧 **Flujo de la redacción** (pasar de nivel / autorizar, eliminar, restaurar eliminadas, confidencialidad) y Administración → **Diccionario**, **Monitor de Usuarios** (con sesión única por usuario) y **Permisos/Sección**. Sigue: usuarios, secciones, agencias, comandos y usos |
+| 4 — Flujo, permisos y ABMs | 🚧 **Flujo de la redacción** (pasar de nivel / autorizar, eliminar, restaurar eliminadas, confidencialidad) y Administración → **Diccionario**, **Monitor de Usuarios** (con sesión única por usuario), **Permisos/Sección** y **Usuarios** (con cambio de contraseña). Sigue: secciones, agencias, comandos y usos |
 | 5 — Corte | ⏳ |
 
 **Regla de la Fase 1: todo es SELECT.** Ni un INSERT, UPDATE o DELETE contra la base. Así la
@@ -138,6 +138,7 @@ api/                        Fastify + TypeScript. Ver api/README.md
   verificar-monitor.py      30 del Monitor de Usuarios y la sesión única (EDITAR=si y
                             VIDA=8 suman la noticia abierta, recuperarla y el paso a rojo)
   verificar-permisos.py     16 de Permisos/Sección (cambia un permiso y lo devuelve)
+  verificar-usuarios.py     35 de Usuarios y cambio de contraseña (crea "zzprueba" y lo borra)
                             Todas salen al terminar. Si el usuario ya está conectado en
                             otro equipo se detienen; FORZAR=si cierra esa sesión.
   src/dominio/caracteres.*  Port de FiltradorNoticia + pruebas doradas contra el Java
@@ -150,6 +151,7 @@ api/                        Fastify + TypeScript. Ver api/README.md
   src/datos/flujo.ts        Pasar de nivel / autorizar, eliminar, restaurar, confidencialidad
   src/datos/conectados.ts   Quién está en sesión (latido por minuto) y sesión única
   src/datos/permisosSeccion.ts  Asignación de permisos por sección
+  src/datos/usuariosAdmin.ts    Administración de usuarios (alta, baja, blanqueo)
 web/                        React + Vite + TypeScript. Ver web/README.md
   src/editor/               El editor: CodeMirror 6 con los atajos del Swing
 composer/                   Motor tipográfico (medir, sr2xp, xtg2ind.pl) por HTTP

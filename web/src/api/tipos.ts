@@ -33,6 +33,8 @@ export interface Usuario {
   font_size_editor: number | null;
   font_size_bn: number | null;
   font_size_bc: number | null;
+  /** Entró con la contraseña por defecto (nuevo o blanqueado): tiene que cambiarla. */
+  debe_cambiar_password?: boolean;
 }
 
 export interface Medida {
@@ -260,6 +262,42 @@ export const ESTADOS = [
   'FOTOCOMPUESTA',
   'EN_PRODUCCION',
 ] as const;
+
+/** Administración → Usuarios: un usuario como lo edita el administrador. */
+export interface UsuarioAdmin {
+  id: number;
+  username: string;
+  nombre_apellido: string | null;
+  dni: string | null;
+  nivel: number | null;
+  habilitado: boolean | null;
+  /** Ids de sus permisos generales. */
+  permisos: number[];
+  /** Ids de sus secciones. */
+  secciones: number[];
+  seccion_default: number | null;
+  /** Todavía tiene la contraseña por defecto. */
+  clave_por_defecto: boolean;
+}
+
+export interface CatalogosUsuarios {
+  permisos: { id: number; nombre: string; descripcion: string | null }[];
+  secciones: { id: number; nombre: string | null; codigo: string | null }[];
+  niveles: number[];
+  /** La contraseña por defecto (123456): la de los nuevos y los blanqueados. */
+  clave_por_defecto: string;
+}
+
+export interface DatosUsuarioAdmin {
+  username?: string;
+  nombre_apellido: string;
+  dni: string;
+  nivel: number;
+  habilitado: boolean;
+  permisos: number[];
+  secciones: number[];
+  seccion_default: number | null;
+}
 
 /** Administración → Permisos/Sección: un permiso que se asigna por sección (general = false). */
 export interface PermisoSeccion { id: number; nombre: string; descripcion: string | null }

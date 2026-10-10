@@ -63,5 +63,14 @@ export async function sesionDelPedido(req: FastifyRequest): Promise<Resultado> {
 export async function exigirSesion(req: FastifyRequest, rep: FastifyReply) {
   const r = await sesionDelPedido(req);
   if (!r.ok) return rep.code(401).send(r.cuerpo);
+  // Con la contraseña por defecto no se hace nada más que cambiarla (eso va
+  // por /api/sesion/clave, fuera de esta guardia) y seguir conectado.
+  if (r.sesion.usuario.debe_cambiar_password && !SIN_CAMBIAR_CLAVE.has(req.routeOptions.url ?? '')) {
+    return rep.code(403).send({ error: MENSAJE_CAMBIAR_CLAVE, motivo: 'debe_cambiar_password' });
+  }
   req.sesion = r.sesion;
 }
+
+/** Lo que se puede hacer sin haber cambiado la contraseña por defecto. */
+const SIN_CAMBIAR_CLAVE = new Set(['/api/sesion/latido']);
+export const MENSAJE_CAMBIAR_CLAVE = 'Debe modificar la contraseña asignada por defecto';

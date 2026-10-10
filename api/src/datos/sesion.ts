@@ -1,4 +1,5 @@
 import { consultar } from '../db.js';
+import { config } from '../config.js';
 import type { Usuario, Seccion, Permiso } from '../dominio/tipos.js';
 
 /**
@@ -12,7 +13,11 @@ export interface Preferencias {
 }
 
 export interface SesionUsuario {
-  usuario: Usuario & Preferencias;
+  /**
+   * `debe_cambiar_password`: entró con la contraseña por defecto (usuario
+   * nuevo o blanqueado). Como en el Swing, tiene que cambiarla antes de seguir.
+   */
+  usuario: Usuario & Preferencias & { debe_cambiar_password: boolean };
   secciones: (Seccion & { seccion_default: boolean | null })[];
   permisos: Permiso[];
   /** Permisos acotados a ciertas secciones: permiso -> ids de sección. */
@@ -61,13 +66,15 @@ export async function autenticar(
 
 /** Relee de la base todo lo que define qué puede ver y hacer el usuario. */
 export async function cargarSesion(username: string): Promise<SesionUsuario | null> {
-  const [usuario] = await consultar<Usuario & Preferencias>(
+  // La contraseña no se selecciona: PostgreSQL sólo dice si es la de por defecto.
+  const [usuario] = await consultar<Usuario & Preferencias & { debe_cambiar_password: boolean }>(
     `SELECT id, username, nivel, nombre_apellido, dni, habilitado,
-            font_size_editor, font_size_bn, font_size_bc
+            font_size_editor, font_size_bn, font_size_bc,
+            COALESCE(password = $2, false) AS debe_cambiar_password
        FROM usuarios
       WHERE username = $1 AND habilitado = true
       ORDER BY id`,
-    [username],
+    [username, config.claveDefecto],
   );
   if (!usuario) return null;
 

@@ -78,6 +78,13 @@ export const config = {
    */
   autosaveCambios: 40,
 
+  /**
+   * Contraseña por defecto (`password.default` del Swing): la de los usuarios
+   * nuevos y la que queda al blanquear. Quien entra con ella tiene que
+   * cambiarla antes de hacer nada.
+   */
+  claveDefecto: process.env.JSDR_CLAVE_DEFECTO || '123456',
+
   /** Zona horaria para "hoy" y "mañana" (fechas de publicación). */
   zonaHoraria: process.env.TZ || 'America/Argentina/Buenos_Aires',
 } as const;

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { alPerderSesion, api, ErrorApi, leerToken } from './api/cliente';
+import { alDebeCambiarClave, alPerderSesion, api, ErrorApi, leerToken } from './api/cliente';
 import type { Sesion } from './api/tipos';
 
 interface Contexto {
@@ -11,6 +11,8 @@ interface Contexto {
   salir: () => void;
   /** Por qué se volvió al login sin que el usuario saliera (p. ej. entró desde otro equipo). */
   aviso: string | null;
+  /** Vuelve a leer la sesión de la API (después de cambiar la contraseña). */
+  refrescar: () => Promise<void>;
 }
 
 const Ctx = createContext<Contexto | null>(null);
@@ -56,6 +58,12 @@ export function ProveedorSesion({ children }: { children: ReactNode }) {
     return () => window.clearInterval(t);
   }, [conSesion]);
 
+  // Le blanquearon la contraseña con la sesión abierta: a la pantalla de cambio.
+  useEffect(() => alDebeCambiarClave(() => setSesion((s) =>
+    s && !s.usuario.debe_cambiar_password ? { ...s, usuario: { ...s.usuario, debe_cambiar_password: true } } : s)), []);
+
+  const refrescar = useCallback(async () => { setSesion(await api.sesion()); }, []);
+
   const entrar = useCallback(async (usuario: string, clave: string, forzar = false) => {
     const s = await api.login(usuario, clave, forzar);
     setAviso(null);
@@ -65,8 +73,8 @@ export function ProveedorSesion({ children }: { children: ReactNode }) {
   const salir = useCallback(() => { api.salir(); setAviso(null); setSesion(null); }, []);
 
   const valor = useMemo(
-    () => ({ sesion, cargando, entrar, salir, aviso }),
-    [sesion, cargando, entrar, salir, aviso],
+    () => ({ sesion, cargando, entrar, salir, aviso, refrescar }),
+    [sesion, cargando, entrar, salir, aviso, refrescar],
   );
 
   return <Ctx.Provider value={valor}>{children}</Ctx.Provider>;

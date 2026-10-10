@@ -775,3 +775,61 @@ button.peligro:hover:not(:disabled) { background: var(--peligro-fondo); }
 .permisos-lista label:hover { background: var(--panel-2); }
 .permisos-lista input { margin-top: 2px; width: auto; }
 .permisos-lista span { display: flex; flex-direction: column; gap: 1px; }
+
+/* Diálogo: un dato que se tiene que ver bien (la contraseña blanqueada) */
+.dialogo-destacado {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 26px; font-weight: 700; letter-spacing: .12em; text-align: center;
+  padding: 10px; border-radius: var(--radio);
+  background: var(--acento-fondo); color: var(--acento); user-select: all;
+}
+
+/* Administración → Usuarios */
+.usuarios-admin .separador {
+  margin: 0; padding: 12px 14px 6px; font-size: 12px; font-weight: 600;
+  color: var(--texto-2); text-transform: uppercase; letter-spacing: .04em;
+}
+.usuarios-filtro { display: flex; flex-wrap: wrap; gap: 10px 14px; padding: 0 14px 6px; }
+.usuarios-filtro label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--texto-2); }
+.usuarios-filtro input { width: 180px; }
+.usuarios-filtro select { width: auto; min-width: 130px; }
+.usuarios-tabla td { vertical-align: top; }
+.usuarios-tabla tr.deshabilitado td { color: var(--texto-3); }
+.usuarios-tabla tr:focus-visible { outline: 2px solid var(--acento); outline-offset: -2px; }
+.seccion-chip { display: inline-block; margin: 0 6px 2px 0; color: var(--texto-2); }
+.seccion-chip.por-defecto { color: var(--texto); font-weight: 600; }
+.etiqueta.clave-defecto { background: var(--aviso-fondo); color: var(--aviso); }
+.usuarios-pie { padding: 10px 14px 14px; margin: 0; }
+
+.usuario-editor { max-width: 560px; max-height: calc(100vh - 32px); display: flex; flex-direction: column; }
+.usuario-editor .dialogo-cuerpo { overflow: auto; }
+.usuario-editor .separador {
+  margin: 0; padding: 4px 0 0; font-size: 12px; font-weight: 600;
+  color: var(--texto-2); text-transform: uppercase; letter-spacing: .04em;
+}
+.usuario-datos { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: center; font-size: 13px; }
+.usuario-datos > label:not(.tilde) { color: var(--texto-2); text-align: right; }
+.usuario-datos select { width: auto; }
+.usuario-datos .tilde { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.usuario-datos .tilde input { width: auto; }
+.usuario-secciones {
+  list-style: none; margin: 0; padding: 0; max-height: 240px; overflow: auto;
+  border: 1px solid var(--borde-suave); border-radius: var(--radio);
+}
+.usuario-secciones li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 10px; }
+.usuario-secciones li + li { border-top: 1px solid var(--borde-suave); }
+.usuario-secciones li.tiene { background: var(--panel-2); }
+.usuario-secciones label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; }
+.usuario-secciones input { width: auto; }
+.usuario-secciones .por-defecto { color: var(--texto-2); }
+.usuario-secciones li:not(.tiene) .por-defecto { opacity: .4; }
+.usuario-acciones { flex-wrap: wrap; }
+.usuario-acciones .izquierda { display: flex; gap: 6px; margin-right: auto; }
+@media (max-width: 520px) {
+  .usuario-datos { grid-template-columns: 1fr; }
+  .usuario-datos > label:not(.tilde) { text-align: left; }
+  .usuarios-filtro input { width: 100%; }
+  .usuarios-filtro label { flex: 1 1 100%; }
+}
+.cambio-clave { max-width: 380px; }
+.cambio-clave .dialogo-cuerpo { gap: 12px; }

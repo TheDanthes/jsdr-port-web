@@ -15,6 +15,8 @@ export interface PedidoDialogo {
   detalles?: string[];
   /** Una aclaración debajo del mensaje, en gris (no es un error). */
   nota?: string;
+  /** Un dato que tiene que verse bien (p. ej. la contraseña blanqueada). */
+  destacado?: string;
   botones: Boton[];
   /** Si viene, el diálogo pide un texto. */
   entrada?: { valor: string; filtro?: RegExp; largoMaximo?: number; ayuda?: string };
@@ -59,6 +61,7 @@ export function Dialogo({
         <header><h2 id="dialogo-titulo">{pedido.titulo}</h2></header>
         <div className="dialogo-cuerpo">
           {pedido.mensaje && <p>{pedido.mensaje}</p>}
+          {pedido.destacado && <p className="dialogo-destacado">{pedido.destacado}</p>}
           {pedido.nota && <p className="dialogo-nota">{pedido.nota}</p>}
           {pedido.detalles && pedido.detalles.length > 0 && (
             <ul className="dialogo-detalles">

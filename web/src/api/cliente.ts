@@ -1,6 +1,6 @@
 import type {
   AccionCierre, Agencia, AperturaEditor, Bloqueo, Cable, Comando, DatosEditor, ErrorOrtografico, MedicionNoticia,
-  InicioPermisosSeccion, MedidaCampo, MonitorUsuarios, Noticia, UsuarioDeSeccion, Pagina, PaginaPalabras, ParaRecuperar, Permiso, Reserva, ResultadoLista, Seccion, Sesion,
+  CatalogosUsuarios, DatosUsuarioAdmin, InicioPermisosSeccion, MedidaCampo, UsuarioAdmin, MonitorUsuarios, Noticia, UsuarioDeSeccion, Pagina, PaginaPalabras, ParaRecuperar, Permiso, Reserva, ResultadoLista, Seccion, Sesion,
   Usuario, Version,
 } from './tipos';
 
@@ -48,6 +48,16 @@ export const alPerderSesion = (f: Escucha) => {
   return () => { escuchas.delete(f); };
 };
 
+/**
+ * Se dispara cuando la API dice que primero hay que cambiar la contraseña
+ * por defecto (por ejemplo, porque la blanquearon con la sesión abierta).
+ */
+const escuchasClave = new Set<() => void>();
+export const alDebeCambiarClave = (f: () => void) => {
+  escuchasClave.add(f);
+  return () => { escuchasClave.delete(f); };
+};
+
 async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promise<T> {
   const token = leerToken();
   const r = await fetch(ruta, {
@@ -79,6 +89,7 @@ async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promise<T> {
       guardarToken(null);
       escuchas.forEach((f) => f(error));
     }
+    if (r.status === 403 && motivo === 'debe_cambiar_password') escuchasClave.forEach((f) => f());
     throw error;
   }
 
@@ -129,10 +140,32 @@ export const api = {
     guardarToken(null);
   },
 
+  /**
+   * Cambiar la contraseña propia. `actual` no hace falta cuando se está
+   * cambiando la por defecto (obligatorio después de un alta o un blanqueo).
+   */
+  cambiarClave: (d: { actual?: string; nueva: string; repeticion: string }) =>
+    pedir<{ ok: true; mensaje: string }>('/api/sesion/clave', { method: 'PUT', body: JSON.stringify(d) }),
+
   /** "Sigo acá", una vez por minuto (notifyAlive del Swing). */
   latidoSesion: () => pedir<void>('/api/sesion/latido', { method: 'POST' }),
 
   monitorUsuarios: () => pedir<MonitorUsuarios>('/api/monitor/usuarios'),
+
+  // -- Administración → Usuarios ----------------------------------------------------
+  usuariosAdmin: {
+    catalogos: () => pedir<CatalogosUsuarios>('/api/admin/usuarios/catalogos'),
+    buscar: (f: { username?: string; nombre?: string; nivel?: number }) =>
+      pedir<UsuarioAdmin[]>(`/api/admin/usuarios${query(f)}`),
+    crear: (d: DatosUsuarioAdmin) =>
+      pedir<{ usuario: UsuarioAdmin; clave: string }>('/api/admin/usuarios', { method: 'POST', body: JSON.stringify(d) }),
+    actualizar: (id: number, d: DatosUsuarioAdmin) =>
+      pedir<{ usuario: UsuarioAdmin }>(`/api/admin/usuarios/${id}`, { method: 'PUT', body: JSON.stringify(d) }),
+    blanquear: (id: number) =>
+      pedir<{ username: string; clave: string }>(`/api/admin/usuarios/${id}/blanquear`, { method: 'POST' }),
+    eliminar: (id: number) =>
+      pedir<{ username: string }>(`/api/admin/usuarios/${id}`, { method: 'DELETE' }),
+  },
 
   // -- Administración → Permisos/Sección ------------------------------------------
   permisosSeccion: {
