@@ -204,6 +204,18 @@ export interface ErrorOrtografico {
   sugerencias?: string[];
 }
 
+/** Administración → Diccionario: una página de palabras. */
+export interface PaginaPalabras extends Pagina<string> {
+  /** Cuántas palabras tiene el diccionario entero. */
+  en_total: number | null;
+}
+
+export interface ResultadoLista {
+  agregadas: string[];
+  ya_estaban: string[];
+  invalidas: string[];
+}
+
 /** Una noticia propia que quedó abierta sin cerrar (el aviso del buscador). */
 export interface ParaRecuperar {
   id: number;

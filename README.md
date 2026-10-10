@@ -52,7 +52,7 @@ misma carpeta, mismo formato, InDesign CS5.
 | 1 — API + web de sólo lectura | ✅ **Completa** — login, dos buscadores, detalle con versiones y exports |
 | 2 — Servicio composer | ✅ **Completa** — motor de 2005 en contenedor, 534/534 idénticas a producción |
 | 3 — Editor web | 🚧 **Segunda entrega** — crear, editar, medir (en vivo y con F3), guardar, cerrar y fotocomponer, con los mismos atajos del Swing; autoguardado cada minuto, recuperar y destrabar notas que quedaron abiertas, ortografía (diccionario de la redacción + corrector de Chrome) |
-| 4 — Flujo, permisos y ABMs | ⏳ |
+| 4 — Flujo, permisos y ABMs | 🚧 Administración → **Diccionario** (buscar, agregar, corregir, eliminar). Sigue: pasar de nivel / autorizar |
 | 5 — Corte | ⏳ |
 
 **Regla de la Fase 1: todo es SELECT.** Ni un INSERT, UPDATE o DELETE contra la base. Así la
@@ -126,12 +126,14 @@ api/                        Fastify + TypeScript. Ver api/README.md
   verificar.sh              35 comprobaciones de humo de la lectura
   verificar-editor.sh       11 del editor (crea una nota de prueba y la descarta)
   verificar-recuperar.py    35 de notas abandonadas: recuperar, destrabar, otra ventana
+  verificar-diccionario.py  13 de Administración → Diccionario (no deja rastros)
   src/dominio/caracteres.*  Port de FiltradorNoticia + pruebas doradas contra el Java
   src/dominio/reglas.ts     Port de MotorReglas (mismos chequeos y mensajes)
   src/datos/edicion.ts      Crear, abrir, guardar, autoguardar, cerrar, fotocomponer,
                             recuperar y destrabar
   src/datos/aperturas.ts    Quién tiene cada noticia abierta (latido por minuto)
   src/datos/ortografia.ts   Revisión contra la tabla `diccionario`, con sugerencias
+  src/datos/diccionario.ts  Administración del diccionario
 web/                        React + Vite + TypeScript. Ver web/README.md
   src/editor/               El editor: CodeMirror 6 con los atajos del Swing
 composer/                   Motor tipográfico (medir, sr2xp, xtg2ind.pl) por HTTP

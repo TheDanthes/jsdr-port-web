@@ -1,6 +1,7 @@
 import type {
   AccionCierre, Agencia, AperturaEditor, Bloqueo, Cable, Comando, DatosEditor, ErrorOrtografico, MedicionNoticia,
-  MedidaCampo, Noticia, Pagina, ParaRecuperar, Permiso, Reserva, Seccion, Sesion, Usuario, Version,
+  MedidaCampo, Noticia, Pagina, PaginaPalabras, ParaRecuperar, Permiso, Reserva, ResultadoLista, Seccion, Sesion,
+  Usuario, Version,
 } from './tipos';
 
 const CLAVE_TOKEN = 'jsdr.token';
@@ -167,6 +168,21 @@ export const api = {
         '/api/editor/medir-ancho', { method: 'POST', body: JSON.stringify({ texto }) }),
   },
   bloqueo: (id: number) => pedir<Bloqueo>(`/api/noticias/${id}/bloqueo`),
+
+  // -- administración ------------------------------------------------------
+  diccionario: {
+    buscar: (q: string, modo: 'empieza' | 'contiene', offset: number, limite: number) =>
+      pedir<PaginaPalabras>(`/api/diccionario${query({ q, modo, offset, limite })}`),
+    agregar: (palabra: string) =>
+      pedir<{ palabra: string }>('/api/diccionario', { method: 'POST', body: JSON.stringify({ palabra }) }),
+    agregarLista: (lista: string) =>
+      pedir<ResultadoLista>('/api/diccionario', { method: 'POST', body: JSON.stringify({ lista }) }),
+    corregir: (palabra: string, nueva: string) =>
+      pedir<{ resultado: 'corregida' | 'unificada' | 'sin_cambios'; palabra: string }>(
+        `/api/diccionario/${encodeURIComponent(palabra)}`, { method: 'PUT', body: JSON.stringify({ nueva }) }),
+    eliminar: (palabra: string) =>
+      pedir<{ palabra: string }>(`/api/diccionario/${encodeURIComponent(palabra)}`, { method: 'DELETE' }),
+  },
   destrabar: (id: number, modo: 'guardar' | 'descartar') =>
     pedir<{ resultado: 'guardada' | 'borrada' | 'version_descartada' | 'destrabada' }>(
       `/api/noticias/${id}/destrabar`, { method: 'POST', body: JSON.stringify({ modo }) }),

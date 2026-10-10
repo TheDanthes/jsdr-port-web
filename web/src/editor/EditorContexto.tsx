@@ -695,7 +695,9 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
               await api.editor.agregarPalabra(e.palabra);
               omitir.add(e.palabra);
             } catch (x) {
-              await avisar('Ortografía', mensajeDe(x));
+              // Si otro la agregó mientras tanto, ya está: se sigue.
+              if (x instanceof ErrorApi && x.motivo === 'existente') omitir.add(e.palabra);
+              else await avisar('Ortografía', mensajeDe(x));
             }
           }
         }

@@ -3,7 +3,7 @@ import iconv from 'iconv-lite';
 import { filtrarParaTXT } from '../dominio/caracteres.js';
 import { consultarUno } from '../db.js';
 import { config } from '../config.js';
-import { agregarPalabra, revisar } from '../datos/ortografia.js';
+import { revisar } from '../datos/ortografia.js';
 import {
   autoguardar, bloqueo, cerrar, comandosPara, destrabar, fotocomponer, guardar, iniciarCreacion,
   iniciarEdicion, latido, medirAncho, medirCampo, medirNoticia, paraRecuperar,
@@ -135,13 +135,6 @@ export async function rutasEditor(app: FastifyInstance) {
     const t = texto(req.body?.texto);
     if (t.length > 1_000_000) return rep.code(413).send({ error: 'El texto es demasiado largo.' });
     return { errores: await revisar(t, req.body?.sugerencias === true) };
-  });
-
-  /** Agregar una palabra al diccionario (permiso ADMINISTRAR_DICCIONARIO). */
-  app.post<{ Body: { palabra?: unknown } }>('/diccionario', { preHandler: exigirEdicion }, async (req, rep) => {
-    const puede = req.sesion.permisos.some((p) => p.nombre === 'ADMINISTRAR_DICCIONARIO');
-    if (!puede) return rep.code(403).send({ error: 'No tiene permiso para administrar el diccionario' });
-    return agregarPalabra(texto(req.body?.palabra));
   });
 
   // --- medir: no escribe nada ---------------------------------------------

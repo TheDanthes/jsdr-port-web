@@ -646,3 +646,64 @@ input.corto { width: 6ch; text-align: center; font-family: var(--fuente-mono); }
   .orto-grilla { grid-template-columns: 1fr; }
   .orto-grilla label { text-align: left; padding-top: 0; }
 }
+
+/* --- Administración -------------------------------------------------------------- */
+.admin-opciones {
+  list-style: none; margin: 0; padding: 14px;
+  display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+.admin-opcion {
+  display: flex; flex-direction: column; gap: 4px; height: 100%;
+  padding: 12px 14px; border: 1px solid var(--borde); border-radius: var(--radio);
+  background: var(--panel-2); color: var(--texto);
+}
+a.admin-opcion:hover { border-color: var(--acento); background: var(--acento-fondo); }
+.admin-opcion b { font-size: 14px; }
+.admin-opcion span { font-size: 12px; color: var(--texto-2); }
+.admin-opcion small { font-size: 11px; color: var(--texto-3); margin-top: auto; padding-top: 6px; }
+.admin-opcion.apagada { opacity: .65; }
+
+.dicc { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 0; }
+.dicc-buscar { padding: 14px; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.dicc-agregar {
+  padding: 14px; border-left: 1px solid var(--borde-suave); background: var(--panel-2);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.dicc-agregar h3 { margin: 0; font-size: 14px; }
+.dicc-agregar label, .dicc-form label { font-size: 12px; color: var(--texto-2); }
+.dicc-agregar textarea { resize: vertical; font-family: var(--fuente); }
+.dicc-agregar p { margin: 0; }
+.dicc-form .fila { display: flex; gap: 8px; }
+.dicc-form input { flex: 1; min-width: 0; }
+.dicc-form select { width: auto; }
+.dicc-palabras {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  border-top: 1px solid var(--borde-suave);
+}
+.dicc-palabras.cargando-suave { opacity: .6; }
+.dicc-palabras li {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  padding: 3px 6px; border-bottom: 1px solid var(--borde-suave); min-height: 32px;
+}
+.dicc-palabras li:hover { background: var(--panel-2); }
+.dicc-palabras .palabra { font-family: var(--fuente-nota); font-size: 15px; overflow-wrap: anywhere; }
+.dicc-acciones { display: flex; gap: 2px; opacity: 0; }
+.dicc-palabras li:hover .dicc-acciones, .dicc-palabras li:focus-within .dicc-acciones { opacity: 1; }
+@media (hover: none) { .dicc-acciones { opacity: 1; } }
+.dicc-acciones button { padding: 2px 6px; font-size: 11px; }
+button.plano.peligro { color: var(--peligro); }
+.dicc-palabras li.editando { grid-column: 1 / -1; background: var(--acento-fondo); }
+.dicc-editar { display: flex; gap: 6px; width: 100%; }
+.dicc-editar input { flex: 1; min-width: 0; }
+.dicc-editar button { padding: 4px 10px; }
+.dicc-resumen {
+  font-size: 12px; padding: 8px 10px; border-radius: var(--radio);
+  background: var(--panel); border: 1px solid var(--borde); display: grid; gap: 4px;
+  overflow-wrap: anywhere;
+}
+.dicc-resumen .peligro { color: var(--peligro); }
+@media (max-width: 760px) {
+  .dicc { grid-template-columns: 1fr; }
+  .dicc-agregar { border-left: 0; border-top: 1px solid var(--borde-suave); }
+}

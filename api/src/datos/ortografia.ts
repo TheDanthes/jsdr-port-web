@@ -12,8 +12,7 @@
  * color: el de Chrome no conoce las palabras de la redacción, y éste no sabe
  * de gramática. Los dos juntos, como se acordó.
  */
-import { consultar, transaccion } from '../db.js';
-import { ErrorEditor } from './edicion.js';
+import { consultar } from '../db.js';
 
 let palabras: Set<string> | null = null;
 let cargadoEn = 0;
@@ -172,23 +171,11 @@ export function sugerir(dic: Set<string>, palabra: string, maximo = 8): string[]
   return r.slice(0, maximo).map((s) => (capital ? s[0]!.toUpperCase() + s.slice(1) : s));
 }
 
-// --- agregar una palabra ----------------------------------------------------------
+// --- el caché, al día con lo que se cambia desde la administración -----------------
 
-const PALABRA_VALIDA = /^[\p{L}]{1,30}$/u;
-
-/**
- * AdministradorDiccionario.agregarPalabra. En el Swing se hacía desde la
- * pantalla de administración del diccionario, con el permiso
- * ADMINISTRAR_DICCIONARIO; acá también se puede desde la revisión, con el
- * mismo permiso.
- */
-export async function agregarPalabra(palabra: string) {
-  const p = palabra.normalize('NFC').trim();
-  if (!PALABRA_VALIDA.test(p)) {
-    throw new ErrorEditor(400, 'La palabra sólo puede tener letras (hasta 30).');
-  }
-  await transaccion((c) =>
-    c.query('INSERT INTO diccionario (palabra) VALUES ($1) ON CONFLICT DO NOTHING', [p]));
-  (await diccionario()).add(p);
-  return { palabra: p };
+/** Lo agregado, corregido o borrado se refleja al instante en la revisión. */
+export function actualizarCache(agregar: string[], quitar: string[] = []) {
+  if (!palabras) return;          // todavía no se cargó: se cargará ya al día
+  for (const q of quitar) palabras.delete(q.normalize('NFC'));
+  for (const a of agregar) palabras.add(a.normalize('NFC'));
 }

@@ -6,6 +6,8 @@ import { DetalleNoticia } from './paginas/DetalleNoticia';
 import { BuscadorCables } from './paginas/BuscadorCables';
 import { Eliminadas } from './paginas/Eliminadas';
 import { Editor } from './paginas/Editor';
+import { Administracion, OPCIONES_ADMINISTRACION, veAdministracion } from './paginas/Administracion';
+import { Diccionario } from './paginas/Diccionario';
 import { ProveedorEditor, useEditor } from './editor/EditorContexto';
 import { NIVELES } from './api/tipos';
 
@@ -30,6 +32,8 @@ function Marco() {
   const u = sesion!.usuario;
   const edicion = sesion!.edicion === true;
   const abiertas = ed.pestanas.length;
+  const admin = veAdministracion(sesion!);
+  const puedeDiccionario = OPCIONES_ADMINISTRACION.find((o) => o.nombre === 'Diccionario')!.puede(sesion!);
 
   async function salirConCuidado() {
     if (abiertas > 0) {
@@ -68,6 +72,11 @@ function Marco() {
           <NavLink to="/eliminadas" className={({ isActive }) => (isActive ? 'activo' : '')}>
             Eliminadas
           </NavLink>
+          {admin && (
+            <NavLink to="/administracion" className={({ isActive }) => (isActive ? 'activo' : '')}>
+              Administración
+            </NavLink>
+          )}
         </nav>
 
         <div className="sesion">
@@ -89,6 +98,8 @@ function Marco() {
           <Route path="/cables" element={<BuscadorCables />} />
           <Route path="/eliminadas" element={<Eliminadas />} />
           {edicion && <Route path="/editor" element={<Editor />} />}
+          {admin && <Route path="/administracion" element={<Administracion />} />}
+          {puedeDiccionario && <Route path="/administracion/diccionario" element={<Diccionario />} />}
           <Route path="*" element={<Navigate to="/noticias" replace />} />
         </Routes>
       </main>
