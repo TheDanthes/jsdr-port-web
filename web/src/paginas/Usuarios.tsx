@@ -5,6 +5,7 @@ import { NIVELES, type CatalogosUsuarios, type DatosUsuarioAdmin, type UsuarioAd
 import { useEditor } from '../editor/EditorContexto';
 import { useSesion } from '../sesion';
 import { AvisoError, Cargando } from '../componentes/piezas';
+import { useEscape } from '../componentes/useEscape';
 
 /**
  * Administración → Usuarios. Port de AdministradorUsuariosJPanel y de su
@@ -293,10 +294,11 @@ function EditorUsuario({
   const deshabilitado = soloLectura || ocupado;
   const esYo = usuario?.id === yo;
 
+  useEscape(() => void cancelar(), ed.dialogoAbierto);
+
   return (
     <div
       className="dialogo-fondo" role="presentation"
-      onKeyDown={(e) => { if (e.key === 'Escape' && !ed.dialogoAbierto) { e.preventDefault(); void cancelar(); } }}
     >
       <form
         className="dialogo panel usuario-editor" role="dialog" aria-modal="true" aria-labelledby="ue-titulo"
@@ -336,18 +338,6 @@ function EditorUsuario({
             </label>
           </div>
 
-          <h3 className="separador chico">Permisos</h3>
-          <ul className="permisos-lista">
-            {cat.permisos.map((p) => (
-              <li key={p.id}>
-                <label>
-                  <input type="checkbox" checked={d.permisos.includes(p.id)} disabled={deshabilitado} onChange={() => alternarPermiso(p.id)} />
-                  <span><b>{p.nombre}</b>{p.descripcion && <small className="tenue">{p.descripcion}</small>}</span>
-                </label>
-              </li>
-            ))}
-          </ul>
-
           <h3 className="separador chico">Secciones</h3>
           <ul className="usuario-secciones">
             {cat.secciones.map((s) => {
@@ -374,6 +364,18 @@ function EditorUsuario({
               Quitarle una sección le quita también los permisos que tenía en ella.
             </p>
           )}
+          <h3 className="separador chico">Permisos</h3>
+          <ul className="usuario-permisos">
+            {cat.permisos.map((p) => (
+              <li key={p.id}>
+                <label title={p.nombre}>
+                  <input type="checkbox" checked={d.permisos.includes(p.id)} disabled={deshabilitado} onChange={() => alternarPermiso(p.id)} />
+                  <span title={p.descripcion ?? undefined}>{p.descripcion || p.nombre}</span>
+                </label>
+              </li>
+            ))}
+          </ul>
+
         </div>
         <footer className="acciones usuario-acciones">
           {!creando && !soloLectura && (

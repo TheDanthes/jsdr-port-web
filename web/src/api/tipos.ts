@@ -263,6 +263,14 @@ export const ESTADOS = [
   'EN_PRODUCCION',
 ] as const;
 
+/** Administración → Secciones: con cuánto se usa (para saber si se puede eliminar). */
+export interface SeccionAdmin { id: number; nombre: string; codigo: string; usuarios: number; versiones: number }
+
+/** Administración → Agencias. */
+export interface AgenciaAdmin {
+  id: number; nombre: string; codigo: string; habilitada: boolean | null; dias_vida_util: number | null; cables: number;
+}
+
 /** Administración → Usuarios: un usuario como lo edita el administrador. */
 export interface UsuarioAdmin {
   id: number;

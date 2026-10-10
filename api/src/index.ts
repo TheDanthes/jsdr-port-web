@@ -16,6 +16,7 @@ import { rutasDiccionario } from './rutas/diccionario.js';
 import { rutasMonitor } from './rutas/monitor.js';
 import { rutasPermisosSeccion } from './rutas/permisosSeccion.js';
 import { rutasUsuariosAdmin } from './rutas/usuariosAdmin.js';
+import { rutasSeccionesAgencias } from './rutas/seccionesAgencias.js';
 
 const app = Fastify({ logger: { level: process.env.LOG_LEVEL ?? 'info' } });
 
@@ -85,6 +86,7 @@ await app.register(
     await protegido.register(rutasMonitor);
     await protegido.register(rutasPermisosSeccion);
     await protegido.register(rutasUsuariosAdmin);
+    await protegido.register(rutasSeccionesAgencias);
   },
   { prefix: '/api' },
 );

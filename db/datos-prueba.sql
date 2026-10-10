@@ -51,3 +51,4 @@ INSERT INTO diccionario (palabra) VALUES ('Rosario'),('paritarias');
 
 SELECT setval('noticias_id_seq', 200); SELECT setval('usuarios_id_seq', 10);
 SELECT setval('cables_id_seq', 600);
+SELECT setval('secciones_id_seq', 100); SELECT setval('agencias_id_seq', 100);

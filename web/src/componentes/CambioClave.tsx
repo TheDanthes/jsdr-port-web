@@ -3,6 +3,7 @@ import { api } from '../api/cliente';
 import { useEditor } from '../editor/EditorContexto';
 import { useSesion } from '../sesion';
 import { VERSION } from '../version';
+import { useEscape } from './useEscape';
 
 /**
  * "Cambio de contraseña" (CambioPasswordJPanel), con los mensajes y las
@@ -143,10 +144,11 @@ export function DialogoCambioClave({ alCerrar }: { alCerrar: () => void }) {
     if (!c.escribio || await c.confirmar(TITULO, '¿Desea cancelar el cambio de contraseña?', 'no')) alCerrar();
   }
 
+  useEscape(() => void cancelar(), ed.dialogoAbierto);
+
   return (
     <div
       className="dialogo-fondo" role="presentation"
-      onKeyDown={(e) => { if (e.key === 'Escape' && !ed.dialogoAbierto) { e.preventDefault(); void cancelar(); } }}
     >
       <form
         className="dialogo panel cambio-clave" role="dialog" aria-modal="true" aria-labelledby="cc-titulo"

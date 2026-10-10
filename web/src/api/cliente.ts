@@ -1,6 +1,6 @@
 import type {
   AccionCierre, Agencia, AperturaEditor, Bloqueo, Cable, Comando, DatosEditor, ErrorOrtografico, MedicionNoticia,
-  CatalogosUsuarios, DatosUsuarioAdmin, InicioPermisosSeccion, MedidaCampo, UsuarioAdmin, MonitorUsuarios, Noticia, UsuarioDeSeccion, Pagina, PaginaPalabras, ParaRecuperar, Permiso, Reserva, ResultadoLista, Seccion, Sesion,
+  AgenciaAdmin, CatalogosUsuarios, SeccionAdmin, DatosUsuarioAdmin, InicioPermisosSeccion, MedidaCampo, UsuarioAdmin, MonitorUsuarios, Noticia, UsuarioDeSeccion, Pagina, PaginaPalabras, ParaRecuperar, Permiso, Reserva, ResultadoLista, Seccion, Sesion,
   Usuario, Version,
 } from './tipos';
 
@@ -151,6 +151,18 @@ export const api = {
   latidoSesion: () => pedir<void>('/api/sesion/latido', { method: 'POST' }),
 
   monitorUsuarios: () => pedir<MonitorUsuarios>('/api/monitor/usuarios'),
+
+  // -- Administración → Secciones y Agencias ----------------------------------------
+  admin: {
+    secciones: () => pedir<SeccionAdmin[]>('/api/admin/secciones'),
+    agencias: () => pedir<AgenciaAdmin[]>('/api/admin/agencias'),
+    crear: (que: 'secciones' | 'agencias', d: object) =>
+      pedir<{ id: number }>(`/api/admin/${que}`, { method: 'POST', body: JSON.stringify(d) }),
+    actualizar: (que: 'secciones' | 'agencias', id: number, d: object) =>
+      pedir<{ id: number }>(`/api/admin/${que}/${id}`, { method: 'PUT', body: JSON.stringify(d) }),
+    eliminar: (que: 'secciones' | 'agencias', id: number) =>
+      pedir<{ nombre: string }>(`/api/admin/${que}/${id}`, { method: 'DELETE' }),
+  },
 
   // -- Administración → Usuarios ----------------------------------------------------
   usuariosAdmin: {

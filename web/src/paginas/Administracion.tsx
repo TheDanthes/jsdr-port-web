@@ -46,11 +46,13 @@ export const OPCIONES_ADMINISTRACION: Opcion[] = [
   {
     nombre: 'Secciones',
     descripcion: 'Las secciones del diario.',
+    ruta: '/administracion/secciones',
     puede: (s) => tiene(s, 'ADMINISTRAR_SECCIONES'),
   },
   {
     nombre: 'Agencias',
     descripcion: 'Las agencias de cables y cuántos días se guardan.',
+    ruta: '/administracion/agencias',
     puede: (s) => tiene(s, 'ADMINISTRAR_AGENCIAS'),
   },
   {

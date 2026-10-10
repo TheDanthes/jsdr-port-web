@@ -12,6 +12,7 @@ import { Diccionario } from './paginas/Diccionario';
 import { MonitorUsuarios } from './paginas/MonitorUsuarios';
 import { PermisosSeccion } from './paginas/PermisosSeccion';
 import { Usuarios } from './paginas/Usuarios';
+import { Agencias, Secciones } from './paginas/SeccionesAgencias';
 import { DialogoCambioClave, PantallaCambioClave } from './componentes/CambioClave';
 import { ProveedorEditor, useEditor } from './editor/EditorContexto';
 import { NIVELES } from './api/tipos';
@@ -46,6 +47,8 @@ function Marco() {
   const puedeMonitor = puede('Monitor de Usuarios');
   const puedePermisos = puede('Permisos/Sección');
   const puedeUsuarios = puede('Usuarios');
+  const puedeSecciones = puede('Secciones');
+  const puedeAgencias = puede('Agencias');
   const [cambiarClave, setCambiarClave] = useState(false);
 
   async function salirConCuidado() {
@@ -117,6 +120,8 @@ function Marco() {
           {puedeMonitor && <Route path="/administracion/monitor" element={<MonitorUsuarios />} />}
           {puedePermisos && <Route path="/administracion/permisos-seccion" element={<PermisosSeccion />} />}
           {puedeUsuarios && <Route path="/administracion/usuarios" element={<Usuarios />} />}
+          {puedeSecciones && <Route path="/administracion/secciones" element={<Secciones />} />}
+          {puedeAgencias && <Route path="/administracion/agencias" element={<Agencias />} />}
           <Route path="*" element={<Navigate to="/noticias" replace />} />
         </Routes>
       </main>

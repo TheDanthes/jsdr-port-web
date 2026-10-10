@@ -5,6 +5,7 @@ import { NIVELES, type InicioPermisosSeccion, type UsuarioDeSeccion } from '../a
 import { useEditor } from '../editor/EditorContexto';
 import { useSesion } from '../sesion';
 import { AvisoError, Cargando } from '../componentes/piezas';
+import { useEscape } from '../componentes/useEscape';
 
 /**
  * Administración → Permisos/Sección. Port de AdministradorPermisosSeccionJPanel
@@ -205,10 +206,11 @@ function EditorPermisos({
     });
   }
 
+  useEscape(() => void cancelar(), ed.dialogoAbierto);
+
   return (
     <div
       className="dialogo-fondo" role="presentation"
-      onKeyDown={(e) => { if (e.key === 'Escape' && !ed.dialogoAbierto) { e.preventDefault(); void cancelar(); } }}
     >
       <div className="dialogo panel permisos-editor" role="dialog" aria-modal="true" aria-labelledby="ps-titulo" ref={caja}>
         <header><h2 id="ps-titulo">{TITULO}</h2></header>

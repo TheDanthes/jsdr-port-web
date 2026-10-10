@@ -25,6 +25,17 @@ título`), commit y push; después correr "Etiquetar versiones".
 
 ---
 
+## 0.4.6 — 2026-10-10 · Secciones y Agencias
+
+- Administración → **Secciones** y → **Agencias**, como el Swing: lista, agregar, modificar
+  y eliminar, con sus validaciones y mensajes (nombre y código obligatorios y sin repetir;
+  vida útil de las agencias mayor a 0). La lista muestra cuánto se usa cada una: una
+  sección con noticias o usuarios, o una agencia con cables, no se elimina (la agencia se
+  deshabilita). El código de agencia distingue mayúsculas, como en los cables.
+- Usuarios: en el editor, las secciones van primero y ocupan ¾ del espacio; los permisos
+  generales, debajo y más compactos (pedido de la redacción).
+- Escape cierra los diálogos de Administración aunque el foco haya quedado afuera.
+
 ## 0.4.5 — 2026-10-10 · Usuarios
 
 - Administración → **Usuarios**, como el Swing: buscar (usuario, nombre, nivel), agregar,
