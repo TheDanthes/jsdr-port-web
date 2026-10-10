@@ -6,6 +6,7 @@
 #
 # Publica:
 #   ghcr.io/thedanthes/jsdr-composer:latest
+#   ghcr.io/thedanthes/jsdr-composer:<versión>   (la de composer/package.json)
 #   ghcr.io/thedanthes/jsdr-composer:<sha>
 # y deja además la imagen como archivo descargable en la propia corrida, para
 # instalarla sin token.
@@ -105,6 +106,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Versión
+        id: version
+        run: echo "valor=$(node -p "require('./composer/package.json').version")" >> "$GITHUB_OUTPUT"
+
       - name: Publicar en GHCR
         uses: docker/build-push-action@v6
         with:
@@ -113,5 +118,6 @@ jobs:
           push: true
           tags: |
             ${{ steps.img.outputs.nombre }}:latest
+            ${{ steps.img.outputs.nombre }}:${{ steps.version.outputs.valor }}
             ${{ steps.img.outputs.nombre }}:${{ github.sha }}
           cache-from: type=gha

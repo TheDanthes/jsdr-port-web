@@ -329,6 +329,14 @@ td.apretado { white-space: nowrap; }
   margin-top: 14px; text-align: center; font-size: 11px; color: var(--texto-3);
   line-height: 1.5;
 }
+.login-pie .version { display: block; margin-top: 6px; font-variant-numeric: tabular-nums; }
+
+/* Al pie de cada pantalla, discreta: qué versión está corriendo. */
+.pie-version {
+  height: 22px; line-height: 22px; text-align: center;
+  font-size: 10.5px; color: var(--texto-3); letter-spacing: .02em;
+  font-variant-numeric: tabular-nums; user-select: all;
+}
 
 /* --- detalle de noticia -------------------------------------------------- */
 
@@ -447,7 +455,7 @@ tr.no-leido .titulo-celda .titulo { font-weight: 700; }
 /* La pantalla del editor ocupa todo el alto disponible: es donde se trabaja. */
 .editor {
   display: flex; flex-direction: column; gap: 8px;
-  height: calc(100vh - 48px - 32px); min-height: 560px;
+  height: calc(100vh - 48px - 32px - 22px); min-height: 560px;   /* barra, márgenes y pie de versión */
 }
 
 .editor-barra {

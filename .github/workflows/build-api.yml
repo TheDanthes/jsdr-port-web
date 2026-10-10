@@ -5,6 +5,7 @@
 #
 # Publica:
 #   ghcr.io/thedanthes/jsdr-api:latest
+#   ghcr.io/thedanthes/jsdr-api:<versión>   (la de api/package.json: ver CHANGELOG.md)
 #   ghcr.io/thedanthes/jsdr-api:<sha>
 name: Construir imagen de la API
 
@@ -67,6 +68,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}   # lo provee Actions, no hay que crearlo
 
+      - name: Versión
+        id: version
+        run: echo "valor=$(node -p "require('./api/package.json').version")" >> "$GITHUB_OUTPUT"
+
       - name: Construir y publicar
         uses: docker/build-push-action@v6
         with:
@@ -76,6 +81,7 @@ jobs:
           push: true
           tags: |
             ${{ env.IMAGEN }}:latest
+            ${{ env.IMAGEN }}:${{ steps.version.outputs.valor }}
             ${{ env.IMAGEN }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

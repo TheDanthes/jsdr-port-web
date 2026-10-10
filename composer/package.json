@@ -1,6 +1,6 @@
 {
   "name": "jsdr-composer",
-  "version": "0.1.0",
+  "version": "0.2.3",
   "private": true,
   "description": "Servicio del motor tipográfico de jSDR: medir y fotocomponer (Fase 2)",
   "type": "module",

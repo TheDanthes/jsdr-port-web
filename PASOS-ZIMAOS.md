@@ -162,7 +162,7 @@ http://<ip-del-zimaos>:3099/          la web
 `/salud` responde algo así:
 
 ```json
-{ "ok": true, "fase": 1, "solo_lectura": true,
+{ "ok": true, "version": "0.4.4", "edicion": true,
   "noticias": 1093772, "versiones": 1297497, "postgres": "16.x" }
 ```
 

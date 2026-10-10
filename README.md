@@ -46,6 +46,12 @@ misma carpeta, mismo formato, InDesign CS5.
 
 ## Estado
 
+**Versión 0.4.4** — el historial completo y cómo se numera está en
+[CHANGELOG.md](CHANGELOG.md): `0.FASE.ENTREGA` hasta que la web reemplace al Swing, y
+**2.0.0** el día que los periodistas carguen noticias en producción. La versión se ve en el
+login, al pie de cada pantalla y en `/salud`; cada una tiene su etiqueta en git y su imagen
+(`jsdr-api:0.4.4`). Para una nueva: `scripts/version.sh X.Y.Z`.
+
 | Fase | Estado |
 |---|---|
 | 0 — Relevamiento y rescate | ✅ Completa |

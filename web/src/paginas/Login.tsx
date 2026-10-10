@@ -3,6 +3,7 @@ import { useSesion } from '../sesion';
 import { ErrorApi } from '../api/cliente';
 import { AvisoError } from '../componentes/piezas';
 import { Dialogo, type PedidoDialogo } from '../componentes/Dialogo';
+import { VERSION } from '../version';
 
 /** "a las 10:42", o "el 09/10 a las 18:05" si no fue hoy. */
 function cuando(iso: unknown): string {
@@ -112,6 +113,7 @@ export function Login() {
 
         <p className="login-pie">
           Mismo usuario y contraseña que el sistema de escritorio.
+          <span className="version">Versión: {VERSION}</span>
         </p>
       </div>
       {pregunta && <Dialogo pedido={pregunta} alResponder={(r) => responder(r.boton)} />}

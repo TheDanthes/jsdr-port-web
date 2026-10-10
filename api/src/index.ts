@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Fastify from 'fastify';
@@ -18,6 +18,16 @@ import { rutasPermisosSeccion } from './rutas/permisosSeccion.js';
 
 const app = Fastify({ logger: { level: process.env.LOG_LEVEL ?? 'info' } });
 
+/**
+ * La versión del sistema (CHANGELOG.md). Sale de package.json, que está un
+ * nivel arriba tanto de src/ (desarrollo) como de dist/ (la imagen).
+ */
+const VERSION: string = (() => {
+  try {
+    return JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version ?? '?';
+  } catch { return '?'; }
+})();
+
 // CORS sólo para el servidor de desarrollo de Vite. En producción la web se
 // sirve desde este mismo origen y no hace falta.
 if (process.env.NODE_ENV !== 'production') {
@@ -31,7 +41,7 @@ app.get('/salud', async () => {
             (SELECT count(*) FROM versiones) AS versiones,
             current_setting('server_version')  AS postgres`,
   );
-  return { ok: true, fase: 1, solo_lectura: true, ...rows[0] };
+  return { ok: true, version: VERSION, edicion: config.edicion, ...rows[0] };
 });
 
 /**
@@ -106,6 +116,7 @@ process.on('SIGTERM', cerrar);
 process.on('SIGINT', cerrar);
 
 await app.listen({ port: config.puerto, host: '0.0.0.0' });
+app.log.info(`jSDR versión ${VERSION}`);
 
 // El diccionario (379 mil palabras en producción) se carga de entrada, para
 // que la primera revisión ortográfica del día no espere. Si falla, se reintenta

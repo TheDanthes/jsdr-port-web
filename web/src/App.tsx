@@ -12,6 +12,7 @@ import { MonitorUsuarios } from './paginas/MonitorUsuarios';
 import { PermisosSeccion } from './paginas/PermisosSeccion';
 import { ProveedorEditor, useEditor } from './editor/EditorContexto';
 import { NIVELES } from './api/tipos';
+import { VERSION } from './version';
 
 export function App() {
   const { sesion, cargando } = useSesion();
@@ -110,6 +111,9 @@ function Marco() {
           <Route path="*" element={<Navigate to="/noticias" replace />} />
         </Routes>
       </main>
+
+      {/* Discreta: sólo para saber qué versión está corriendo. */}
+      <footer className="pie-version">Versión: {VERSION}</footer>
     </div>
   );
 }

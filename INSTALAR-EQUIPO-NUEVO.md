@@ -184,7 +184,7 @@ Qué esperar en el paso 7:
 
 ## 7. Comprobar
 
-- [ ] `http://IP_NUEVA:3099/salud` → `"ok": true`, `noticias: 1093772`, `"solo_lectura": true`
+- [ ] `http://IP_NUEVA:3099/salud` → `"ok": true`, `noticias: 1093772` y `"version"` igual a la del pie de la web
 - [ ] `http://IP_NUEVA:3099/` → login con **usuario y contraseña del jSDR de escritorio**
 - [ ] Un usuario con contraseña incorrecta **no** entra (401)
 - [ ] El buscador responde **al instante**. Si tarda segundos: faltan los índices o el ANALYZE (§5 paso 6)
