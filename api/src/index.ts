@@ -10,6 +10,7 @@ import { rutasCatalogos } from './rutas/catalogos.js';
 import { rutasNoticias } from './rutas/noticias.js';
 import { rutasCables } from './rutas/cables.js';
 import { rutasExportar } from './rutas/exportar.js';
+import { diccionario } from './datos/ortografia.js';
 import { rutasEditor } from './rutas/editor.js';
 
 const app = Fastify({ logger: { level: process.env.LOG_LEVEL ?? 'info' } });
@@ -39,7 +40,7 @@ app.get('/salud', async () => {
  * es lo que la web ya sabe mostrar. Lo inesperado (500) se registra y no
  * expone detalles internos.
  */
-app.setErrorHandler((err: Error & { statusCode?: number; errores?: unknown }, req, rep) => {
+app.setErrorHandler((err: Error & { statusCode?: number; errores?: unknown; motivo?: string }, req, rep) => {
   const codigo = err.statusCode ?? 500;
   if (codigo >= 500 && codigo !== 502 && codigo !== 504) {
     req.log.error({ err }, 'error interno');
@@ -48,6 +49,9 @@ app.setErrorHandler((err: Error & { statusCode?: number; errores?: unknown }, re
   return rep.code(codigo).send({
     error: err.message,
     ...(err.errores ? { errores: err.errores } : {}),
+    // Para que la web distinga casos que se resuelven distinto con el mismo
+    // código (p. ej. 409 "abierta en otra ventana" se puede retomar).
+    ...(err.motivo ? { motivo: err.motivo } : {}),
   });
 });
 
@@ -96,3 +100,12 @@ process.on('SIGTERM', cerrar);
 process.on('SIGINT', cerrar);
 
 await app.listen({ port: config.puerto, host: '0.0.0.0' });
+
+// El diccionario (379 mil palabras en producción) se carga de entrada, para
+// que la primera revisión ortográfica del día no espere. Si falla, se reintenta
+// en la primera revisión.
+if (config.edicion) {
+  diccionario()
+    .then((d) => app.log.info(`diccionario: ${d.size} palabras`))
+    .catch((e) => app.log.warn({ err: e }, 'no se pudo cargar el diccionario'));
+}

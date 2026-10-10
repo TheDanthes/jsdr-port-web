@@ -6,7 +6,9 @@
  * abierta: así conservan el historial de deshacer y la posición del cursor
  * aunque el redactor vaya al buscador y vuelva.
  */
-import { Compartment, EditorState, Prec, type Extension } from '@codemirror/state';
+import {
+  Compartment, EditorState, Prec, StateEffect, StateField, type Extension,
+} from '@codemirror/state';
 import {
   Decoration, EditorView, MatchDecorator, ViewPlugin, keymap,
   type DecorationSet, type ViewUpdate,
@@ -51,6 +53,59 @@ const marcas = ViewPlugin.fromClass(
   },
   { decorations: (v) => v.decorations },
 );
+
+// --- ortografía con el diccionario de la redacción -----------------------------
+// El corrector de Chrome subraya con su rojo ondulado de siempre; las palabras
+// que no están en el diccionario de la redacción (la tabla `diccionario`, la
+// misma del Swing) se marcan con otro color. Así se distingue quién se queja.
+
+export interface RangoPalabra { desde: number; hasta: number }
+
+/** Las palabras que no están en el diccionario de la redacción. */
+export const ponerOrtografia = StateEffect.define<RangoPalabra[]>();
+/** La palabra que se está mostrando en el diálogo de Ctrl+I. */
+export const ponerPalabraActual = StateEffect.define<RangoPalabra | null>();
+
+const marcaOrtografia = Decoration.mark({
+  class: 'orto-jsdr',
+  attributes: { title: 'No está en el diccionario de la redacción (Ctrl+I para revisar)' },
+});
+const marcaActual = Decoration.mark({ class: 'orto-actual' });
+
+const ortografia = StateField.define<{ errores: DecorationSet; actual: DecorationSet }>({
+  create: () => ({ errores: Decoration.none, actual: Decoration.none }),
+  update(v, tr) {
+    let errores = v.errores.map(tr.changes);
+    let actual = v.actual.map(tr.changes);
+    if (tr.docChanged) {
+      // Una palabra marcada que se toca deja de estar marcada hasta la próxima
+      // revisión: así no queda subrayado algo que ya se corrigió.
+      const tocados: [number, number][] = [];
+      tr.changes.iterChangedRanges((_a, _b, desde, hasta) => tocados.push([desde, hasta]));
+      errores = errores.update({
+        filter: (d, h) => !tocados.some(([a, b]) => a <= h && b >= d),
+      });
+    }
+    for (const e of tr.effects) {
+      if (e.is(ponerOrtografia)) {
+        const largo = tr.state.doc.length;
+        errores = Decoration.set(
+          e.value.filter((r) => r.hasta <= largo && r.desde < r.hasta)
+            .map((r) => marcaOrtografia.range(r.desde, r.hasta)),
+          true,
+        );
+      }
+      if (e.is(ponerPalabraActual)) {
+        actual = e.value ? Decoration.set([marcaActual.range(e.value.desde, e.value.hasta)]) : Decoration.none;
+      }
+    }
+    return { errores, actual };
+  },
+  provide: (f) => [
+    EditorView.decorations.from(f, (v) => v.errores),
+    EditorView.decorations.from(f, (v) => v.actual),
+  ],
+});
 
 // --- textos de la búsqueda en castellano ------------------------------------
 
@@ -140,10 +195,13 @@ export function crearVista(o: OpcionesVista): EditorView {
         keymap.of([...searchKeymap, ...historyKeymap, ...defaultKeymap]),
         EditorView.lineWrapping,
         marcas,
+        ortografia,
         frases,
         letra.of(temaLetra(o.tamanoLetra)),
         EditorView.contentAttributes.of({
-          spellcheck: 'false', autocorrect: 'off', autocapitalize: 'off',
+          // El corrector del navegador, en castellano (acordado con la redacción:
+          // los dos correctores, cada uno con su color).
+          spellcheck: 'true', lang: 'es', autocorrect: 'off', autocapitalize: 'off',
           'aria-label': o.campo === 'titular' ? 'Titular' : 'Cuerpo',
         }),
         EditorView.updateListener.of((u) => {

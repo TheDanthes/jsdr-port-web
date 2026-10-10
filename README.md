@@ -51,7 +51,7 @@ misma carpeta, mismo formato, InDesign CS5.
 | 0 — Relevamiento y rescate | ✅ Completa |
 | 1 — API + web de sólo lectura | ✅ **Completa** — login, dos buscadores, detalle con versiones y exports |
 | 2 — Servicio composer | ✅ **Completa** — motor de 2005 en contenedor, 534/534 idénticas a producción |
-| 3 — Editor web | 🚧 **Primera entrega** — crear, editar, medir (en vivo y con F3), guardar, cerrar y fotocomponer, con los mismos atajos del Swing |
+| 3 — Editor web | 🚧 **Segunda entrega** — crear, editar, medir (en vivo y con F3), guardar, cerrar y fotocomponer, con los mismos atajos del Swing; autoguardado cada minuto, recuperar y destrabar notas que quedaron abiertas, ortografía (diccionario de la redacción + corrector de Chrome) |
 | 4 — Flujo, permisos y ABMs | ⏳ |
 | 5 — Corte | ⏳ |
 
@@ -61,6 +61,13 @@ web nueva convive con el cliente Swing sin ninguna posibilidad de pisarse.
 **El editor (Fase 3) escribe, pero sólo si se lo pide:** `JSDR_EDICION=si`, y sólo contra la
 COPIA. Usa un pool de conexiones aparte; el resto de la API sigue abriendo las suyas
 read-only. Sin esa variable, las rutas del editor responden 403 y todo es como en la Fase 1.
+
+**Notas que quedan abiertas.** Cada ventana del editor autoguarda (o, si no hubo cambios,
+"late") una vez por minuto. Una noticia EN_EDICION que no latió en 3 minutos quedó
+abandonada —se cerró el navegador, se colgó la PC— y aparece en rojizo como "para
+recuperar". Su redactor la retoma con lo último autoguardado; un usuario de nivel superior
+la puede destrabar desde la ficha. El registro de quién tiene qué abierto vive en memoria de
+la API (no agrega columnas a la base que sigue usando el Swing).
 
 ---
 
@@ -118,9 +125,13 @@ dumps/                      Dumps de producción. NO van al repo (.gitignore).
 api/                        Fastify + TypeScript. Ver api/README.md
   verificar.sh              35 comprobaciones de humo de la lectura
   verificar-editor.sh       11 del editor (crea una nota de prueba y la descarta)
+  verificar-recuperar.py    35 de notas abandonadas: recuperar, destrabar, otra ventana
   src/dominio/caracteres.*  Port de FiltradorNoticia + pruebas doradas contra el Java
   src/dominio/reglas.ts     Port de MotorReglas (mismos chequeos y mensajes)
-  src/datos/edicion.ts      Crear, abrir, guardar, autoguardar, cerrar, fotocomponer
+  src/datos/edicion.ts      Crear, abrir, guardar, autoguardar, cerrar, fotocomponer,
+                            recuperar y destrabar
+  src/datos/aperturas.ts    Quién tiene cada noticia abierta (latido por minuto)
+  src/datos/ortografia.ts   Revisión contra la tabla `diccionario`, con sugerencias
 web/                        React + Vite + TypeScript. Ver web/README.md
   src/editor/               El editor: CodeMirror 6 con los atajos del Swing
 composer/                   Motor tipográfico (medir, sr2xp, xtg2ind.pl) por HTTP

@@ -3,7 +3,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api, descargar } from '../api/cliente';
 import { useSesion } from '../sesion';
 import { useEditor } from '../editor/EditorContexto';
-import { ESTADOS, NIVELES, type Noticia, type Pagina, type Seccion, type Usuario } from '../api/tipos';
+import {
+  ESTADOS, NIVELES, type Noticia, type Pagina, type ParaRecuperar, type Seccion, type Usuario,
+} from '../api/tipos';
 import {
   AvisoError, Cargando, EstadoNoticia, MarcasVersion, Paginado, Resaltado,
   ThOrden, Vacio, fecha, textoMedida,
@@ -22,6 +24,25 @@ const VACIO: Formulario = {
   texto: '', guia: '', redactor: '', desde: '', hasta: '', estado: '',
   secciones: [], niveles: [],
 };
+
+/** Una línea para reconocer la noticia: el titular, o el principio del cuerpo. */
+function resumen(x: ParaRecuperar) {
+  const t = (x.titular || x.titulo || x.cuerpo || '').replace(/[\s∏■□▪♫┴╠╬╣]+/g, ' ').replace(/<[^>]*>/g, '').trim();
+  return t ? (t.length > 90 ? `${t.slice(0, 90)}…` : t) : '(vacía)';
+}
+
+/**
+ * Las notas nuevas (las del editor web y las del Swing desde que existe el
+ * campo "titular") no tienen título aparte: se muestra la primera línea del
+ * titular, sin comandos ni códigos de control.
+ */
+function lineaTitular(t: string | null): string | null {
+  if (!t) return null;
+  const linea = t.replace(/<[^>]*>/g, '').split(/[\n╠╬╣┴]/)
+    .map((l) => l.replace(/[∏■□▪♫“”«»]/g, ' ').replace(/\s+/g, ' ').trim())
+    .find(Boolean);
+  return linea ?? null;
+}
 
 const multi = (p: URLSearchParams, k: string) => {
   const v = p.get(k);
@@ -60,6 +81,25 @@ export function BuscadorNoticias() {
   const [exportando, setExportando] = useState(false);
   const edicion = useSesion().sesion?.edicion === true;
   const ed = useEditor();
+  const [abandonadas, setAbandonadas] = useState<ParaRecuperar[]>([]);
+
+  // Las noticias propias que quedaron abiertas: el aviso al volver a entrar.
+  // (En el Swing era la ventana "Restauración de versiones temporales".)
+  useEffect(() => {
+    if (!edicion) return;
+    let vivo = true;
+    api.editor.paraRecuperar()
+      .then((l) => {
+        // Las que ya están abiertas en este editor no se ofrecen.
+        if (vivo) setAbandonadas(l.filter((x) => !ed.pestanas.some((t) => t.n.id === x.id)));
+      })
+      .catch(() => { /* es un aviso: si falla, no estorba */ });
+    return () => { vivo = false; };
+  }, [edicion, ed.pestanas]);
+
+  async function recuperar(id: number) {
+    if (await ed.abrir(id)) navegar('/editor');
+  }
 
   useEffect(() => {
     Promise.all([api.secciones(), api.usuarios()])
@@ -159,6 +199,29 @@ export function BuscadorNoticias() {
           </button>
         </div>
       </header>
+
+      {abandonadas.length > 0 && (
+        <div className="recuperables" role="status">
+          <p>
+            <strong>
+              {abandonadas.length === 1
+                ? 'Quedó una noticia suya abierta sin cerrar'
+                : `Quedaron ${abandonadas.length} noticias suyas abiertas sin cerrar`}
+            </strong>{' '}
+            (se cerró el navegador o se apagó la PC). Ábrala para recuperar lo que no se guardó:
+          </p>
+          <ul>
+            {abandonadas.map((x) => (
+              <li key={x.id}>
+                <button onClick={() => void recuperar(x.id)}>Recuperar</button>
+                <span className="mono">{x.guia ?? 'sin guía'}</span>
+                <span className="tenue">{x.seccion_codigo}</span>
+                <span className="resumen">{resumen(x)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <form onSubmit={(e) => { e.preventDefault(); aplicar({}); }}>
       <div className="filtros">
@@ -302,13 +365,13 @@ export function BuscadorNoticias() {
                         <div className="titulo-celda">
                           {v.volanta && <span className="volanta">{v.volanta}</span>}
                           <span className="titulo">
-                            <Resaltado texto={v.titulo} busca={desdeUrl.texto} />
+                            <Resaltado texto={v.titulo ?? lineaTitular(v.titular)} busca={desdeUrl.texto} />
                           </span>
                           {v.bajada && <span className="bajada">{v.bajada}</span>}
                         </div>
                       </td>
                       <td className="apretado">
-                        <EstadoNoticia estado={v.estado} /> <MarcasVersion v={v} />
+                        <EstadoNoticia estado={v.estado} paraRecuperar={n.para_recuperar} /> <MarcasVersion v={v} />
                       </td>
                       <td className="num">{v.nivel ?? '—'}</td>
                       <td className="apretado">{v.redactor}</td>

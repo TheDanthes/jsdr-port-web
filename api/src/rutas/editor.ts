@@ -3,9 +3,11 @@ import iconv from 'iconv-lite';
 import { filtrarParaTXT } from '../dominio/caracteres.js';
 import { consultarUno } from '../db.js';
 import { config } from '../config.js';
+import { agregarPalabra, revisar } from '../datos/ortografia.js';
 import {
-  autoguardar, cerrar, comandosPara, fotocomponer, guardar, iniciarCreacion, iniciarEdicion,
-  medirAncho, medirCampo, medirNoticia, type AccionCierre, type DatosEditor,
+  autoguardar, bloqueo, cerrar, comandosPara, destrabar, fotocomponer, guardar, iniciarCreacion,
+  iniciarEdicion, latido, medirAncho, medirCampo, medirNoticia, paraRecuperar,
+  type AccionCierre, type DatosEditor, type ModoDestrabar,
 } from '../datos/edicion.js';
 
 const entero = (v: string) => {
@@ -33,12 +35,47 @@ export async function rutasEditor(app: FastifyInstance) {
 
   app.post('/editor/nueva', { preHandler: exigirEdicion }, async (req) => iniciarCreacion(req.sesion));
 
-  app.post<{ Params: { id: string } }>(
+  /** `forzar`: retomarla acá aunque figure abierta en otra ventana del mismo usuario. */
+  app.post<{ Params: { id: string }; Body: { forzar?: unknown } | null }>(
     '/editor/:id/abrir', { preHandler: exigirEdicion },
     async (req, rep) => {
       const id = entero(req.params.id);
       if (!id) return rep.code(400).send({ error: 'id inválido' });
-      return iniciarEdicion(id, req.sesion);
+      return iniciarEdicion(id, req.sesion, req.body?.forzar === true);
+    },
+  );
+
+  /** La ventana sigue abierta: cada minuto, cuando no hubo nada que autoguardar. */
+  app.post<{ Params: { id: string; numero: string }; Body: { apertura?: unknown } | null }>(
+    '/editor/:id/:numero/latido', { preHandler: exigirEdicion },
+    async (req, rep) => {
+      const id = entero(req.params.id), numero = entero(req.params.numero);
+      if (!id || !numero) return rep.code(400).send({ error: 'id o versión inválidos' });
+      return latido(id, numero, req.body?.apertura, req.sesion);
+    },
+  );
+
+  /** Noticias propias que quedaron abiertas: el aviso al entrar. */
+  app.get('/editor/para-recuperar', async (req) =>
+    (config.edicion ? paraRecuperar(req.sesion) : []));
+
+  /** Si está EN_EDICION: quién la tiene, qué se recuperaría, qué puede hacer quien mira. */
+  app.get<{ Params: { id: string } }>('/noticias/:id/bloqueo', async (req, rep) => {
+    const id = entero(req.params.id);
+    if (!id) return rep.code(400).send({ error: 'id inválido' });
+    return bloqueo(id, req.sesion);
+  });
+
+  app.post<{ Params: { id: string }; Body: { modo?: unknown } | null }>(
+    '/noticias/:id/destrabar', { preHandler: exigirEdicion },
+    async (req, rep) => {
+      const id = entero(req.params.id);
+      const modo = req.body?.modo as ModoDestrabar;
+      if (!id) return rep.code(400).send({ error: 'id inválido' });
+      if (modo !== 'guardar' && modo !== 'descartar') {
+        return rep.code(400).send({ error: 'modo inválido', validos: ['guardar', 'descartar'] });
+      }
+      return destrabar(id, modo, req.sesion);
     },
   );
 
@@ -86,6 +123,25 @@ export async function rutasEditor(app: FastifyInstance) {
     const seccion = entero(req.query.seccion ?? '');
     if (!seccion) return rep.code(400).send({ error: 'falta la sección' });
     return comandosPara(seccion, req.sesion.usuario.id);
+  });
+
+  // --- ortografía -----------------------------------------------------------
+
+  /**
+   * Las palabras que no están en el diccionario de la redacción, con su
+   * posición. `sugerencias: true` para Ctrl+I; sin ellas, para marcar en vivo.
+   */
+  app.post<{ Body: { texto?: unknown; sugerencias?: unknown } }>('/editor/ortografia', async (req, rep) => {
+    const t = texto(req.body?.texto);
+    if (t.length > 1_000_000) return rep.code(413).send({ error: 'El texto es demasiado largo.' });
+    return { errores: await revisar(t, req.body?.sugerencias === true) };
+  });
+
+  /** Agregar una palabra al diccionario (permiso ADMINISTRAR_DICCIONARIO). */
+  app.post<{ Body: { palabra?: unknown } }>('/diccionario', { preHandler: exigirEdicion }, async (req, rep) => {
+    const puede = req.sesion.permisos.some((p) => p.nombre === 'ADMINISTRAR_DICCIONARIO');
+    if (!puede) return rep.code(403).send({ error: 'No tiene permiso para administrar el diccionario' });
+    return agregarPalabra(texto(req.body?.palabra));
   });
 
   // --- medir: no escribe nada ---------------------------------------------

@@ -1,5 +1,6 @@
 import { consultar, consultarUno } from '../db.js';
 import { config } from '../config.js';
+import { viva } from './aperturas.js';
 import {
   ORDEN_NOTICIAS,
   type Noticia,
@@ -182,6 +183,8 @@ export async function buscarNoticias(f: FiltroNoticias): Promise<Pagina<Noticia>
       numero_version_activa: f2.numero_version_activa!,
       numero_proxima_version: f2.numero_proxima_version ?? null,
       version: aVersion(f2),
+      // Quedó EN_EDICION sin ninguna ventana abierta: hay algo para recuperar.
+      ...(f2.estado === 'EN_EDICION' ? { para_recuperar: !viva(f2.id_noticia) } : {}),
     })),
     total,
     total_exacto,

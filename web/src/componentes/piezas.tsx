@@ -5,7 +5,18 @@ export function Etiqueta({ clase, children }: { clase?: string; children: ReactN
   return <span className={`etiqueta ${clase ?? ''}`}>{children}</span>;
 }
 
-export function EstadoNoticia({ estado }: { estado: string }) {
+export function EstadoNoticia({ estado, paraRecuperar }: { estado: string; paraRecuperar?: boolean }) {
+  if (estado === 'EN_EDICION' && paraRecuperar) {
+    // Quedó abierta y nadie la está usando (se cerró el navegador, se colgó la PC).
+    return (
+      <span
+        className="etiqueta recuperar"
+        title="Quedó abierta sin cerrar y nadie la está usando: hay una versión para recuperar"
+      >
+        en edición · para recuperar
+      </span>
+    );
+  }
   return <Etiqueta clase={estado}>{estado.replace(/_/g, ' ').toLowerCase()}</Etiqueta>;
 }
 

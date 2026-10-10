@@ -23,6 +23,7 @@
 import type pg from 'pg';
 
 import { consultar, transaccion } from '../db.js';
+import * as aperturas from './aperturas.js';
 import type { SesionUsuario } from './sesion.js';
 import { composer, ErrorComposer, type Aviso } from '../composer.js';
 import {
@@ -30,8 +31,8 @@ import {
 } from '../dominio/caracteres.js';
 import {
   GUIA_USUARIO, ReglaRota, guiaAutogenerada, hoy, manana,
-  puedeCrearNoticia, puedeEditarNoticia, puedeFotocomponerNoticia,
-  validarParaGuardar, type NoticiaReglas, type UsuarioReglas,
+  puedeCrearNoticia, puedeDestrabarNoticia, puedeEditarNoticia, puedeFotocomponerNoticia,
+  validarParaGuardar, MENSAJES, type NoticiaReglas, type UsuarioReglas,
 } from '../dominio/reglas.js';
 
 // --- tipos -----------------------------------------------------------------
@@ -70,6 +71,15 @@ export interface EstadoEditor {
   creando: boolean;
   /** Se creó una versión nueva al abrir (cerrar sin guardar la borra). */
   nueva_version: boolean;
+  /**
+   * Había quedado abierta (se cerró el navegador, se colgó la PC) y se retomó
+   * con lo último autoguardado: la pantalla pide guardarla.
+   */
+  recuperada: boolean;
+  /** Si lo recuperado salió de `versiones_tmp` (si no, es la última versión guardada). */
+  hay_temporal: boolean;
+  /** Hora del último autoguardado, si la API la conoce (ISO). */
+  autoguardado: string | null;
 }
 
 export interface AperturaEditor {
@@ -78,6 +88,10 @@ export interface AperturaEditor {
   secciones: { id: number; nombre: string | null; codigo: string | null }[];
   comandos: Comando[];
   autosave_cambios: number;
+  /** Cada cuánto autoguarda (o late, si no hubo cambios) la ventana. */
+  autosave_segundos: number;
+  /** Identifica esta ventana: guardar desde otra apertura más vieja da 409. */
+  apertura: string;
 }
 
 /** Lo que manda la pantalla al guardar. */
@@ -89,13 +103,20 @@ export interface DatosEditor {
   titular?: unknown;
   cuerpo?: unknown;
   medidas?: unknown;
+  apertura?: unknown;
 }
 
 export class ErrorEditor extends Error {
-  constructor(readonly statusCode: number, mensaje: string, readonly errores?: string[]) {
+  constructor(
+    readonly statusCode: number, mensaje: string,
+    readonly errores?: string[], readonly motivo?: string,
+  ) {
     super(mensaje);
   }
 }
+
+/** Autoguardado por tiempo: cada minuto, si hubo cambios (pedido de la redacción). */
+export const AUTOSAVE_SEGUNDOS = 60;
 
 // --- sesión → reglas ---------------------------------------------------------
 
@@ -272,7 +293,11 @@ async function apertura(s: SesionUsuario, noticia: EstadoEditor): Promise<Apertu
     seccionesRedaccion(s),
     comandosPara(noticia.seccion_id, s.usuario.id),
   ]);
-  return { noticia, secciones, comandos, autosave_cambios: 40 };
+  const ap = aperturas.abrir(noticia.id, noticia.numero, s.usuario.username);
+  return {
+    noticia, secciones, comandos, autosave_cambios: 40,
+    autosave_segundos: AUTOSAVE_SEGUNDOS, apertura: ap,
+  };
 }
 
 // --- crear ------------------------------------------------------------------
@@ -319,6 +344,7 @@ export async function iniciarCreacion(s: SesionUsuario): Promise<AperturaEditor>
       medidas: { titular: { cm: 0, lineas: 0 }, cuerpo: { cm: 0, lineas: 0 }, noticia: { cm: 0, lineas: 0 } },
       estado: 'EN_EDICION', nivel: u.nivel, redactor: u.username,
       creando: true, nueva_version: false,
+      recuperada: false, hay_temporal: false, autoguardado: null,
     } satisfies EstadoEditor;
   });
   return apertura(s, estado);
@@ -326,13 +352,23 @@ export async function iniciarCreacion(s: SesionUsuario): Promise<AperturaEditor>
 
 // --- abrir -------------------------------------------------------------------
 
-/** AdministradorNoticias.iniciarEdicionNoticia. */
-export async function iniciarEdicion(id: number, s: SesionUsuario): Promise<AperturaEditor> {
+/**
+ * AdministradorNoticias.iniciarEdicionNoticia.
+ *
+ * Si la noticia está EN_EDICION por el mismo usuario que la abre, no es un
+ * "no": quedó abierta de antes (cerró el navegador, se colgó la PC) y se
+ * retoma con lo último autoguardado. Ver `recuperar`.
+ */
+export async function iniciarEdicion(id: number, s: SesionUsuario, forzar = false): Promise<AperturaEditor> {
   const u = usuarioReglas(s);
 
   const estado = await transaccion(async (c) => {
     const n = await cargar(c, id);
     if (!n) throw new ErrorEditor(404, 'No se puede editar la noticia porque fue eliminada.');
+
+    if (n.activa.estado === 'EN_EDICION' && n.activa.redactor === u.username) {
+      return recuperar(c, n, forzar);
+    }
 
     puedeEditarNoticia(aReglas(n), u);
 
@@ -402,6 +438,7 @@ export async function iniciarEdicion(id: number, s: SesionUsuario): Promise<Aper
       medidas: { titular: medTitular, cuerpo: medCuerpo, noticia: medNoticia },
       estado: 'EN_EDICION', nivel: u.nivel, redactor,
       creando: false, nueva_version: nuevaVersion,
+      recuperada: false, hay_temporal: false, autoguardado: null,
     } satisfies EstadoEditor;
   });
   return apertura(s, estado);
@@ -426,6 +463,116 @@ async function insertarTemporal(c: pg.PoolClient, t: {
     [t.id, t.numero, t.fecha, t.seccion_id, t.cuerpo, t.titular,
       t.redactor, t.nivel, t.guia, t.confidencial],
   );
+}
+
+// --- recuperar lo que quedó abierto ---------------------------------------------
+
+interface FilaTemporal {
+  fecha_publicacion: string | null;
+  id_seccion: number;
+  volanta: string | null; titulo: string | null; bajada: string | null;
+  cuerpo: string | null; titular: string | null;
+  redactor: string;
+  guia: string | null;
+  confidencial: boolean | null;
+}
+
+async function leerTemporal(c: pg.PoolClient, id: number, numero: number) {
+  const r = await c.query<FilaTemporal>(
+    `SELECT fecha_publicacion, id_seccion, volanta, titulo, bajada, cuerpo, titular,
+            redactor, guia, confidencial
+       FROM versiones_tmp WHERE id_noticia = $1 AND numero = $2`,
+    [id, numero],
+  );
+  return r.rows[0] ?? null;
+}
+
+/** El titular de una fila (versión o temporal), con la migración de Version.migrar(). */
+const titularDe = (f: Pick<FilaVersion, 'volanta' | 'titulo' | 'bajada' | 'titular'>) =>
+  titularMigrado({
+    ...f,
+    medida_titular_cm: 0, medida_titular_lineas: 0,
+    medida_volanta_cm: 0, medida_volanta_lineas: 0, medida_titulo_cm: 0, medida_titulo_lineas: 0,
+    medida_bajada_cm: 0, medida_bajada_lineas: 0,
+  } as FilaVersion).texto;
+
+/** La noticia se creó y nunca se guardó (el Swing la reconocía por la guía nula). */
+const nuncaGuardada = (n: NoticiaCargada) =>
+  n.guia === null && n.versiones.length === 1 && n.numero_version_activa === 1;
+
+/**
+ * La versión activa es una versión nueva (creada al abrir una AUTORIZADA o
+ * FOTOCOMPUESTA) que nunca se llegó a guardar: es idéntica a la anterior.
+ * Descartarla no pierde nada; dejarla sí ensuciaría la noticia con una copia
+ * que además le saca el estado AUTORIZADA.
+ */
+function versionNuevaSinGuardar(n: NoticiaCargada): boolean {
+  const a = n.activa;
+  const previa = n.versiones.find((v) => v.numero < a.numero); // vienen de mayor a menor
+  if (!previa || a.numero === 1) return false;
+  return titularDe(a) === titularDe(previa)
+    && (a.cuerpo ?? '') === (previa.cuerpo ?? '')
+    && a.id_seccion === previa.id_seccion;
+}
+
+/**
+ * Retomar una noticia propia que quedó EN_EDICION. Reemplaza a la ventana
+ * "Restauración de versiones temporales" del Swing, que aparecía al entrar:
+ * acá se abre la noticia en el editor con lo último autoguardado y se pide
+ * guardarla, como acordamos con la redacción.
+ */
+async function recuperar(c: pg.PoolClient, n: NoticiaCargada, forzar: boolean): Promise<EstadoEditor> {
+  if (aperturas.viva(n.id) && !forzar) {
+    throw new ErrorEditor(
+      409,
+      'La noticia está abierta en otra ventana o en otra PC. Si la abre acá, aquella ya no podrá guardarla.',
+      undefined, 'abierta_otra_ventana',
+    );
+  }
+  const a = n.activa;
+  const numero = n.numero_version_activa;
+  const t = await leerTemporal(c, n.id, numero);
+
+  const titular = t ? titularDe(t) : titularDe(a);
+  const cuerpo = (t ? t.cuerpo : a.cuerpo) ?? '';
+  const seccionId = t?.id_seccion ?? a.id_seccion;
+  const confidencial = (t?.confidencial ?? a.confidencial) === true;
+
+  let fecha = t?.fecha_publicacion ?? a.fecha_publicacion ?? manana();
+  let fechaAnterior: string | null = null;
+  if (fecha.slice(0, 10) < hoy()) { fechaAnterior = fecha; fecha = manana(); }
+
+  // Si nunca se guardó, la guía está sólo en la temporal (si llegó a autoguardarse).
+  const g = partesGuia(n.guia ?? t?.guia ?? null, n.id);
+  const creando = nuncaGuardada(n);
+
+  if (!t) {
+    // EN_EDICION sin temporal (lo dejó así el Swing): se crea, para que el
+    // autoguardado tenga dónde escribir.
+    await insertarTemporal(c, {
+      id: n.id, numero, fecha, seccion_id: seccionId, titular, cuerpo,
+      redactor: a.redactor, nivel: a.nivel ?? 0, guia: n.guia, confidencial,
+    });
+  }
+
+  return {
+    id: n.id, numero,
+    guia_usuario: g.usuario, guia_auto: g.auto,
+    guia_editable: n.guia === null || g.usuario === '',
+    seccion_id: seccionId, fecha, fecha_anterior: fechaAnterior, confidencial,
+    titular, cuerpo,
+    // Las medidas guardadas son las de la versión; la pantalla vuelve a medir.
+    medidas: {
+      titular: { cm: a.medida_titular_cm ?? 0, lineas: a.medida_titular_lineas ?? 0 },
+      cuerpo: { cm: a.medida_cuerpo_cm ?? 0, lineas: a.medida_cuerpo_lineas ?? 0 },
+      noticia: { cm: a.medida_cm ?? 0, lineas: a.medida_lineas ?? 0 },
+    },
+    estado: 'EN_EDICION', nivel: a.nivel ?? 0, redactor: a.redactor,
+    creando,
+    nueva_version: !creando && versionNuevaSinGuardar(n),
+    recuperada: true, hay_temporal: t !== null,
+    autoguardado: aperturas.ultimoAutoguardado(n.id),
+  };
 }
 
 // --- guardar / autoguardar / cerrar -----------------------------------------
@@ -493,16 +640,23 @@ async function normalizar(
   };
 }
 
-/** La noticia tiene que estar abierta, en esa versión y por quien pide. */
-async function abiertaPor(c: pg.PoolClient, id: number, numero: number, s: SesionUsuario) {
+/**
+ * La noticia tiene que estar abierta, en esa versión, por quien pide y desde
+ * esta misma ventana (si se retomó en otra, ésta ya no guarda).
+ */
+async function abiertaPor(
+  c: pg.PoolClient, id: number, numero: number, s: SesionUsuario,
+  apertura: unknown, autoguardo = false,
+) {
   const n = await cargar(c, id);
   if (!n) throw new ErrorEditor(404, 'La noticia fue eliminada.');
   if (n.numero_version_activa !== numero || n.activa.estado !== 'EN_EDICION') {
-    throw new ErrorEditor(409, 'La noticia ya no está abierta para edición.');
+    throw new ErrorEditor(409, 'La noticia ya no está abierta para edición.', undefined, 'cerrada');
   }
   if (n.activa.redactor !== s.usuario.username) {
-    throw new ErrorEditor(409, 'La noticia está abierta por otro usuario.');
+    throw new ErrorEditor(409, 'La noticia está abierta por otro usuario.', undefined, 'cerrada');
   }
+  aperturas.latir(id, numero, s.usuario.username, apertura, autoguardo);
   return n;
 }
 
@@ -559,7 +713,7 @@ function exigirValida(x: Normalizados) {
 /** AdministradorNoticias.guardarNoticia: guarda la versión y la temporal. */
 export async function guardar(id: number, numero: number, d: DatosEditor, s: SesionUsuario) {
   return transaccion(async (c) => {
-    const n = await abiertaPor(c, id, numero, s);
+    const n = await abiertaPor(c, id, numero, s, d.apertura);
     const x = await normalizar(n, d, s);
     exigirValida(x);
     await actualizarVersion(c, id, numero, x);
@@ -571,11 +725,24 @@ export async function guardar(id: number, numero: number, d: DatosEditor, s: Ses
 /** AdministradorNoticias.autoSave: sólo la versión temporal. */
 export async function autoguardar(id: number, numero: number, d: DatosEditor, s: SesionUsuario) {
   return transaccion(async (c) => {
-    const n = await abiertaPor(c, id, numero, s);
+    const n = await abiertaPor(c, id, numero, s, d.apertura, true);
     const x = await normalizar(n, d, s);
     await actualizarTemporal(c, id, numero, x);
     return { ok: true };
   });
+}
+
+/**
+ * La ventana sigue abierta aunque no haya cambios. Sin ir a la base, salvo
+ * que la API no la tenga registrada (se reinició): ahí se verifica de verdad.
+ */
+export async function latido(id: number, numero: number, apertura: unknown, s: SesionUsuario) {
+  if (aperturas.registrada(id)) {
+    aperturas.latir(id, numero, s.usuario.username, apertura);
+  } else {
+    await transaccion((c) => abiertaPor(c, id, numero, s, apertura));
+  }
+  return { ok: true };
 }
 
 export type AccionCierre = 'guardando' | 'sin_guardar' | 'descartar_creacion' | 'descartar_version';
@@ -592,8 +759,8 @@ export type AccionCierre = 'guardando' | 'sin_guardar' | 'descartar_creacion' | 
 export async function cerrar(
   id: number, numero: number, accion: AccionCierre, d: DatosEditor, s: SesionUsuario,
 ) {
-  return transaccion(async (c) => {
-    const n = await abiertaPor(c, id, numero, s);
+  const r = await transaccion(async (c) => {
+    const n = await abiertaPor(c, id, numero, s, d.apertura);
     const borrarTemporal = () =>
       c.query(`DELETE FROM versiones_tmp WHERE id_noticia = $1 AND numero = $2`, [id, numero]);
 
@@ -641,6 +808,8 @@ export async function cerrar(
         throw new ErrorEditor(400, 'Acción de cierre inválida.');
     }
   });
+  aperturas.cerrar(id);
+  return r;
 }
 
 // --- medir ---------------------------------------------------------------------
@@ -714,4 +883,198 @@ export async function fotocomponer(id: number, s: SesionUsuario) {
     );
     return { archivo: r.archivo, carpeta: r.carpeta, bytes: r.bytes, avisos: r.avisos };
   });
+}
+
+// --- destrabar y avisar lo que quedó abierto ------------------------------------
+
+export type ModoDestrabar = 'guardar' | 'descartar';
+
+/**
+ * Destrabar una noticia que quedó EN_EDICION sin nadie que la tenga abierta.
+ *
+ *   guardar    lo último autoguardado pasa a ser la versión (restaurarVersionTemporal
+ *              del Swing) y la noticia vuelve a EN_EJECUCION
+ *   descartar  se tira lo autoguardado (terminarRestauracionVersionesTemporales):
+ *              vuelve a EN_EJECUCION como estaba guardada; si nunca se guardó, se
+ *              borra; si era una versión nueva idéntica a la anterior, se borra esa
+ *              versión y vuelve la anterior
+ *
+ * La puede usar el redactor o un usuario de nivel superior (puedeDestrabarNoticia).
+ */
+export async function destrabar(id: number, modo: ModoDestrabar, s: SesionUsuario) {
+  const u = usuarioReglas(s);
+  const r = await transaccion(async (c) => {
+    const n = await cargar(c, id);
+    if (!n) throw new ErrorEditor(404, 'La noticia fue eliminada.');
+    if (n.activa.estado !== 'EN_EDICION') throw new ErrorEditor(409, 'La noticia no está bloqueada.');
+    const quien = aperturas.quien(id);
+    if (quien) {
+      throw new ErrorEditor(409, `La noticia está abierta ahora por ${quien}: no se puede destrabar mientras la estén usando.`);
+    }
+    puedeDestrabarNoticia(aReglas(n), u);
+
+    const numero = n.numero_version_activa;
+    const t = await leerTemporal(c, id, numero);
+    const borrarTemporal = () =>
+      c.query(`DELETE FROM versiones_tmp WHERE id_noticia = $1 AND numero = $2`, [id, numero]);
+
+    if (modo === 'guardar') {
+      if (!t) throw new ErrorEditor(422, 'No hay nada autoguardado: sólo se puede descartar.');
+      const guia = n.guia ?? t.guia;
+      if (!guia || partesGuia(guia, id).usuario === '') {
+        throw new ErrorEditor(422, 'La noticia nunca se guardó y no tiene guía: sólo se puede descartar.');
+      }
+      const titular = titularDe(t);
+      const cuerpo = t.cuerpo ?? '';
+      // Lo autoguardado no trae medidas: se miden ahora. Sin motor, quedan las
+      // de la última versión guardada (se corrigen la próxima vez que se mida).
+      let medidas = {
+        titular: { cm: n.activa.medida_titular_cm ?? 0, lineas: n.activa.medida_titular_lineas ?? 0 },
+        cuerpo: { cm: n.activa.medida_cuerpo_cm ?? 0, lineas: n.activa.medida_cuerpo_lineas ?? 0 },
+        noticia: { cm: n.activa.medida_cm ?? 0, lineas: n.activa.medida_lineas ?? 0 },
+      };
+      try {
+        const m = await medirNoticia(titular, cuerpo);
+        medidas = {
+          titular: { cm: m.titular.cm, lineas: m.titular.lineas },
+          cuerpo: { cm: m.cuerpo.cm, lineas: m.cuerpo.lineas },
+          noticia: m.noticia,
+        };
+      } catch { /* quedan las anteriores */ }
+      await actualizarVersion(c, id, numero, {
+        guia,
+        seccion_id: t.id_seccion,
+        fecha: t.fecha_publicacion ?? n.activa.fecha_publicacion ?? manana(),
+        confidencial: (t.confidencial ?? n.activa.confidencial) === true,
+        titular, cuerpo, medidas,
+      }, 'EN_EJECUCION');
+      await borrarTemporal();
+      return { resultado: 'guardada' as const };
+    }
+
+    await borrarTemporal();
+    if (nuncaGuardada(n)) {
+      await c.query(`DELETE FROM noticias WHERE id = $1`, [id]);
+      return { resultado: 'borrada' as const };
+    }
+    if (versionNuevaSinGuardar(n)) {
+      await c.query(`DELETE FROM versiones WHERE id_noticia = $1 AND numero = $2`, [id, numero]);
+      const restantes = n.versiones.filter((v) => v.numero !== numero);
+      await c.query(
+        `UPDATE noticias SET numero_version_activa = $1, numero_proxima_version = $2 WHERE id = $3`,
+        [Math.max(...restantes.map((v) => v.numero)), n.numero_proxima_version - 1, id],
+      );
+      return { resultado: 'version_descartada' as const };
+    }
+    await c.query(
+      `UPDATE versiones SET estado = 'EN_EJECUCION' WHERE id_noticia = $1 AND numero = $2`,
+      [id, numero],
+    );
+    return { resultado: 'destrabada' as const };
+  });
+  aperturas.cerrar(id);
+  return r;
+}
+
+/**
+ * Lo que la ficha de una noticia necesita saber si está EN_EDICION: quién la
+ * tiene, si quedó abandonada, qué se recuperaría y qué puede hacer quien mira.
+ */
+export async function bloqueo(id: number, s: SesionUsuario) {
+  const u = usuarioReglas(s);
+  const [v] = await consultar<{
+    numero: number; estado: string; redactor: string; nivel: number | null;
+    id_seccion: number; fecha_publicacion: string | null; confidencial: boolean | null;
+  }>(
+    `SELECT v.numero, v.estado, v.redactor, v.nivel, v.id_seccion, v.fecha_publicacion, v.confidencial
+       FROM noticias n
+       JOIN versiones v ON v.id_noticia = n.id AND v.numero = n.numero_version_activa
+      WHERE n.id = $1`,
+    [id],
+  );
+  if (!v || v.estado !== 'EN_EDICION') return { bloqueada: false as const };
+
+  const abiertaAhoraPor = aperturas.quien(id);
+  const versiones = await consultar<{
+    numero: number; confidencial: boolean | null; nivel_redactor: number | null; redactor: string;
+  }>(
+    `SELECT numero, confidencial, nivel_redactor, redactor
+       FROM versiones WHERE id_noticia = $1 AND eliminada IS NOT TRUE`,
+    [id],
+  );
+  const reglas: NoticiaReglas = {
+    estado: v.estado, nivel: v.nivel ?? 0, redactor: v.redactor, id_seccion: v.id_seccion,
+    fecha_publicacion: v.fecha_publicacion, confidencial: v.confidencial === true,
+    versiones: versiones.map((x) => ({ ...x, confidencial: x.confidencial === true })),
+  };
+
+  const esDueno = v.redactor === u.username;
+  let puede: 'recuperar' | 'destrabar' | null = null;
+  let porque: string | null = null;
+  if (abiertaAhoraPor) {
+    puede = esDueno ? 'recuperar' : null;   // el dueño la puede retomar acá
+    porque = esDueno ? null : `La está usando ${abiertaAhoraPor}.`;
+  } else if (esDueno) {
+    puede = 'recuperar';
+  } else {
+    try { puedeDestrabarNoticia(reglas, u); puede = 'destrabar'; } catch (e) {
+      porque = e instanceof Error ? e.message : MENSAJES.destrabarNivel;
+    }
+  }
+
+  // El texto de lo autoguardado sólo para quien puede hacer algo con él, o si
+  // la noticia no es confidencial (la ficha ya muestra la versión igual).
+  const verTexto = esDueno || puede === 'destrabar' || v.confidencial !== true;
+  const [t] = verTexto
+    ? await consultar<FilaTemporal & { seccion_nombre: string | null; seccion_codigo: string | null }>(
+      `SELECT t.fecha_publicacion, t.id_seccion, t.volanta, t.titulo, t.bajada, t.cuerpo, t.titular,
+              t.redactor, t.guia, t.confidencial, s.nombre AS seccion_nombre, s.codigo AS seccion_codigo
+         FROM versiones_tmp t LEFT JOIN secciones s ON s.id = t.id_seccion
+        WHERE t.id_noticia = $1 AND t.numero = $2`,
+      [id, v.numero],
+    )
+    : [];
+
+  return {
+    bloqueada: true as const,
+    redactor: v.redactor,
+    abierta_ahora_por: abiertaAhoraPor,
+    para_recuperar: abiertaAhoraPor === null,
+    puede, porque,
+    autoguardado: aperturas.ultimoAutoguardado(id),
+    temporal: t
+      ? {
+        numero: v.numero,
+        titular: titularDe(t), cuerpo: t.cuerpo ?? '',
+        fecha_publicacion: t.fecha_publicacion,
+        seccion: { id: t.id_seccion, nombre: t.seccion_nombre, codigo: t.seccion_codigo },
+        guia: t.guia, confidencial: t.confidencial === true,
+      }
+      : null,
+  };
+}
+
+/** Las noticias del usuario que quedaron abiertas sin nadie usándolas. */
+export async function paraRecuperar(s: SesionUsuario) {
+  const filas = await consultar<{
+    id: number; guia: string | null; numero: number; titular: string | null; titulo: string | null;
+    cuerpo: string | null; fecha_publicacion: string | null; seccion_codigo: string | null;
+    hay_temporal: boolean;
+  }>(
+    `SELECT n.id, COALESCE(n.guia, t.guia) AS guia, v.numero,
+            COALESCE(t.titular, v.titular) AS titular, v.titulo,
+            left(COALESCE(t.cuerpo, v.cuerpo), 200) AS cuerpo,
+            v.fecha_publicacion, s.codigo AS seccion_codigo,
+            (t.id_noticia IS NOT NULL) AS hay_temporal
+       FROM versiones v
+       JOIN noticias n ON n.id = v.id_noticia AND v.numero = n.numero_version_activa
+       JOIN secciones s ON s.id = v.id_seccion
+       LEFT JOIN versiones_tmp t ON t.id_noticia = v.id_noticia AND t.numero = v.numero
+      WHERE v.estado = 'EN_EDICION' AND v.redactor = $1 AND v.eliminada IS NOT TRUE
+      ORDER BY n.id DESC`,
+    [s.usuario.username],
+  );
+  return filas
+    .filter((f) => !aperturas.viva(f.id))
+    .map((f) => ({ ...f, autoguardado: aperturas.ultimoAutoguardado(f.id) }));
 }

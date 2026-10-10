@@ -22,6 +22,9 @@
   --aviso-fondo: #fdf3e0;
   --confidencial: #7b2d8e;
   --confidencial-fondo: #f6ecf9;
+  /* Noticia que quedó abierta y nadie usa: rojizo, distinto del rojo de "eliminada". */
+  --recuperar: #a8401f;
+  --recuperar-fondo: #fbe8e0;
   --sombra: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .1);
   --radio: 6px;
   --fuente: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -48,6 +51,8 @@
     --aviso-fondo: #33291a;
     --confidencial: #cd9ad9;
     --confidencial-fondo: #2e2136;
+    --recuperar: #f29a7a;
+    --recuperar-fondo: #3b2219;
     --sombra: 0 1px 2px rgba(0, 0, 0, .3), 0 1px 3px rgba(0, 0, 0, .4);
   }
 }
@@ -60,6 +65,7 @@
   --peligro: #f2837c; --peligro-fondo: #3a1f1e;
   --ok: #5cc98a; --aviso: #e0b567; --aviso-fondo: #33291a;
   --confidencial: #cd9ad9; --confidencial-fondo: #2e2136;
+  --recuperar: #f29a7a; --recuperar-fondo: #3b2219;
   --sombra: 0 1px 2px rgba(0,0,0,.3), 0 1px 3px rgba(0,0,0,.4);
 }
 
@@ -194,7 +200,9 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 button.primario {
   background: var(--acento); border-color: var(--acento); color: #fff;
 }
-button.primario:hover:not(:disabled) { filter: brightness(1.08); }
+/* El fondo se repite: si no, el hover genérico de arriba (más específico) lo
+   pisa con gris claro y el texto blanco desaparece. */
+button.primario:hover:not(:disabled) { background: var(--acento); filter: brightness(1.08); }
 
 button.plano { border-color: transparent; background: transparent; color: var(--texto-2); }
 button.plano:hover:not(:disabled) { background: var(--borde-suave); }
@@ -258,6 +266,7 @@ td.apretado { white-space: nowrap; }
 .etiqueta.FOTOCOMPUESTA { background: var(--borde-suave);        color: var(--texto-2); }
 .etiqueta.confidencial  { background: var(--confidencial-fondo); color: var(--confidencial); }
 .etiqueta.eliminada     { background: var(--peligro-fondo);      color: var(--peligro); }
+.etiqueta.recuperar     { background: var(--recuperar-fondo);    color: var(--recuperar); font-weight: 700; }
 .etiqueta.prioridad-1, .etiqueta.prioridad-U {
   background: var(--peligro-fondo); color: var(--peligro);
 }
@@ -274,6 +283,19 @@ td.apretado { white-space: nowrap; }
 }
 .aviso.error { background: var(--peligro-fondo); color: var(--peligro); border-color: currentColor; }
 .aviso.info  { background: var(--acento-fondo);  color: var(--acento); }
+.aviso.recuperar { background: var(--recuperar-fondo); color: var(--recuperar); border-color: currentColor; }
+
+/* Aviso del buscador: noticias propias que quedaron abiertas sin cerrar. */
+.recuperables {
+  margin: 10px 14px 0; padding: 10px 14px; border-radius: var(--radio);
+  background: var(--recuperar-fondo); color: var(--recuperar); border: 1px solid currentColor;
+  font-size: 13px;
+}
+.recuperables p { margin: 0 0 6px; }
+.recuperables ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.recuperables li { display: flex; gap: 10px; align-items: center; min-width: 0; }
+.recuperables li .resumen { color: var(--texto-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.recuperables button { padding: 2px 10px; font-size: 12px; }
 
 .vacio { padding: 40px 20px; text-align: center; color: var(--texto-3); }
 .vacio p { margin: 4px 0; }
@@ -321,6 +343,8 @@ td.apretado { white-space: nowrap; }
 }
 .versiones-lista button:hover { background: var(--panel-2); }
 .versiones-lista button.activa { background: var(--acento-fondo); border-color: var(--acento); }
+.versiones-lista button.recuperado .nro { color: var(--recuperar); }
+.versiones-lista button.recuperado.activa { background: var(--recuperar-fondo); border-color: var(--recuperar); }
 .versiones-lista .linea-1 { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
 .versiones-lista .nro { font-weight: 700; font-variant-numeric: tabular-nums; }
 .versiones-lista .meta { font-size: 11px; color: var(--texto-3); }
@@ -331,7 +355,7 @@ td.apretado { white-space: nowrap; }
   border-bottom: 1px solid var(--borde-suave); background: var(--panel-2);
 }
 .ficha .dato { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.ficha .dato span {
+.ficha .dato > span {
   font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--texto-3);
   font-weight: 600;
 }
@@ -579,4 +603,46 @@ input.corto { width: 6ch; text-align: center; font-family: var(--fuente-mono); }
 .editor-barra .herramienta.ayuda {
   width: 26px; height: 26px; padding: 0; border-radius: 50%;
   border-color: var(--borde); font-weight: 700;
+}
+
+/* --- ortografía ---------------------------------------------------------------
+   Chrome marca con su rojo ondulado; el diccionario de la redacción, con un
+   punteado azul grueso: se distinguen de un vistazo y aun superpuestos. */
+:root { --orto-jsdr: #1d5fd1; --orto-actual-fondo: #ffe58a; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) { --orto-jsdr: #7fb0ff; --orto-actual-fondo: #6b5512; }
+}
+:root[data-tema="oscuro"] { --orto-jsdr: #7fb0ff; --orto-actual-fondo: #6b5512; }
+
+.orto-jsdr {
+  text-decoration-line: underline; text-decoration-style: dotted;
+  text-decoration-color: var(--orto-jsdr); text-decoration-thickness: 2.5px;
+  text-underline-offset: 4px;
+}
+.orto-actual { background: var(--orto-actual-fondo); border-radius: 2px; }
+.leyenda-chrome {
+  text-decoration-line: underline; text-decoration-style: wavy;
+  text-decoration-color: #e0281c; text-underline-offset: 3px;
+}
+
+.dialogo.ortografia { max-width: 520px; }
+.orto-contexto {
+  font-family: var(--fuente-nota); font-size: 14px; color: var(--texto-2);
+  background: var(--panel-2); border: 1px solid var(--borde-suave); border-radius: var(--radio);
+  padding: 8px 10px; overflow-wrap: anywhere;
+}
+.orto-contexto mark { background: var(--orto-actual-fondo); color: var(--texto); font-weight: 700; padding: 0 2px; }
+.orto-grilla { display: grid; grid-template-columns: auto 1fr; gap: 8px 10px; align-items: start; }
+.orto-grilla label { font-size: 12px; color: var(--texto-2); padding-top: 6px; text-align: right; }
+.orto-sugerencias {
+  list-style: none; margin: 0; padding: 4px; min-height: 96px; max-height: 160px; overflow: auto;
+  border: 1px solid var(--borde); border-radius: var(--radio); background: var(--panel);
+}
+.orto-sugerencias li { padding: 3px 8px; border-radius: 4px; cursor: pointer; }
+.orto-sugerencias li.elegida { background: var(--acento-fondo); color: var(--acento); font-weight: 600; }
+.orto-sugerencias li.tenue { cursor: default; }
+.orto-botones { flex-wrap: wrap; }
+@media (max-width: 520px) {
+  .orto-grilla { grid-template-columns: 1fr; }
+  .orto-grilla label { text-align: left; padding-top: 0; }
 }

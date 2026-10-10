@@ -17,6 +17,8 @@ export const MENSAJES = {
   confidencial: 'La noticia es CONFIDENCIAL',
   fechaAnterior: 'La noticia tiene fecha anterior a hoy',
   cerrada: 'La noticia está cerrada',
+  // No existía en el Swing (ver puedeDestrabarNoticia).
+  destrabarNivel: 'Sólo el redactor o un usuario de nivel superior pueden destrabar la noticia',
   // common/mensajes_error.properties — Noticia.isValid()
   guiaNula: 'La guía debe contener un valor',
   seccionNula: 'La sección debe contener un valor',
@@ -164,6 +166,21 @@ export function puedeFotocomponerNoticia(n: NoticiaReglas, u: UsuarioReglas) {
   checkNivelIgualSuperior(n, u);
   checkFechaAnterior(n);
   if (n.estado === 'EN_EJECUCION') checkUsuarioIgual(n, u);
+  checkConfidencial(n, u);
+}
+
+/**
+ * Destrabar una noticia que quedó EN_EDICION sin nadie que la tenga abierta
+ * (se cerró el navegador, se colgó la PC). No es una regla del Swing: allá
+ * sólo el mismo redactor podía restaurar sus temporales, al volver a entrar.
+ * Acordado con la redacción: además del redactor, puede un usuario de nivel
+ * SUPERIOR al de quien la tenía abierta, con permiso de redacción en la
+ * sección y respetando la confidencialidad.
+ */
+export function puedeDestrabarNoticia(n: NoticiaReglas, u: UsuarioReglas) {
+  if (n.redactor === u.username) return;
+  checkPermisoRedaccion(n, u);
+  if (u.nivel <= n.nivel) throw new ReglaRota(MENSAJES.destrabarNivel);
   checkConfidencial(n, u);
 }
 

@@ -73,6 +73,8 @@ export interface Noticia {
   numero_proxima_version: number | null;
   version?: Version;
   versiones?: Version[];
+  /** En el buscador: está EN_EDICION y nadie la tiene abierta (quedó para recuperar). */
+  para_recuperar?: boolean;
 }
 
 export interface Cable {

@@ -18,9 +18,13 @@ import type {
   AccionCierre, AperturaEditor, Comando, DatosEditor, EstadoEditor, Seccion,
 } from '../api/tipos';
 import { Dialogo, type PedidoDialogo, type RespuestaDialogo } from '../componentes/Dialogo';
+import {
+  DialogoOrtografia, type PedidoOrtografia, type RespuestaOrtografia,
+} from '../componentes/DialogoOrtografia';
 import { useUsuario } from '../sesion';
 import {
-  crearVista, letra, seleccionarPalabra, temaLetra, type Accion, type Campo,
+  crearVista, letra, ponerOrtografia, ponerPalabraActual, seleccionarPalabra, temaLetra,
+  type Accion, type Campo,
 } from './vista';
 
 // --- tipos -------------------------------------------------------------------
@@ -43,6 +47,8 @@ export interface Pestana {
   comandos: Comando[];
   comandoSel: number | null;
   autosaveCambios: number;
+  /** Identifica esta ventana ante la API (si se retoma en otra, ésta ya no guarda). */
+  apertura: string;
   medidas: Record<Campo | 'noticia', MedidaVista>;
   /** seGuardoAlgunaVez / seModificoPostGuardado del Swing. */
   seGuardo: boolean;
@@ -132,6 +138,20 @@ const GUIA = /^[a-zA-Z_0-9]{0,10}$/;
 /** Espera de la medición en vivo después de la última tecla. */
 const ESPERA_MEDICION_MS = 700;
 
+/** Autoguardado por tiempo (la API dice lo mismo en `autosave_segundos`). */
+const SEGUNDOS_AUTOGUARDADO = 60;
+
+const hora = (iso: string) =>
+  new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+
+function textoRecuperada(n: EstadoEditor) {
+  if (!n.hay_temporal) {
+    return 'La noticia había quedado abierta sin cerrar. Se retomó la última versión guardada.';
+  }
+  const cuando = n.autoguardado ? ` (autoguardado de las ${hora(n.autoguardado)})` : '';
+  return `Se recuperó lo que había quedado sin guardar${cuando}. Guarde la noticia para conservarlo.`;
+}
+
 // --- proveedor -----------------------------------------------------------------
 
 export function ProveedorEditor({ children }: { children: ReactNode }) {
@@ -161,6 +181,18 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
     await preguntar({ titulo, mensaje, detalles, botones: [{ etiqueta: 'Aceptar', valor: 'ok', principal: true }] });
   }, [preguntar]);
 
+  const [pedidoOrto, setPedidoOrto] = useState<PedidoOrtografia | null>(null);
+  const resolverOrto = useRef<((r: RespuestaOrtografia) => void) | null>(null);
+  const preguntarOrto = (p: PedidoOrtografia) => new Promise<RespuestaOrtografia>((ok) => {
+    resolverOrto.current = ok;
+    setPedidoOrto(p);
+  });
+  /** palabrasAOmitir / palabrasACambiar del Swing: duran lo que la noticia esté abierta. */
+  const omitidas = useRef(new Map<string, Set<string>>());
+  const cambiadas = useRef(new Map<string, Map<string, string>>());
+  const puedeAgregarPalabras =
+    sesion.edicion === true && sesion.permisos.some((x) => x.nombre === 'ADMINISTRAR_DICCIONARIO');
+
   // --- estado de las pestañas -----------------------------------------------
   const poner = (nueva: Pestana[]) => { lista.current = nueva; setPestanas(nueva); };
   const p = (clave: string) => lista.current.find((x) => x.clave === clave);
@@ -188,6 +220,7 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
     const x = p(clave)!;
     const t = textos(clave);
     return {
+      apertura: x.apertura,
       guia_usuario: x.n.guia_usuario, seccion_id: x.n.seccion_id, fecha: x.n.fecha,
       confidencial: x.n.confidencial, titular: t.titular, cuerpo: t.cuerpo,
       medidas: {
@@ -207,16 +240,55 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
     const x = p(clave);
     if (!x || autoguardando.current.has(clave)) return;
     autoguardando.current.add(clave);
+    const antes = cambios.current.get(clave) ?? 0;
     mensaje(clave, 'Auto Guardando Noticia...');
     try {
       await api.editor.autoguardar(x.n.id, x.n.numero, datos(clave));
-      cambios.current.set(clave, 0);
+      // Lo que se escribió mientras viajaba el pedido queda para el próximo.
+      cambios.current.set(clave, Math.max(0, (cambios.current.get(clave) ?? 0) - antes));
       if (p(clave)?.mensaje?.texto === 'Auto Guardando Noticia...') mensaje(clave, '');
     } catch (e) {
       mensaje(clave, '');
-      await avisar('Editor de Noticias', mensajeDe(e));
+      await perdioLaVentana(clave, e, 'No se pudo autoguardar');
     } finally {
       autoguardando.current.delete(clave);
+    }
+  }
+
+  /**
+   * Un 409 de autoguardar o latir: la noticia se retomó en otra ventana, o ya
+   * no está abierta. Esta pestaña no puede seguir guardando: se avisa y se
+   * cierra. Cualquier otro error (la red, la API reiniciándose) sólo se
+   * muestra abajo: el próximo minuto se vuelve a intentar.
+   */
+  async function perdioLaVentana(clave: string, e: unknown, que: string) {
+    if (e instanceof ErrorApi && e.codigo === 409 && p(clave)) {
+      await avisar('Editor de Noticias', mensajeDe(e));
+      quitarPestana(clave);
+      return;
+    }
+    if (p(clave)) mensaje(clave, `${que}: ${mensajeDe(e)}. Se reintenta en un minuto.`, 'error');
+  }
+
+  /**
+   * Cada minuto, cada noticia abierta: si cambió algo desde el último
+   * autoguardado, se autoguarda; si no, sólo avisa que la ventana sigue
+   * abierta. Así la API distingue una noticia en uso de una que quedó abierta
+   * porque se cerró el navegador. (Pedido de la redacción: además de los 40
+   * cambios del Swing, por tiempo.)
+   */
+  async function tic() {
+    for (const x of lista.current) {
+      if (autoguardando.current.has(x.clave)) continue;
+      if ((cambios.current.get(x.clave) ?? 0) > 0) {
+        await autoguardar(x.clave);
+      } else {
+        try {
+          await api.editor.latido(x.n.id, x.n.numero, x.apertura);
+        } catch (e) {
+          await perdioLaVentana(x.clave, e, 'Se perdió la conexión con el servidor');
+        }
+      }
     }
   }
 
@@ -260,6 +332,24 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
     } catch {
       // Sin motor no hay medida en vivo; el F3 dirá por qué.
     }
+    void revisarEnVivo(clave, campo);
+  }
+
+  /** Marca, en su color, las palabras que no están en el diccionario de la redacción. */
+  async function revisarEnVivo(clave: string, campo: Campo) {
+    const v = vista(clave, campo);
+    if (!v) return;
+    const texto = v.state.doc.toString();
+    try {
+      const r = await api.editor.ortografia(texto);
+      const ahora = vista(clave, campo);
+      // Si se siguió escribiendo, estas posiciones ya no sirven: la próxima pausa vuelve a revisar.
+      if (!ahora || ahora.state.doc.toString() !== texto) return;
+      const omitir = omitidas.current.get(clave);
+      ahora.dispatch({
+        effects: ponerOrtografia.of(r.errores.filter((e) => !omitir?.has(e.palabra))),
+      });
+    } catch { /* sin revisión en vivo; Ctrl+I dirá por qué */ }
   }
 
   // --- crear las vistas de una noticia ----------------------------------------
@@ -271,15 +361,18 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
       clave, n: a.noticia, secciones: a.secciones, comandos: a.comandos,
       comandoSel: a.comandos[0]?.id ?? null,
       autosaveCambios: a.autosave_cambios,
+      apertura: a.apertura,
       medidas: {
         titular: { ...m.titular, error: false },
         cuerpo: { ...m.cuerpo, error: false },
         noticia: { ...m.noticia, error: false },
       },
       seGuardo: false, modPost: false, salida: null,
-      mensaje: a.noticia.fecha_anterior
-        ? { tipo: 'aviso', texto: `La fecha de publicación era ${a.noticia.fecha_anterior.split('-').reverse().join('/')}: se pasó a mañana.` }
-        : null,
+      mensaje: a.noticia.recuperada
+        ? { tipo: 'aviso', texto: textoRecuperada(a.noticia) }
+        : a.noticia.fecha_anterior
+          ? { tipo: 'aviso', texto: `La fecha de publicación era ${a.noticia.fecha_anterior.split('-').reverse().join('/')}: se pasó a mañana.` }
+          : null,
       ocupada: null,
     };
     const opciones = (campo: Campo) => ({
@@ -294,6 +387,14 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
     cambios.current.set(clave, 0);
     poner([...lista.current, nueva]);
     setActivaEstado(clave);
+    if (a.noticia.recuperada) {
+      // Lo autoguardado no trae medidas: se vuelven a medir los dos campos.
+      programarMedicion(clave, 'titular');
+      programarMedicion(clave, 'cuerpo');
+    } else {
+      void revisarEnVivo(clave, 'titular');
+      void revisarEnVivo(clave, 'cuerpo');
+    }
     return clave;
   }
 
@@ -304,6 +405,8 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
     vistas.current.delete(clave);
     campoActual.current.delete(clave);
     cambios.current.delete(clave);
+    omitidas.current.delete(clave);
+    cambiadas.current.delete(clave);
     const i = lista.current.findIndex((x) => x.clave === clave);
     const resto = lista.current.filter((x) => x.clave !== clave);
     poner(resto);
@@ -346,9 +449,24 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
     const ya = lista.current.find((x) => x.n.id === id);
     if (ya) { setActivaEstado(ya.clave); return true; }
     try {
-      const a = await api.editor.abrir(id);
+      let a: AperturaEditor;
+      try {
+        a = await api.editor.abrir(id);
+      } catch (e) {
+        // Es suya y figura abierta en otra ventana (o en otra PC, o en esta
+        // misma antes de recargar): se puede retomar acá.
+        if (!(e instanceof ErrorApi && e.motivo === 'abierta_otra_ventana')) throw e;
+        const r = await preguntar({
+          titulo: 'Editar noticia',
+          mensaje: `${e.message} ¿Quiere continuar acá?`,
+          botones: [{ etiqueta: 'Sí, continuar acá', valor: 'si', principal: true }, { etiqueta: 'No', valor: 'no' }],
+          cancelar: 'no',
+        });
+        if (r.boton !== 'si') return false;
+        a = await api.editor.abrir(id, true);
+      }
       const clave = agregarPestana(a);
-      if (a.noticia.guia_editable) await pedirGuia(clave);
+      if (a.noticia.guia_editable && !a.noticia.guia_usuario) await pedirGuia(clave);
       else window.setTimeout(() => enfocar(clave, 'titular'), 0);
       return true;
     } catch (e) {
@@ -510,10 +628,89 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
       case 'medir-alto': void medirAlto(clave, c); break;
       case 'medir-ancho': void medirAncho(clave, c); break;
       case 'guardar': void guardar(clave); break;
-      case 'ortografia': noDisponible(clave, 'La revisión ortográfica'); break;
+      case 'ortografia': void revisarOrtografia(clave); break;
       case 'letra-mas': cambiarLetra(+1); break;
       case 'letra-menos': cambiarLetra(-1); break;
     }
+  }
+
+  // --- ortografía: Ctrl+I -------------------------------------------------------
+
+  /**
+   * EditorNoticiasJPanel.revisarOrtografía + RevisorOrtograficoHelper: recorre
+   * las palabras desconocidas del titular y después del cuerpo, una por una,
+   * con el diálogo "Ortografía". Lo omitido y lo cambiado "todas" se recuerda
+   * mientras la noticia esté abierta, como en el Swing.
+   */
+  async function revisarOrtografia(clave: string) {
+    if (!p(clave) || pedidoOrto) return;
+    const omitir = omitidas.current.get(clave) ?? new Set<string>();
+    const cambiar = cambiadas.current.get(clave) ?? new Map<string, string>();
+    omitidas.current.set(clave, omitir);
+    cambiadas.current.set(clave, cambiar);
+    mensaje(clave, 'Revisando la ortografía…');
+    let cancelada = false;
+
+    try {
+      for (const campo of ['titular', 'cuerpo'] as const) {
+        const v = vista(clave, campo);
+        if (!v || cancelada) continue;
+        const { errores } = await api.editor.ortografia(v.state.doc.toString(), true);
+        // Cada cambio corre las posiciones de lo que sigue en el mismo campo.
+        let corrimiento = 0;
+        for (const e of errores) {
+          if (omitir.has(e.palabra)) continue;
+          const desde = e.desde + corrimiento;
+          const hasta = e.hasta + corrimiento;
+          if (v.state.sliceDoc(desde, hasta) !== e.palabra) continue; // ya no está ahí
+
+          const reemplazar = (por: string) => {
+            v.dispatch({ changes: { from: desde, to: hasta, insert: por }, userEvent: 'input.ortografia' });
+            corrimiento += por.length - e.palabra.length;
+          };
+
+          if (cambiar.has(e.palabra)) { reemplazar(cambiar.get(e.palabra)!); continue; }
+
+          v.dispatch({
+            effects: ponerPalabraActual.of({ desde, hasta }),
+            selection: { anchor: desde, head: hasta },
+            scrollIntoView: true,
+          });
+          const doc = v.state.doc.toString();
+          const r = await preguntarOrto({
+            palabra: e.palabra,
+            sugerencias: e.sugerencias ?? [],
+            antes: doc.slice(Math.max(0, desde - 40), desde).replace(/\s+/g, ' '),
+            despues: doc.slice(hasta, hasta + 40).replace(/\s+/g, ' '),
+            puedeAgregar: puedeAgregarPalabras,
+          });
+          v.dispatch({ effects: ponerPalabraActual.of(null) });
+
+          if (r.accion === 'cancelar') { cancelada = true; break; }
+          if (r.accion === 'omitir_todas') omitir.add(e.palabra);
+          if (r.accion === 'cambiar' && r.texto) reemplazar(r.texto);
+          if (r.accion === 'cambiar_todo' && r.texto) { cambiar.set(e.palabra, r.texto); reemplazar(r.texto); }
+          if (r.accion === 'agregar') {
+            try {
+              await api.editor.agregarPalabra(e.palabra);
+              omitir.add(e.palabra);
+            } catch (x) {
+              await avisar('Ortografía', mensajeDe(x));
+            }
+          }
+        }
+      }
+    } catch (e) {
+      mensaje(clave, '');
+      await avisar('Ortografía', `Se ha producido un error al revisar la ortografía: ${mensajeDe(e)}`);
+      return;
+    }
+
+    mensaje(clave, '');
+    void revisarEnVivo(clave, 'titular');
+    void revisarEnVivo(clave, 'cuerpo');
+    await avisar('Ortografía', cancelada ? 'Se canceló la revisión ortográfica!' : 'Terminó la revisión ortográfica');
+    enfocar(clave, campoActual.current.get(clave) ?? 'cuerpo');
   }
 
   /** FontManager: de 5 a 100 puntos, de a uno, para todas las noticias abiertas. */
@@ -673,8 +870,29 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
     const alSalir = (e: BeforeUnloadEvent) => {
       if (lista.current.length > 0) { e.preventDefault(); e.returnValue = ''; }
     };
+    // Si igual se va (o se cierra el navegador), lo que no se autoguardó sale
+    // en un último pedido que el navegador termina aunque la página ya no esté.
+    const alIrse = () => {
+      for (const x of lista.current) {
+        if ((cambios.current.get(x.clave) ?? 0) > 0) api.editor.autoguardarAlSalir(x.n.id, x.n.numero, datos(x.clave));
+      }
+    };
     window.addEventListener('beforeunload', alSalir);
-    return () => window.removeEventListener('beforeunload', alSalir);
+    window.addEventListener('pagehide', alIrse);
+    return () => {
+      window.removeEventListener('beforeunload', alSalir);
+      window.removeEventListener('pagehide', alIrse);
+    };
+  // datos() lee de refs: siempre ve el estado actual.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // El reloj del autoguardado por tiempo.
+  const ticRef = useRef(tic);
+  ticRef.current = tic;
+  useEffect(() => {
+    const t = window.setInterval(() => void ticRef.current(), SEGUNDOS_AUTOGUARDADO * 1000);
+    return () => window.clearInterval(t);
   }, []);
 
   useEffect(() => () => {
@@ -688,12 +906,18 @@ export function ProveedorEditor({ children }: { children: ReactNode }) {
     cambiarGuia, cambiarSeccion, cambiarFecha, cambiarConfidencial,
     elegirComando, insertarComando, mayusculas, portapapeles, buscarReemplazar,
     deshacer, rehacer, exportarTxt, noDisponible, irAError, ocultarSalida,
-    preguntar, dialogoAbierto: pedido !== null,
+    preguntar, dialogoAbierto: pedido !== null || pedidoOrto !== null,
   };
 
   return (
     <Ctx.Provider value={valor}>
       {children}
+      {pedidoOrto && (
+        <DialogoOrtografia
+          pedido={pedidoOrto}
+          alResponder={(r) => { setPedidoOrto(null); resolverOrto.current?.(r); resolverOrto.current = null; }}
+        />
+      )}
       {pedido && (
         <Dialogo
           pedido={pedido}

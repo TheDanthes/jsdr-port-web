@@ -68,6 +68,19 @@ function Atajos({ alCerrar }: { alCerrar: () => void }) {
               ))}
             </tbody>
           </table>
+          <h3 className="chico" style={{ margin: '12px 0 4px' }}>Ortografía: dos correctores, dos colores</h3>
+          <table className="lista">
+            <tbody>
+              <tr>
+                <td className="apretado"><span className="leyenda-chrome">palabra</span></td>
+                <td>Corrector del navegador (Chrome), en rojo ondulado. Clic derecho para sus sugerencias.</td>
+              </tr>
+              <tr>
+                <td className="apretado"><span className="orto-jsdr">palabra</span></td>
+                <td>No está en el diccionario de la redacción (el del jSDR). Ctrl+I para revisarlas una por una.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <footer className="acciones">
           <button className="primario" autoFocus onClick={alCerrar}>Cerrar</button>

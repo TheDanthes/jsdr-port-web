@@ -76,6 +76,8 @@ export interface Noticia {
   numero_proxima_version: number | null;
   version?: Version;
   versiones?: Version[];
+  /** En el buscador: está EN_EDICION y nadie la tiene abierta (quedó para recuperar). */
+  para_recuperar?: boolean;
 }
 
 export interface Cable {
@@ -164,6 +166,10 @@ export interface EstadoEditor {
   redactor: string;
   creando: boolean;
   nueva_version: boolean;
+  /** Había quedado abierta (se cerró el navegador) y se retomó: hay que guardarla. */
+  recuperada: boolean;
+  hay_temporal: boolean;
+  autoguardado: string | null;
 }
 
 export interface AperturaEditor {
@@ -171,6 +177,9 @@ export interface AperturaEditor {
   secciones: Seccion[];
   comandos: Comando[];
   autosave_cambios: number;
+  autosave_segundos: number;
+  /** Identifica esta ventana ante la API. */
+  apertura: string;
 }
 
 export type AccionCierre = 'guardando' | 'sin_guardar' | 'descartar_creacion' | 'descartar_version';
@@ -184,7 +193,52 @@ export interface DatosEditor {
   titular: string;
   cuerpo: string;
   medidas: { titular: MedidaSimple; cuerpo: MedidaSimple; noticia: MedidaSimple };
+  apertura?: string;
 }
+
+/** Una palabra que no está en el diccionario de la redacción. */
+export interface ErrorOrtografico {
+  desde: number;
+  hasta: number;
+  palabra: string;
+  sugerencias?: string[];
+}
+
+/** Una noticia propia que quedó abierta sin cerrar (el aviso del buscador). */
+export interface ParaRecuperar {
+  id: number;
+  guia: string | null;
+  numero: number;
+  titular: string | null;
+  titulo: string | null;
+  cuerpo: string | null;
+  fecha_publicacion: string | null;
+  seccion_codigo: string | null;
+  hay_temporal: boolean;
+  autoguardado: string | null;
+}
+
+/** GET /noticias/:id/bloqueo */
+export type Bloqueo =
+  | { bloqueada: false }
+  | {
+    bloqueada: true;
+    redactor: string;
+    abierta_ahora_por: string | null;
+    para_recuperar: boolean;
+    puede: 'recuperar' | 'destrabar' | null;
+    porque: string | null;
+    autoguardado: string | null;
+    temporal: {
+      numero: number;
+      titular: string;
+      cuerpo: string;
+      fecha_publicacion: string | null;
+      seccion: Seccion;
+      guia: string | null;
+      confidencial: boolean;
+    } | null;
+  };
 
 /** jsdr.common.Estado — los cinco del código Java. */
 export const ESTADOS = [

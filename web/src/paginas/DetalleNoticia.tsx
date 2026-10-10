@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { api, descargar } from '../api/cliente';
 import { useSesion } from '../sesion';
 import { useEditor } from '../editor/EditorContexto';
-import type { Medida, Noticia, Version } from '../api/tipos';
+import type { Bloqueo, Medida, Noticia, Version } from '../api/tipos';
 import {
   AvisoError, Cargando, Dato, EstadoNoticia, MarcasVersion, Vacio,
   fecha, textoMedida,
@@ -37,6 +37,9 @@ export function DetalleNoticia() {
   const [aviso, setAviso] = useState<string | null>(null);
   const [errorAccion, setErrorAccion] = useState<string | null>(null);
   const [recargar, setRecargar] = useState(0);
+  const [bloqueo, setBloqueo] = useState<Bloqueo | null>(null);
+  /** Mirando lo autoguardado ("Recuperado") en vez de una versión. */
+  const [viendoRecuperado, setViendoRecuperado] = useState(false);
   const edicion = useSesion().sesion?.edicion === true;
   const ed = useEditor();
 
@@ -45,11 +48,19 @@ export function DetalleNoticia() {
     setCargando(true);
     setError(null);
 
+    setBloqueo(null);
+    setViendoRecuperado(false);
     api.noticia(Number(id))
-      .then((n) => {
+      .then(async (n) => {
         if (!vivo) return;
         setNoticia(n);
         setActiva(n.numero_version_activa);
+        // Si está EN_EDICION: quién la tiene y si quedó algo para recuperar.
+        const activaV = n.versiones?.find((x) => x.numero === n.numero_version_activa);
+        if (activaV?.estado === 'EN_EDICION') {
+          const b = await api.bloqueo(n.id).catch(() => null);
+          if (vivo) setBloqueo(b);
+        }
       })
       .catch((e) => { if (vivo) setError(e.message); })
       .finally(() => { if (vivo) setCargando(false); });
@@ -77,6 +88,61 @@ export function DetalleNoticia() {
   const v: Version =
     noticia.versiones.find((x) => x.numero === activa) ?? noticia.versiones[0]!;
   const esActiva = v.numero === noticia.numero_version_activa;
+  const b = bloqueo?.bloqueada ? bloqueo : null;
+  const recuperado = b?.para_recuperar ? b.temporal : null;
+  const verRecuperado = viendoRecuperado && recuperado !== null;
+
+  /** La retoma en el editor con lo autoguardado (sólo su redactor). */
+  async function recuperar() {
+    if (await ed.abrir(noticia!.id)) navegar('/editor');
+  }
+
+  /**
+   * Un usuario de nivel superior la destraba sin abrirla: se queda con lo
+   * autoguardado o lo descarta (lo que hacía la ventana de restauración del
+   * Swing, pero desde la ficha y no sólo para el redactor).
+   */
+  async function destrabar() {
+    if (!b) return;
+    const botones = [
+      ...(b.temporal ? [{ etiqueta: 'Guardar lo recuperado', valor: 'guardar', principal: true }] : []),
+      { etiqueta: 'Descartar lo recuperado', valor: 'descartar' },
+      { etiqueta: 'Cancelar', valor: 'cancelar' },
+    ];
+    const r = await ed.preguntar({
+      titulo: 'Destrabar noticia',
+      mensaje: `La noticia quedó abierta por ${b.redactor} y nadie la está usando. `
+        + (b.temporal
+          ? '¿Qué hacemos con lo que había quedado sin guardar? (se puede ver en "Recuperado", en la lista de versiones)'
+          : 'No hay nada autoguardado: se destraba como estaba guardada.'),
+      botones,
+      cancelar: 'cancelar',
+    });
+    if (r.boton !== 'guardar' && r.boton !== 'descartar') return;
+    setErrorAccion(null);
+    setAviso(null);
+    try {
+      const x = await api.destrabar(noticia!.id, r.boton);
+      if (x.resultado === 'borrada') {
+        await ed.preguntar({
+          titulo: 'Destrabar noticia',
+          mensaje: 'La noticia nunca se había guardado: se descartó entera.',
+          botones: [{ etiqueta: 'Aceptar', valor: 'ok', principal: true }],
+          cancelar: 'ok',
+        });
+        navegar('/noticias');
+        return;
+      }
+      setAviso({
+        guardada: 'Se destrabó la noticia guardando lo recuperado.',
+        version_descartada: 'Se destrabó la noticia: la versión nueva no tenía cambios y se descartó.',
+        destrabada: 'Se destrabó la noticia como estaba guardada.',
+      }[x.resultado]);
+      setRecargar((n) => n + 1);
+    } catch (e) {
+      setErrorAccion(e instanceof Error ? e.message : 'No se pudo destrabar la noticia');
+    }
+  }
 
   /** BuscadorNoticiasJPanel.editarNoticia: confirma y abre en el editor. */
   async function editar() {
@@ -136,11 +202,33 @@ export function DetalleNoticia() {
             <span className="chico tenue">{noticia.versiones.length}</span>
           </header>
           <ul className="versiones-lista">
+            {recuperado && (
+              <li>
+                <button
+                  className={`recuperado ${verRecuperado ? 'activa' : ''}`}
+                  onClick={() => setViendoRecuperado(true)}
+                  title="Lo último autoguardado de la noticia que quedó abierta"
+                >
+                  <span className="linea-1">
+                    <span className="nro">Recuperado</span>
+                    <span className="etiqueta recuperar">sin guardar</span>
+                  </span>
+                  <span className="meta">
+                    {fecha(recuperado.fecha_publicacion)} · {b!.redactor}
+                  </span>
+                  <span className="meta">
+                    {b!.autoguardado
+                      ? `autoguardado ${new Date(b!.autoguardado).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`
+                      : `de la versión ${recuperado.numero}`}
+                  </span>
+                </button>
+              </li>
+            )}
             {noticia.versiones.map((x) => (
               <li key={x.numero}>
                 <button
-                  className={x.numero === v.numero ? 'activa' : ''}
-                  onClick={() => setActiva(x.numero)}
+                  className={x.numero === v.numero && !verRecuperado ? 'activa' : ''}
+                  onClick={() => { setActiva(x.numero); setViendoRecuperado(false); }}
                 >
                   <span className="linea-1">
                     <span className="nro">v{x.numero}</span>
@@ -172,7 +260,15 @@ export function DetalleNoticia() {
             </h2>
             <div className="acciones">
               <MarcasVersion v={v} />
-              {edicion && esActiva && (
+              {edicion && esActiva && b?.puede === 'recuperar' && (
+                <button className="primario" onClick={() => void recuperar()}>
+                  {b.para_recuperar ? 'Recuperar' : 'Continuar acá'}
+                </button>
+              )}
+              {edicion && esActiva && b?.puede === 'destrabar' && (
+                <button className="primario" onClick={() => void destrabar()}>Destrabar</button>
+              )}
+              {edicion && esActiva && !b && (
                 <>
                   <button className="primario" onClick={() => void editar()}>Editar</button>
                   <button onClick={() => void fotocomponer()}>Fotocomponer</button>
@@ -182,12 +278,40 @@ export function DetalleNoticia() {
             </div>
           </header>
 
+          {b && (
+            <div style={{ padding: '10px 14px 0' }}>
+              <div className={`aviso ${b.para_recuperar ? 'recuperar' : 'info'}`} role="status">
+                {b.abierta_ahora_por
+                  ? `La está usando ${b.abierta_ahora_por} en este momento.`
+                  : `Quedó abierta por ${b.redactor} sin cerrar y nadie la está usando.`}
+                {b.para_recuperar && b.puede === 'recuperar' && ' Recupérela para seguir y guardarla.'}
+                {b.para_recuperar && b.puede === 'destrabar' && ' Puede destrabarla.'}
+                {b.porque && b.para_recuperar && ` ${b.porque}.`.replace('..', '.')}
+              </div>
+            </div>
+          )}
           {aviso && <div style={{ padding: '10px 14px 0' }}><div className="aviso info" role="status">{aviso}</div></div>}
           {errorAccion && <div style={{ padding: '10px 14px 0' }}><AvisoError>{errorAccion}</AvisoError></div>}
 
+          {verRecuperado ? (
+            <>
+              <div className="ficha">
+                <Dato rotulo="Sección">{recuperado.seccion.codigo} — {recuperado.seccion.nombre}</Dato>
+                <Dato rotulo="Estado"><EstadoNoticia estado="EN_EDICION" paraRecuperar /></Dato>
+                <Dato rotulo="Publicación">{fecha(recuperado.fecha_publicacion)}</Dato>
+                <Dato rotulo="Redactor">{b!.redactor}</Dato>
+                <Dato rotulo="Guía">{recuperado.guia ?? '—'}</Dato>
+              </div>
+              <div className="nota">
+                <CampoNota rotulo="Titular" clase="titular-texto" texto={recuperado.titular} />
+                <CampoNota rotulo="Cuerpo" clase="cuerpo-texto" texto={recuperado.cuerpo} />
+                {!recuperado.titular && !recuperado.cuerpo && <Vacio titulo="Lo autoguardado está vacío" />}
+              </div>
+            </>
+          ) : (<>
           <div className="ficha">
             <Dato rotulo="Sección">{v.seccion.codigo} — {v.seccion.nombre}</Dato>
-            <Dato rotulo="Estado"><EstadoNoticia estado={v.estado} /></Dato>
+            <Dato rotulo="Estado"><EstadoNoticia estado={v.estado} paraRecuperar={esActiva && b?.para_recuperar} /></Dato>
             <Dato rotulo="Publicación">{fecha(v.fecha_publicacion)}</Dato>
             <Dato rotulo="Redactor">{v.redactor}</Dato>
             <Dato rotulo="Nivel">{v.nivel ?? '—'}</Dato>
@@ -212,6 +336,7 @@ export function DetalleNoticia() {
               <Vacio titulo="Esta versión está vacía" />
             )}
           </div>
+          </>)}
         </article>
       </div>
     </>

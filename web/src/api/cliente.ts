@@ -1,6 +1,6 @@
 import type {
-  AccionCierre, Agencia, AperturaEditor, Cable, Comando, DatosEditor, MedicionNoticia, MedidaCampo,
-  Noticia, Pagina, Permiso, Reserva, Seccion, Sesion, Usuario, Version,
+  AccionCierre, Agencia, AperturaEditor, Bloqueo, Cable, Comando, DatosEditor, ErrorOrtografico, MedicionNoticia,
+  MedidaCampo, Noticia, Pagina, ParaRecuperar, Permiso, Reserva, Seccion, Sesion, Usuario, Version,
 } from './tipos';
 
 const CLAVE_TOKEN = 'jsdr.token';
@@ -23,7 +23,11 @@ export const leerToken = (): string | null => {
 };
 
 export class ErrorApi extends Error {
-  constructor(readonly codigo: number, mensaje: string, readonly errores: string[] = []) {
+  constructor(
+    readonly codigo: number, mensaje: string, readonly errores: string[] = [],
+    /** Distingue casos con el mismo código (p. ej. 409 "abierta en otra ventana"). */
+    readonly motivo: string | null = null,
+  ) {
     super(mensaje);
   }
   /** La sesión venció o el usuario dejó de estar habilitado. */
@@ -52,9 +56,11 @@ async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promise<T> {
   if (!r.ok) {
     let mensaje = `Error ${r.status}`;
     let errores: string[] = [];
+    let motivo: string | null = null;
     try {
       const cuerpo = await r.json();
       if (cuerpo?.error) mensaje = cuerpo.error;
+      if (typeof cuerpo?.motivo === 'string') motivo = cuerpo.motivo;
       if (Array.isArray(cuerpo?.errores)) {
         errores = cuerpo.errores.map((e: unknown) =>
           typeof e === 'string' ? e : (e as { mensaje?: string })?.mensaje ?? String(e));
@@ -65,7 +71,7 @@ async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promise<T> {
       guardarToken(null);
       escuchas.forEach((f) => f());
     }
-    throw new ErrorApi(r.status, mensaje, errores);
+    throw new ErrorApi(r.status, mensaje, errores, motivo);
   }
 
   return r.status === 204 ? (undefined as T) : r.json();
@@ -119,7 +125,30 @@ export const api = {
   // -- editor (Fase 3) ------------------------------------------------------
   editor: {
     nueva: () => pedir<AperturaEditor>('/api/editor/nueva', { method: 'POST' }),
-    abrir: (id: number) => pedir<AperturaEditor>(`/api/editor/${id}/abrir`, { method: 'POST' }),
+    abrir: (id: number, forzar = false) =>
+      pedir<AperturaEditor>(`/api/editor/${id}/abrir`, { method: 'POST', body: JSON.stringify({ forzar }) }),
+    latido: (id: number, numero: number, apertura: string) =>
+      pedir<{ ok: true }>(`/api/editor/${id}/${numero}/latido`, { method: 'POST', body: JSON.stringify({ apertura }) }),
+    /**
+     * Autoguardado al cerrar la pestaña del navegador: `keepalive` deja que el
+     * pedido termine aunque la página ya no exista. No espera respuesta.
+     */
+    autoguardarAlSalir(id: number, numero: number, d: DatosEditor) {
+      const token = leerToken();
+      try {
+        void fetch(`/api/editor/${id}/${numero}/temporal`, {
+          method: 'PUT', keepalive: true, body: JSON.stringify(d),
+          headers: { 'content-type': 'application/json', ...(token ? { authorization: `Bearer ${token}` } : {}) },
+        }).catch(() => { /* la página se está yendo */ });
+      } catch { /* keepalive tiene un tope de 64 KB: una nota enorme no entra */ }
+    },
+    paraRecuperar: () => pedir<ParaRecuperar[]>('/api/editor/para-recuperar'),
+    ortografia: (texto: string, sugerencias = false) =>
+      pedir<{ errores: ErrorOrtografico[] }>('/api/editor/ortografia', {
+        method: 'POST', body: JSON.stringify({ texto, sugerencias }),
+      }),
+    agregarPalabra: (palabra: string) =>
+      pedir<{ palabra: string }>('/api/diccionario', { method: 'POST', body: JSON.stringify({ palabra }) }),
     guardar: (id: number, numero: number, d: DatosEditor) =>
       pedir<{ guia: string }>(`/api/editor/${id}/${numero}`, { method: 'PUT', body: JSON.stringify(d) }),
     autoguardar: (id: number, numero: number, d: DatosEditor) =>
@@ -137,6 +166,10 @@ export const api = {
       pedir<{ medidas: { palabra: number; valor: string }[]; errores: { linea: number; mensaje: string }[] }>(
         '/api/editor/medir-ancho', { method: 'POST', body: JSON.stringify({ texto }) }),
   },
+  bloqueo: (id: number) => pedir<Bloqueo>(`/api/noticias/${id}/bloqueo`),
+  destrabar: (id: number, modo: 'guardar' | 'descartar') =>
+    pedir<{ resultado: 'guardada' | 'borrada' | 'version_descartada' | 'destrabada' }>(
+      `/api/noticias/${id}/destrabar`, { method: 'POST', body: JSON.stringify({ modo }) }),
   fotocomponer: (id: number) =>
     pedir<{ archivo: string; carpeta: string; bytes: number; avisos: { linea: number; mensaje: string }[] }>(
       `/api/noticias/${id}/fotocomponer`, { method: 'POST' }),
