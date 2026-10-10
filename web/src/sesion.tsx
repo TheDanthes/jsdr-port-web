@@ -12,6 +12,9 @@ interface Contexto {
 
 const Ctx = createContext<Contexto | null>(null);
 
+/** Cada cuánto avisa la web que sigue abierta (notificacion.alive=60000 del Swing). */
+const LATIDO_MS = 60_000;
+
 export function ProveedorSesion({ children }: { children: ReactNode }) {
   const [sesion, setSesion] = useState<Sesion | null>(null);
   const [cargando, setCargando] = useState(true);
@@ -30,6 +33,16 @@ export function ProveedorSesion({ children }: { children: ReactNode }) {
 
   // Cualquier 401 posterior devuelve al login sin pantallas rotas de por medio.
   useEffect(() => alPerderSesion(() => setSesion(null)), []);
+
+  // "Sigo acá" una vez por minuto, aunque no se toque nada: es lo que el
+  // Monitor de Usuarios pinta en verde (notifyAlive del Swing). De paso, a un
+  // usuario deshabilitado lo devuelve al login en menos de un minuto.
+  const conSesion = sesion !== null;
+  useEffect(() => {
+    if (!conSesion) return;
+    const t = window.setInterval(() => { api.latidoSesion().catch(() => {}); }, LATIDO_MS);
+    return () => window.clearInterval(t);
+  }, [conSesion]);
 
   const entrar = useCallback(async (usuario: string, clave: string) => {
     setSesion(await api.login(usuario, clave));

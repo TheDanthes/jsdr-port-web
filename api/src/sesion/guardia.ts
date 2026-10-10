@@ -1,6 +1,10 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { tokenDeCabecera, verificarToken } from './token.js';
 import { cargarSesion, type SesionUsuario } from '../datos/sesion.js';
+import { anotar } from '../datos/conectados.js';
+
+/** La IP del pedido, sin el prefijo IPv6 de las direcciones IPv4 (::ffff:). */
+export const ipDe = (req: FastifyRequest) => req.ip.replace(/^::ffff:/, '');
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -17,7 +21,8 @@ declare module 'fastify' {
  * acceso al nuevo de inmediato, sin esperar a que venza la sesión.
  */
 export async function exigirSesion(req: FastifyRequest, rep: FastifyReply) {
-  const carga = verificarToken(tokenDeCabecera(req.headers.authorization));
+  const token = tokenDeCabecera(req.headers.authorization);
+  const carga = verificarToken(token);
   if (!carga) {
     return rep.code(401).send({ error: 'sesión inválida o vencida' });
   }
@@ -28,4 +33,6 @@ export async function exigirSesion(req: FastifyRequest, rep: FastifyReply) {
   }
 
   req.sesion = sesion;
+  // Monitor de usuarios: cualquier pedido cuenta como "sigue conectado".
+  anotar(token!, carga.u, ipDe(req), carga.exp);
 }

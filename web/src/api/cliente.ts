@@ -1,6 +1,6 @@
 import type {
   AccionCierre, Agencia, AperturaEditor, Bloqueo, Cable, Comando, DatosEditor, ErrorOrtografico, MedicionNoticia,
-  MedidaCampo, Noticia, Pagina, PaginaPalabras, ParaRecuperar, Permiso, Reserva, ResultadoLista, Seccion, Sesion,
+  MedidaCampo, MonitorUsuarios, Noticia, Pagina, PaginaPalabras, ParaRecuperar, Permiso, Reserva, ResultadoLista, Seccion, Sesion,
   Usuario, Version,
 } from './tipos';
 
@@ -102,7 +102,26 @@ export const api = {
 
   sesion: () => pedir<Sesion>('/api/sesion'),
 
-  salir() { guardarToken(null); },
+  /**
+   * Salir: la API deja de mostrar la sesión en el monitor y el navegador se
+   * olvida del token. No espera la respuesta: salir no puede fallar.
+   */
+  salir() {
+    const token = leerToken();
+    if (token) {
+      try {
+        void fetch('/api/sesion', {
+          method: 'DELETE', keepalive: true, headers: { authorization: `Bearer ${token}` },
+        }).catch(() => {});
+      } catch { /* sin red: igual sale */ }
+    }
+    guardarToken(null);
+  },
+
+  /** "Sigo acá", una vez por minuto (notifyAlive del Swing). */
+  latidoSesion: () => pedir<void>('/api/sesion/latido', { method: 'POST' }),
+
+  monitorUsuarios: () => pedir<MonitorUsuarios>('/api/monitor/usuarios'),
 
   // -- catálogos ------------------------------------------------------------
   secciones: () => pedir<Seccion[]>('/api/secciones'),

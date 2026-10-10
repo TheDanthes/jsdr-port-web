@@ -27,7 +27,8 @@ export const OPCIONES_ADMINISTRACION: Opcion[] = [
   },
   {
     nombre: 'Monitor de Usuarios',
-    descripcion: 'Quién está conectado y qué noticia tiene abierta.',
+    descripcion: 'Quién está conectado, desde cuándo y qué noticia tiene abierta.',
+    ruta: '/administracion/monitor',
     puede: (s) => tiene(s, 'MONITOREAR_USUARIOS'),
   },
   {

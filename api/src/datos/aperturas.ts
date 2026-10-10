@@ -97,6 +97,18 @@ export function quien(id: number): string | null {
   return viva(id) ? abiertas.get(id)!.usuario : null;
 }
 
+/** Las noticias abiertas ahora en alguna ventana viva (para el monitor). */
+export function vivas(): { id: number; numero: number; usuario: string; desde_latido: number }[] {
+  const ahora = Date.now();
+  const lista = [];
+  for (const [id, a] of abiertas) {
+    if (ahora - a.latido < VIDA_SIN_LATIDO_MS) {
+      lista.push({ id, numero: a.numero, usuario: a.usuario, desde_latido: ahora - a.latido });
+    }
+  }
+  return lista;
+}
+
 export function ultimoAutoguardado(id: number): string | null {
   const t = ultimosAutoguardados.get(id);
   return t ? new Date(t).toISOString() : null;

@@ -13,6 +13,7 @@ import { rutasExportar } from './rutas/exportar.js';
 import { diccionario } from './datos/ortografia.js';
 import { rutasEditor } from './rutas/editor.js';
 import { rutasDiccionario } from './rutas/diccionario.js';
+import { rutasMonitor } from './rutas/monitor.js';
 
 const app = Fastify({ logger: { level: process.env.LOG_LEVEL ?? 'info' } });
 
@@ -69,6 +70,7 @@ await app.register(
     await protegido.register(rutasExportar);
     await protegido.register(rutasEditor);
     await protegido.register(rutasDiccionario);
+    await protegido.register(rutasMonitor);
   },
   { prefix: '/api' },
 );

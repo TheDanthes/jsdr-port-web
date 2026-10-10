@@ -261,6 +261,36 @@ export const ESTADOS = [
   'EN_PRODUCCION',
 ] as const;
 
+/** Una noticia abierta en el editor, vista desde el monitor. */
+export type NoticiaEnMonitor =
+  | {
+    id: number; numero: number; guia: string | null; titulo: string | null; titular: string | null;
+    seccion_codigo: string | null; confidencial: false;
+  }
+  /** Confidencial de otro: en la web la ve sólo su redactor, el monitor no la identifica. */
+  | { numero: number; confidencial: true };
+
+/** Una sesión abierta en la web (Administración → Monitor de Usuarios). */
+export interface UsuarioEnSesion {
+  username: string;
+  nombre_apellido: string | null;
+  nivel: number | null;
+  ip: string;
+  /** Cuándo entró (ISO). */
+  inicio: string;
+  /** Último pedido o latido (ISO). */
+  ultima: string;
+  /** Verde en el Swing: avisó hace poco. Rojo: dejó de avisar. */
+  vivo: boolean;
+  noticias: NoticiaEnMonitor[];
+}
+
+export interface MonitorUsuarios {
+  usuarios: UsuarioEnSesion[];
+  /** Hora del servidor, para calcular "hace cuánto" sin depender del reloj de la PC. */
+  ahora: string;
+}
+
 /**
  * Niveles de usuario del sistema original.
  * En la base: 91 usuarios en 10, 52 en 20, 27 en 30.

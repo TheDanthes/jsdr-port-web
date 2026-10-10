@@ -8,6 +8,7 @@ import { Eliminadas } from './paginas/Eliminadas';
 import { Editor } from './paginas/Editor';
 import { Administracion, OPCIONES_ADMINISTRACION, veAdministracion } from './paginas/Administracion';
 import { Diccionario } from './paginas/Diccionario';
+import { MonitorUsuarios } from './paginas/MonitorUsuarios';
 import { ProveedorEditor, useEditor } from './editor/EditorContexto';
 import { NIVELES } from './api/tipos';
 
@@ -33,7 +34,9 @@ function Marco() {
   const edicion = sesion!.edicion === true;
   const abiertas = ed.pestanas.length;
   const admin = veAdministracion(sesion!);
-  const puedeDiccionario = OPCIONES_ADMINISTRACION.find((o) => o.nombre === 'Diccionario')!.puede(sesion!);
+  const puede = (nombre: string) => OPCIONES_ADMINISTRACION.find((o) => o.nombre === nombre)!.puede(sesion!);
+  const puedeDiccionario = puede('Diccionario');
+  const puedeMonitor = puede('Monitor de Usuarios');
 
   async function salirConCuidado() {
     if (abiertas > 0) {
@@ -100,6 +103,7 @@ function Marco() {
           {edicion && <Route path="/editor" element={<Editor />} />}
           {admin && <Route path="/administracion" element={<Administracion />} />}
           {puedeDiccionario && <Route path="/administracion/diccionario" element={<Diccionario />} />}
+          {puedeMonitor && <Route path="/administracion/monitor" element={<MonitorUsuarios />} />}
           <Route path="*" element={<Navigate to="/noticias" replace />} />
         </Routes>
       </main>

@@ -2,6 +2,8 @@ import type { FastifyInstance } from 'fastify';
 import { autenticar, cargarSesion } from '../datos/sesion.js';
 import { emitirToken, tokenDeCabecera, verificarToken } from '../sesion/token.js';
 import { config } from '../config.js';
+import { anotar, entrar, olvidar } from '../datos/conectados.js';
+import { ipDe } from '../sesion/guardia.js';
 
 interface CuerpoLogin {
   username?: string;
@@ -59,7 +61,8 @@ export async function rutasSesion(app: FastifyInstance) {
     intentos.delete(username);
     const { token, vence } = emitirToken(usuario.username);
     const sesion = await cargarSesion(usuario.username);
-    req.log.info({ username: usuario.username }, 'login');
+    req.log.info({ username: usuario.username, ip: ipDe(req) }, 'login');
+    entrar(token, usuario.username, ipDe(req), Math.floor(Date.parse(vence) / 1000));
 
     // `edicion`: si esta instalación permite editar (JSDR_EDICION). La web
     // muestra u oculta el editor según esto.
@@ -68,12 +71,25 @@ export async function rutasSesion(app: FastifyInstance) {
 
   /** Estado de la sesión actual. La web la llama al abrir, para no pedir login de nuevo. */
   app.get('/sesion', async (req, rep) => {
-    const carga = verificarToken(tokenDeCabecera(req.headers.authorization));
+    const token = tokenDeCabecera(req.headers.authorization);
+    const carga = verificarToken(token);
     if (!carga) return rep.code(401).send({ error: 'sesión inválida o vencida' });
 
     const sesion = await cargarSesion(carga.u);
     if (!sesion) return rep.code(401).send({ error: 'el usuario ya no está habilitado' });
 
+    anotar(token!, carga.u, ipDe(req), carga.exp);
     return { vence: new Date(carga.exp * 1000).toISOString(), ...sesion, edicion: config.edicion };
+  });
+
+  /**
+   * Salir. El token no se puede revocar (no hay estado de sesiones en la
+   * base), pero la sesión deja de figurar en el monitor, como el logout del
+   * Swing. La web además se olvida del token.
+   */
+  app.delete('/sesion', async (req, rep) => {
+    const token = tokenDeCabecera(req.headers.authorization);
+    if (token && verificarToken(token)) olvidar(token);
+    return rep.code(204).send();
   });
 }
